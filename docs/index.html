@@ -136,6 +136,12 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 .brow .bs{font-size:12px;color:#475569;}
 
 .fo-badge{background:#7c3aed;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:3px;vertical-align:middle;letter-spacing:0.3px;white-space:nowrap}
+.cfg-pill{cursor:pointer;display:inline-flex;align-items:center;padding:4px 10px;border-radius:6px;border:1px solid #ddd;background:#f5f7fa;color:#333;font-size:13px;user-select:none;transition:all .15s;}
+.cfg-pill.on{background:var(--navy,#0d1f3c);color:#fff;border-color:var(--navy,#0d1f3c);}
+.cfg-pill:hover{border-color:#0d1f3c;}
+.btn-cfg-open{padding:5px 14px;border-radius:6px;border:1.5px solid var(--navy,#0d1f3c);background:var(--navy,#0d1f3c);color:#fff;font-size:13px;cursor:pointer;font-weight:600;transition:opacity .15s;white-space:nowrap;}
+.btn-cfg-open:hover{opacity:.85;}
+
 </style>
 </head>
 <body>
@@ -147,7 +153,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <div class="hdr-sep"></div>
       <div class="hdr-title">
         <div class="t1">NSE BTST Signals</div>
-        <div class="t2">DAILY SIGNAL SCANNER &middot; 78 CONFIGS &middot; SIMULATION TRACKER</div>
+        <div class="t2">DAILY SIGNAL SCANNER &middot; <span id="cfgCountDisplay">78</span> CONFIGS &middot; SIMULATION TRACKER</div>
       </div>
     </div>
     <div class="hdr-right">
@@ -206,88 +212,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 
 <div id="tab-overview">
   <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;padding:10px 0 0 0;">
-      <span class="slbl">CONFIG:</span>
-      <button class="btn-filter active" onclick="ovCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C1',this)">C1</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C2',this)">C2</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C3',this)">C3</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C4',this)">C4</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C5',this)">C5</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C6',this)">C6</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C7',this)">C7</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C8',this)">C8</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C9',this)">C9</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C10',this)">C10</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C11',this)">C11</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C12',this)">C12</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C13',this)">C13</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C14',this)">C14</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C15',this)">C15</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C16',this)">C16</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C17',this)">C17</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C18',this)">C18</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C19',this)">C19</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C20',this)">C20</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C21',this)">C21</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C22',this)">C22</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C23',this)">C23</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C24',this)">C24</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C25',this)">C25</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C26',this)">C26</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="ovCfgFilter('C27',this)">C27</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C28',this)">C28</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C29',this)">C29</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C30',this)">C30</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C31',this)">C31</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C32',this)">C32</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C33',this)">C33</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C34',this)">C34</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C35',this)">C35</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C36',this)">C36</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C37',this)">C37</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C38',this)">C38</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C39',this)">C39</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C40',this)">C40</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C41',this)">C41</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C42',this)">C42</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C43',this)">C43</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C44',this)">C44</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C45',this)">C45</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C46',this)">C46</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C47',this)">C47</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C48',this)">C48</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C49',this)">C49</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C50',this)">C50</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C51',this)">C51</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C52',this)">C52</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="ovCfgFilter('C53',this)">C53</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C54',this)">C54</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C55',this)">C55</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C56',this)">C56</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C57',this)">C57</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C58',this)">C58</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C59',this)">C59</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C60',this)">C60</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C61',this)">C61</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C62',this)">C62</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C63',this)">C63</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C64',this)">C64</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C65',this)">C65</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C66',this)">C66</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C67',this)">C67</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C68',this)">C68</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C69',this)">C69</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C70',this)">C70</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C71',this)">C71</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C72',this)">C72</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C73',this)">C73</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C74',this)">C74</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C75',this)">C75</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C76',this)">C76</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C77',this)">C77</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C78',this)">C78</button>
+      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     </div>
 <div id="ov-stats" class="stat-grid"></div>
   <div class="card" style="padding:0 0 8px">
@@ -308,61 +233,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 <div id="tab-open" class="hidden">
   <div class="tab-badges" id="open-badges"></div>
   <div class="cstrip">
-    <span class="slbl">Config:</span>
-    <button class="btn-filter active" onclick="cfgFilter('open','ALL',this)">All</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C1',this)">C1</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C2',this)">C2</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C3',this)">C3</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C4',this)">C4</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C5',this)">C5</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C6',this)">C6</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C7',this)">C7</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C8',this)">C8</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C9',this)">C9</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C10',this)">C10</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C11',this)">C11</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C12',this)">C12</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C13',this)">C13</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C14',this)">C14</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C15',this)">C15</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C16',this)">C16</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C17',this)">C17</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C18',this)">C18</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C19',this)">C19</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C20',this)">C20</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C21',this)">C21</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C22',this)">C22</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C23',this)">C23</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C24',this)">C24</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C25',this)">C25</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C26',this)">C26</button>
-    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <button class="btn-filter" onclick="cfgFilter('open','C27',this)">C27</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C28',this)">C28</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C29',this)">C29</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C30',this)">C30</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C31',this)">C31</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C32',this)">C32</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C33',this)">C33</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C34',this)">C34</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C35',this)">C35</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C36',this)">C36</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C37',this)">C37</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C38',this)">C38</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C39',this)">C39</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C40',this)">C40</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C41',this)">C41</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C42',this)">C42</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C43',this)">C43</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C44',this)">C44</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C45',this)">C45</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C46',this)">C46</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C47',this)">C47</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C48',this)">C48</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C49',this)">C49</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C50',this)">C50</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C51',this)">C51</button>
-    <button class="btn-filter" onclick="cfgFilter('open','C52',this)">C52</button>
+    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     <div style="flex:1"></div>
     <input type="text" id="open-search" placeholder="🔍 Search symbol..." oninput="renderTab('open')" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">
     <button class="btn-green btn-sm" onclick="exportTab('open')">&#8595; Excel</button>
@@ -405,61 +276,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 <div id="tab-closed" class="hidden">
   <div class="tab-badges" id="closed-badges"></div>
   <div class="cstrip">
-    <span class="slbl">Config:</span>
-    <button class="btn-filter active" onclick="cfgFilter('closed','ALL',this)">All</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C1',this)">C1</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C2',this)">C2</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C3',this)">C3</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C4',this)">C4</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C5',this)">C5</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C6',this)">C6</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C7',this)">C7</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C8',this)">C8</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C9',this)">C9</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C10',this)">C10</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C11',this)">C11</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C12',this)">C12</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C13',this)">C13</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C14',this)">C14</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C15',this)">C15</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C16',this)">C16</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C17',this)">C17</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C18',this)">C18</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C19',this)">C19</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C20',this)">C20</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C21',this)">C21</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C22',this)">C22</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C23',this)">C23</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C24',this)">C24</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C25',this)">C25</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C26',this)">C26</button>
-    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <button class="btn-filter" onclick="cfgFilter('closed','C27',this)">C27</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C28',this)">C28</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C29',this)">C29</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C30',this)">C30</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C31',this)">C31</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C32',this)">C32</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C33',this)">C33</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C34',this)">C34</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C35',this)">C35</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C36',this)">C36</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C37',this)">C37</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C38',this)">C38</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C39',this)">C39</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C40',this)">C40</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C41',this)">C41</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C42',this)">C42</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C43',this)">C43</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C44',this)">C44</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C45',this)">C45</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C46',this)">C46</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C47',this)">C47</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C48',this)">C48</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C49',this)">C49</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C50',this)">C50</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C51',this)">C51</button>
-    <button class="btn-filter" onclick="cfgFilter('closed','C52',this)">C52</button>
+    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <span class="slbl">Result:</span>
     <button class="btn-filter active" id="closed-res-ALL" onclick="resFilter('closed','ALL',this)">All</button>
@@ -501,61 +318,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 <div id="tab-fe" class="hidden">
   <div class="tab-badges" id="fe-badges"></div>
   <div class="cstrip">
-    <span class="slbl">Config:</span>
-    <button class="btn-filter active" onclick="cfgFilter('fe','ALL',this)">All</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C1',this)">C1</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C2',this)">C2</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C3',this)">C3</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C4',this)">C4</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C5',this)">C5</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C6',this)">C6</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C7',this)">C7</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C8',this)">C8</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C9',this)">C9</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C10',this)">C10</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C11',this)">C11</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C12',this)">C12</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C13',this)">C13</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C14',this)">C14</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C15',this)">C15</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C16',this)">C16</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C17',this)">C17</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C18',this)">C18</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C19',this)">C19</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C20',this)">C20</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C21',this)">C21</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C22',this)">C22</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C23',this)">C23</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C24',this)">C24</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C25',this)">C25</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C26',this)">C26</button>
-    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <button class="btn-filter" onclick="cfgFilter('fe','C27',this)">C27</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C28',this)">C28</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C29',this)">C29</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C30',this)">C30</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C31',this)">C31</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C32',this)">C32</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C33',this)">C33</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C34',this)">C34</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C35',this)">C35</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C36',this)">C36</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C37',this)">C37</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C38',this)">C38</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C39',this)">C39</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C40',this)">C40</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C41',this)">C41</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C42',this)">C42</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C43',this)">C43</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C44',this)">C44</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C45',this)">C45</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C46',this)">C46</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C47',this)">C47</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C48',this)">C48</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C49',this)">C49</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C50',this)">C50</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C51',this)">C51</button>
-    <button class="btn-filter" onclick="cfgFilter('fe','C52',this)">C52</button>
+    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     <div style="flex:1"></div>
     <input type="text" id="fe-search" placeholder="🔍 Search symbol..." oninput="renderTab('fe')" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">
     <button class="btn-green btn-sm" onclick="exportTab('fe')">&#8595; Excel</button>
@@ -597,61 +360,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
     <button class="btn-filter" id="hist-status-Open" onclick="statusFilterHist('Open',this)">Hold</button>
     <button class="btn-filter" id="hist-status-Closed" onclick="statusFilterHist('Closed',this)">Sold</button>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <span class="slbl">Config:</span>
-    <button class="btn-filter active" onclick="cfgFilter('hist','ALL',this)">All</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C1',this)">C1</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C2',this)">C2</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C3',this)">C3</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C4',this)">C4</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C5',this)">C5</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C6',this)">C6</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C7',this)">C7</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C8',this)">C8</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C9',this)">C9</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C10',this)">C10</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C11',this)">C11</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C12',this)">C12</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C13',this)">C13</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C14',this)">C14</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C15',this)">C15</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C16',this)">C16</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C17',this)">C17</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C18',this)">C18</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C19',this)">C19</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C20',this)">C20</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C21',this)">C21</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C22',this)">C22</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C23',this)">C23</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C24',this)">C24</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C25',this)">C25</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C26',this)">C26</button>
-    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <button class="btn-filter" onclick="cfgFilter('hist','C27',this)">C27</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C28',this)">C28</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C29',this)">C29</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C30',this)">C30</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C31',this)">C31</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C32',this)">C32</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C33',this)">C33</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C34',this)">C34</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C35',this)">C35</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C36',this)">C36</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C37',this)">C37</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C38',this)">C38</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C39',this)">C39</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C40',this)">C40</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C41',this)">C41</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C42',this)">C42</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C43',this)">C43</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C44',this)">C44</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C45',this)">C45</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C46',this)">C46</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C47',this)">C47</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C48',this)">C48</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C49',this)">C49</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C50',this)">C50</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C51',this)">C51</button>
-    <button class="btn-filter" onclick="cfgFilter('hist','C52',this)">C52</button>
+    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
   </div>
   <div id="hist-stats" style="display:flex;gap:12px;flex-wrap:wrap;margin:0 0 12px 0"></div>
   <div id="hist-container"></div>
@@ -666,61 +375,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 
 <div id="tab-ledger" class="hidden">
   <div class="cstrip">
-    <span class="slbl">Config:</span>
-    <button class="btn-filter active" onclick="cfgFilter('ledger','ALL',this)">All</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C1',this)">C1</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C2',this)">C2</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C3',this)">C3</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C4',this)">C4</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C5',this)">C5</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C6',this)">C6</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C7',this)">C7</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C8',this)">C8</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C9',this)">C9</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C10',this)">C10</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C11',this)">C11</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C12',this)">C12</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C13',this)">C13</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C14',this)">C14</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C15',this)">C15</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C16',this)">C16</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C17',this)">C17</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C18',this)">C18</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C19',this)">C19</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C20',this)">C20</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C21',this)">C21</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C22',this)">C22</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C23',this)">C23</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C24',this)">C24</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C25',this)">C25</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C26',this)">C26</button>
-    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C27',this)">C27</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C28',this)">C28</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C29',this)">C29</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C30',this)">C30</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C31',this)">C31</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C32',this)">C32</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C33',this)">C33</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C34',this)">C34</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C35',this)">C35</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C36',this)">C36</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C37',this)">C37</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C38',this)">C38</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C39',this)">C39</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C40',this)">C40</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C41',this)">C41</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C42',this)">C42</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C43',this)">C43</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C44',this)">C44</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C45',this)">C45</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C46',this)">C46</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C47',this)">C47</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C48',this)">C48</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C49',this)">C49</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C50',this)">C50</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C51',this)">C51</button>
-    <button class="btn-filter" onclick="cfgFilter('ledger','C52',this)">C52</button>
+    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <label style="font-size:12px;color:var(--text2);">Exit From:</label>
     <input type="date" id="ledger-from" onchange="renderLedger()" style="padding:3px 6px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;">
@@ -764,61 +419,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
     <button class="btn-green btn-sm" onclick="exportTab('trades')">&#8595; Excel</button>
     <button class="btn-teal btn-sm" onclick="exportCSVTab('trades')">&#8595; CSV</button>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <span class="slbl">Config:</span>
-    <button class="btn-filter active" onclick="cfgFilter('trades','ALL',this)">All</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C1',this)">C1</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C2',this)">C2</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C3',this)">C3</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C4',this)">C4</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C5',this)">C5</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C6',this)">C6</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C7',this)">C7</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C8',this)">C8</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C9',this)">C9</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C10',this)">C10</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C11',this)">C11</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C12',this)">C12</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C13',this)">C13</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C14',this)">C14</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C15',this)">C15</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C16',this)">C16</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C17',this)">C17</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C18',this)">C18</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C19',this)">C19</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C20',this)">C20</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C21',this)">C21</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C22',this)">C22</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C23',this)">C23</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C24',this)">C24</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C25',this)">C25</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C26',this)">C26</button>
-    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <button class="btn-filter" onclick="cfgFilter('trades','C27',this)">C27</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C28',this)">C28</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C29',this)">C29</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C30',this)">C30</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C31',this)">C31</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C32',this)">C32</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C33',this)">C33</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C34',this)">C34</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C35',this)">C35</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C36',this)">C36</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C37',this)">C37</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C38',this)">C38</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C39',this)">C39</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C40',this)">C40</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C41',this)">C41</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C42',this)">C42</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C43',this)">C43</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C44',this)">C44</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C45',this)">C45</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C46',this)">C46</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C47',this)">C47</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C48',this)">C48</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C49',this)">C49</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C50',this)">C50</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C51',this)">C51</button>
-    <button class="btn-filter" onclick="cfgFilter('trades','C52',this)">C52</button>
+    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
   </div>
   <div class="card" style="padding:0 0 8px">
     <div class="table-area">
@@ -862,120 +463,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
     <button class="btn-green btn-sm" onclick="exportTab('signals')">&#8595; Excel</button>
     <button class="btn-teal btn-sm" onclick="exportCSVTab('signals')">&#8595; CSV</button>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <span class="slbl">Config:</span>
-    <button class="btn-filter active" onclick="sigCfgFilter('ALL',this)">All</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C1',this)">C1</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C2',this)">C2</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C3',this)">C3</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C4',this)">C4</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C5',this)">C5</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C6',this)">C6</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C7',this)">C7</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C8',this)">C8</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C9',this)">C9</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C10',this)">C10</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C11',this)">C11</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C12',this)">C12</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C13',this)">C13</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C14',this)">C14</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C15',this)">C15</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C16',this)">C16</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C17',this)">C17</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C18',this)">C18</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C19',this)">C19</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C20',this)">C20</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C21',this)">C21</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C22',this)">C22</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C23',this)">C23</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C24',this)">C24</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C25',this)">C25</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C26',this)">C26</button>
-    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <button class="btn-filter" onclick="sigCfgFilter('C27',this)">C27</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C28',this)">C28</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C29',this)">C29</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C30',this)">C30</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C31',this)">C31</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C32',this)">C32</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C33',this)">C33</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C34',this)">C34</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C35',this)">C35</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C36',this)">C36</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C37',this)">C37</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C38',this)">C38</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C39',this)">C39</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C40',this)">C40</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C41',this)">C41</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C42',this)">C42</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C43',this)">C43</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C44',this)">C44</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C45',this)">C45</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C46',this)">C46</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C47',this)">C47</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C48',this)">C48</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C49',this)">C49</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C50',this)">C50</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C51',this)">C51</button>
-    <button class="btn-filter" onclick="sigCfgFilter('C52',this)">C52</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="sigCfgFilter('C53',this)">C53</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C54',this)">C54</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C55',this)">C55</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C56',this)">C56</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C57',this)">C57</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C58',this)">C58</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C59',this)">C59</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C60',this)">C60</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C61',this)">C61</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C62',this)">C62</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C63',this)">C63</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C64',this)">C64</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C65',this)">C65</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C66',this)">C66</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C67',this)">C67</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C68',this)">C68</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C69',this)">C69</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C70',this)">C70</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C71',this)">C71</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C72',this)">C72</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C73',this)">C73</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C74',this)">C74</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C75',this)">C75</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C76',this)">C76</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C77',this)">C77</button>
-      <button class="btn-filter" onclick="sigCfgFilter('C78',this)">C78</button>
-  </div>
-  <div class="card" style="padding:0 0 8px">
-    <div class="table-area">
-      <table><thead><tr>
-        <th onclick="srt('signals',0)">#</th>
-        <th onclick="srt('signals',1)" style="white-space:nowrap;min-width:88px">DATE</th>
-        <th onclick="srt('signals',2)">CFG</th>
-        <th onclick="srt('signals',10)">STOCK</th>
-        <th onclick="srt('signals',3)">1D %</th>
-        <th onclick="srt('signals',4)">5D %</th>
-        <th onclick="srt('signals',5)">BUY PRICE &#8377;</th>
-        <th onclick="srt('signals',6)">LTP &#8377;</th>
-        <th onclick="srt('signals',7)">TARGET &#8377;</th>
-        <th onclick="srt('signals',8)">SL &#8377;</th>
-        <th onclick="srt('signals',9)">STATUS</th>
-      </tr></thead>
-      <tbody id="signals-body"></tbody></table>
-    </div>
-    <div class="pager"><span class="info" id="signals-info"></span><div style="flex:1"></div>
-      <button class="btn-sm btn-outline" onclick="pg('signals',-1)">&#8249; Prev</button>
-      <button class="btn-sm btn-outline" onclick="pg('signals',1)">Next &#8250;</button>
-      <select id="signals-pgsize" onchange="renderTab('signals')"><option value="25">25</option><option value="50" selected>50</option><option value="100">100</option><option value="9999">All</option></select>
-    </div>
-  </div>
-</div>
-
-<div id="tab-configs" class="hidden">
-  <div class="card">
-    <h3 style="color:var(--navy);margin-bottom:16px">&#9881; Parameter Configurations</h3>
-    <div class="filter-bar" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">
-      <button class="btn-filter active" id="cfgtab-ALL" onclick="cfgTabFilter('ALL',this)">All</button>
-      <button class="btn-filter" id="cfgtab-C1" onclick="cfgTabFilter('C1',this)">C1</button><button class="btn-filter" id="cfgtab-C2" onclick="cfgTabFilter('C2',this)">C2</button><button class="btn-filter" id="cfgtab-C3" onclick="cfgTabFilter('C3',this)">C3</button><button class="btn-filter" id="cfgtab-C4" onclick="cfgTabFilter('C4',this)">C4</button><button class="btn-filter" id="cfgtab-C5" onclick="cfgTabFilter('C5',this)">C5</button><button class="btn-filter" id="cfgtab-C6" onclick="cfgTabFilter('C6',this)">C6</button><button class="btn-filter" id="cfgtab-C7" onclick="cfgTabFilter('C7',this)">C7</button><button class="btn-filter" id="cfgtab-C8" onclick="cfgTabFilter('C8',this)">C8</button><button class="btn-filter" id="cfgtab-C9" onclick="cfgTabFilter('C9',this)">C9</button><button class="btn-filter" id="cfgtab-C10" onclick="cfgTabFilter('C10',this)">C10</button><button class="btn-filter" id="cfgtab-C11" onclick="cfgTabFilter('C11',this)">C11</button><button class="btn-filter" id="cfgtab-C12" onclick="cfgTabFilter('C12',this)">C12</button><button class="btn-filter" id="cfgtab-C13" onclick="cfgTabFilter('C13',this)">C13</button><button class="btn-filter" id="cfgtab-C14" onclick="cfgTabFilter('C14',this)">C14</button><button class="btn-filter" id="cfgtab-C15" onclick="cfgTabFilter('C15',this)">C15</button><button class="btn-filter" id="cfgtab-C16" onclick="cfgTabFilter('C16',this)">C16</button><button class="btn-filter" id="cfgtab-C17" onclick="cfgTabFilter('C17',this)">C17</button><button class="btn-filter" id="cfgtab-C18" onclick="cfgTabFilter('C18',this)">C18</button><button class="btn-filter" id="cfgtab-C19" onclick="cfgTabFilter('C19',this)">C19</button><button class="btn-filter" id="cfgtab-C20" onclick="cfgTabFilter('C20',this)">C20</button><button class="btn-filter" id="cfgtab-C21" onclick="cfgTabFilter('C21',this)">C21</button><button class="btn-filter" id="cfgtab-C22" onclick="cfgTabFilter('C22',this)">C22</button><button class="btn-filter" id="cfgtab-C23" onclick="cfgTabFilter('C23',this)">C23</button><button class="btn-filter" id="cfgtab-C24" onclick="cfgTabFilter('C24',this)">C24</button><button class="btn-filter" id="cfgtab-C25" onclick="cfgTabFilter('C25',this)">C25</button><button class="btn-filter" id="cfgtab-C26" onclick="cfgTabFilter('C26',this)">C26</button><div style="flex-basis:100%;height:0;margin:0;padding:0"></div><button class="btn-filter" id="cfgtab-C27" onclick="cfgTabFilter('C27',this)">C27</button><button class="btn-filter" id="cfgtab-C28" onclick="cfgTabFilter('C28',this)">C28</button><button class="btn-filter" id="cfgtab-C29" onclick="cfgTabFilter('C29',this)">C29</button><button class="btn-filter" id="cfgtab-C30" onclick="cfgTabFilter('C30',this)">C30</button><button class="btn-filter" id="cfgtab-C31" onclick="cfgTabFilter('C31',this)">C31</button><button class="btn-filter" id="cfgtab-C32" onclick="cfgTabFilter('C32',this)">C32</button><button class="btn-filter" id="cfgtab-C33" onclick="cfgTabFilter('C33',this)">C33</button><button class="btn-filter" id="cfgtab-C34" onclick="cfgTabFilter('C34',this)">C34</button><button class="btn-filter" id="cfgtab-C35" onclick="cfgTabFilter('C35',this)">C35</button><button class="btn-filter" id="cfgtab-C36" onclick="cfgTabFilter('C36',this)">C36</button><button class="btn-filter" id="cfgtab-C37" onclick="cfgTabFilter('C37',this)">C37</button><button class="btn-filter" id="cfgtab-C38" onclick="cfgTabFilter('C38',this)">C38</button><button class="btn-filter" id="cfgtab-C39" onclick="cfgTabFilter('C39',this)">C39</button><button class="btn-filter" id="cfgtab-C40" onclick="cfgTabFilter('C40',this)">C40</button><button class="btn-filter" id="cfgtab-C41" onclick="cfgTabFilter('C41',this)">C41</button><button class="btn-filter" id="cfgtab-C42" onclick="cfgTabFilter('C42',this)">C42</button><button class="btn-filter" id="cfgtab-C43" onclick="cfgTabFilter('C43',this)">C43</button><button class="btn-filter" id="cfgtab-C44" onclick="cfgTabFilter('C44',this)">C44</button><button class="btn-filter" id="cfgtab-C45" onclick="cfgTabFilter('C45',this)">C45</button><button class="btn-filter" id="cfgtab-C46" onclick="cfgTabFilter('C46',this)">C46</button><button class="btn-filter" id="cfgtab-C47" onclick="cfgTabFilter('C47',this)">C47</button><button class="btn-filter" id="cfgtab-C48" onclick="cfgTabFilter('C48',this)">C48</button><button class="btn-filter" id="cfgtab-C49" onclick="cfgTabFilter('C49',this)">C49</button><button class="btn-filter" id="cfgtab-C50" onclick="cfgTabFilter('C50',this)">C50</button><button class="btn-filter" id="cfgtab-C51" onclick="cfgTabFilter('C51',this)">C51</button><button class="btn-filter" id="cfgtab-C52" onclick="cfgTabFilter('C52',this)">C52</button><div style="flex-basis:100%;height:0;margin:0;padding:0"></div><button class="btn-filter" id="cfgtab-C53" onclick="cfgTabFilter('C53',this)">C53</button><button class="btn-filter" id="cfgtab-C54" onclick="cfgTabFilter('C54',this)">C54</button><button class="btn-filter" id="cfgtab-C55" onclick="cfgTabFilter('C55',this)">C55</button><button class="btn-filter" id="cfgtab-C56" onclick="cfgTabFilter('C56',this)">C56</button><button class="btn-filter" id="cfgtab-C57" onclick="cfgTabFilter('C57',this)">C57</button><button class="btn-filter" id="cfgtab-C58" onclick="cfgTabFilter('C58',this)">C58</button><button class="btn-filter" id="cfgtab-C59" onclick="cfgTabFilter('C59',this)">C59</button><button class="btn-filter" id="cfgtab-C60" onclick="cfgTabFilter('C60',this)">C60</button><button class="btn-filter" id="cfgtab-C61" onclick="cfgTabFilter('C61',this)">C61</button><button class="btn-filter" id="cfgtab-C62" onclick="cfgTabFilter('C62',this)">C62</button><button class="btn-filter" id="cfgtab-C63" onclick="cfgTabFilter('C63',this)">C63</button><button class="btn-filter" id="cfgtab-C64" onclick="cfgTabFilter('C64',this)">C64</button><button class="btn-filter" id="cfgtab-C65" onclick="cfgTabFilter('C65',this)">C65</button><button class="btn-filter" id="cfgtab-C66" onclick="cfgTabFilter('C66',this)">C66</button><button class="btn-filter" id="cfgtab-C67" onclick="cfgTabFilter('C67',this)">C67</button><button class="btn-filter" id="cfgtab-C68" onclick="cfgTabFilter('C68',this)">C68</button><button class="btn-filter" id="cfgtab-C69" onclick="cfgTabFilter('C69',this)">C69</button><button class="btn-filter" id="cfgtab-C70" onclick="cfgTabFilter('C70',this)">C70</button><button class="btn-filter" id="cfgtab-C71" onclick="cfgTabFilter('C71',this)">C71</button><button class="btn-filter" id="cfgtab-C72" onclick="cfgTabFilter('C72',this)">C72</button><button class="btn-filter" id="cfgtab-C73" onclick="cfgTabFilter('C73',this)">C73</button><button class="btn-filter" id="cfgtab-C74" onclick="cfgTabFilter('C74',this)">C74</button><button class="btn-filter" id="cfgtab-C75" onclick="cfgTabFilter('C75',this)">C75</button><button class="btn-filter" id="cfgtab-C76" onclick="cfgTabFilter('C76',this)">C76</button><button class="btn-filter" id="cfgtab-C77" onclick="cfgTabFilter('C77',this)">C77</button><button class="btn-filter" id="cfgtab-C78" onclick="cfgTabFilter('C78',this)">C78</button>
+    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     </div>
     <div class="table-area">
       <table class="ov-table"><thead><tr>
@@ -1410,88 +898,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
-      <span class="slbl">CONFIG:</span>
-      <button class="btn-filter active" onclick="avgTrigCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C1',this)">C1</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C2',this)">C2</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C3',this)">C3</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C4',this)">C4</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C5',this)">C5</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C6',this)">C6</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C7',this)">C7</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C8',this)">C8</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C9',this)">C9</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C10',this)">C10</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C11',this)">C11</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C12',this)">C12</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C13',this)">C13</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C14',this)">C14</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C15',this)">C15</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C16',this)">C16</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C17',this)">C17</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C18',this)">C18</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C19',this)">C19</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C20',this)">C20</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C21',this)">C21</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C22',this)">C22</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C23',this)">C23</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C24',this)">C24</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C25',this)">C25</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C26',this)">C26</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C27',this)">C27</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C28',this)">C28</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C29',this)">C29</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C30',this)">C30</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C31',this)">C31</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C32',this)">C32</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C33',this)">C33</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C34',this)">C34</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C35',this)">C35</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C36',this)">C36</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C37',this)">C37</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C38',this)">C38</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C39',this)">C39</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C40',this)">C40</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C41',this)">C41</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C42',this)">C42</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C43',this)">C43</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C44',this)">C44</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C45',this)">C45</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C46',this)">C46</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C47',this)">C47</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C48',this)">C48</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C49',this)">C49</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C50',this)">C50</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C51',this)">C51</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C52',this)">C52</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C53',this)">C53</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C54',this)">C54</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C55',this)">C55</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C56',this)">C56</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C57',this)">C57</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C58',this)">C58</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C59',this)">C59</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C60',this)">C60</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C61',this)">C61</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C62',this)">C62</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C63',this)">C63</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C64',this)">C64</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C65',this)">C65</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C66',this)">C66</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C67',this)">C67</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C68',this)">C68</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C69',this)">C69</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C70',this)">C70</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C71',this)">C71</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C72',this)">C72</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C73',this)">C73</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C74',this)">C74</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C75',this)">C75</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C76',this)">C76</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C77',this)">C77</button>
-      <button class="btn-filter" onclick="avgTrigCfgFilter('C78',this)">C78</button>
+      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     </div>
     <div id="avgtrigger-badges" class="tab-badges"></div>
     <div class="table-area">
@@ -1525,88 +932,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <span style="font-size:12px;color:var(--text3);">Open positions within 3% of target price — sell candidates</span>
       </div>
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
-      <span class="slbl">CONFIG:</span>
-      <button class="btn-filter active" onclick="sellTrigCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C1',this)">C1</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C2',this)">C2</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C3',this)">C3</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C4',this)">C4</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C5',this)">C5</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C6',this)">C6</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C7',this)">C7</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C8',this)">C8</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C9',this)">C9</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C10',this)">C10</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C11',this)">C11</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C12',this)">C12</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C13',this)">C13</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C14',this)">C14</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C15',this)">C15</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C16',this)">C16</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C17',this)">C17</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C18',this)">C18</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C19',this)">C19</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C20',this)">C20</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C21',this)">C21</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C22',this)">C22</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C23',this)">C23</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C24',this)">C24</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C25',this)">C25</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C26',this)">C26</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C27',this)">C27</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C28',this)">C28</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C29',this)">C29</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C30',this)">C30</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C31',this)">C31</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C32',this)">C32</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C33',this)">C33</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C34',this)">C34</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C35',this)">C35</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C36',this)">C36</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C37',this)">C37</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C38',this)">C38</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C39',this)">C39</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C40',this)">C40</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C41',this)">C41</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C42',this)">C42</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C43',this)">C43</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C44',this)">C44</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C45',this)">C45</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C46',this)">C46</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C47',this)">C47</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C48',this)">C48</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C49',this)">C49</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C50',this)">C50</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C51',this)">C51</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C52',this)">C52</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C53',this)">C53</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C54',this)">C54</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C55',this)">C55</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C56',this)">C56</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C57',this)">C57</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C58',this)">C58</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C59',this)">C59</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C60',this)">C60</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C61',this)">C61</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C62',this)">C62</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C63',this)">C63</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C64',this)">C64</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C65',this)">C65</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C66',this)">C66</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C67',this)">C67</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C68',this)">C68</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C69',this)">C69</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C70',this)">C70</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C71',this)">C71</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C72',this)">C72</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C73',this)">C73</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C74',this)">C74</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C75',this)">C75</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C76',this)">C76</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C77',this)">C77</button>
-      <button class="btn-filter" onclick="sellTrigCfgFilter('C78',this)">C78</button>
+      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">  <div id="selltrigger-badges" class="tab-badges" style="flex:1;min-width:0;"></div>  <input id="selltrig-search" type="text" placeholder="🔍 Search symbol..." oninput="renderSellTrigger()" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">  <button class="btn-sm btn-green" onclick="exportTabCSV('selltrigger')">Export CSV</button></div>
     <div class="table-area">
@@ -1631,88 +957,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <span style="font-size:12px;color:var(--text3);">Stocks with averaging (BUY_COUNT &gt; 1) — grouped by date &amp; stock</span>
     </div>
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-      <span class="slbl">Config:</span>
-      <button class="btn-filter active" onclick="avgHistCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C1',this)">C1</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C2',this)">C2</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C3',this)">C3</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C4',this)">C4</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C5',this)">C5</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C6',this)">C6</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C7',this)">C7</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C8',this)">C8</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C9',this)">C9</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C10',this)">C10</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C11',this)">C11</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C12',this)">C12</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C13',this)">C13</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C14',this)">C14</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C15',this)">C15</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C16',this)">C16</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C17',this)">C17</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C18',this)">C18</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C19',this)">C19</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C20',this)">C20</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C21',this)">C21</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C22',this)">C22</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C23',this)">C23</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C24',this)">C24</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C25',this)">C25</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C26',this)">C26</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C27',this)">C27</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C28',this)">C28</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C29',this)">C29</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C30',this)">C30</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C31',this)">C31</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C32',this)">C32</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C33',this)">C33</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C34',this)">C34</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C35',this)">C35</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C36',this)">C36</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C37',this)">C37</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C38',this)">C38</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C39',this)">C39</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C40',this)">C40</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C41',this)">C41</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C42',this)">C42</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C43',this)">C43</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C44',this)">C44</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C45',this)">C45</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C46',this)">C46</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C47',this)">C47</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C48',this)">C48</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C49',this)">C49</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C50',this)">C50</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C51',this)">C51</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C52',this)">C52</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C53',this)">C53</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C54',this)">C54</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C55',this)">C55</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C56',this)">C56</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C57',this)">C57</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C58',this)">C58</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C59',this)">C59</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C60',this)">C60</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C61',this)">C61</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C62',this)">C62</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C63',this)">C63</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C64',this)">C64</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C65',this)">C65</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C66',this)">C66</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C67',this)">C67</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C68',this)">C68</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C69',this)">C69</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C70',this)">C70</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C71',this)">C71</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C72',this)">C72</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C73',this)">C73</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C74',this)">C74</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C75',this)">C75</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C76',this)">C76</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C77',this)">C77</button>
-      <button class="btn-filter" onclick="avgHistCfgFilter('C78',this)">C78</button>
+      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
       <div id="avghistory-badges" class="tab-badges" style="flex:1;min-width:0;"></div>
@@ -1748,88 +993,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <h3 style="margin:0;color:var(--navy);font-size:16px;font-weight:800;">&#128200; Market Data</h3>
       <span style="font-size:12px;color:var(--text3);">All open positions with latest price & P&amp;L</span>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <span class="slbl">Config:</span>
-      <button class="btn-filter active" onclick="mdCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C1',this)">C1</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C2',this)">C2</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C3',this)">C3</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C4',this)">C4</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C5',this)">C5</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C6',this)">C6</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C7',this)">C7</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C8',this)">C8</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C9',this)">C9</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C10',this)">C10</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C11',this)">C11</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C12',this)">C12</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C13',this)">C13</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C14',this)">C14</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C15',this)">C15</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C16',this)">C16</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C17',this)">C17</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C18',this)">C18</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C19',this)">C19</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C20',this)">C20</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C21',this)">C21</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C22',this)">C22</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C23',this)">C23</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C24',this)">C24</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C25',this)">C25</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C26',this)">C26</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="mdCfgFilter('C27',this)">C27</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C28',this)">C28</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C29',this)">C29</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C30',this)">C30</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C31',this)">C31</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C32',this)">C32</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C33',this)">C33</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C34',this)">C34</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C35',this)">C35</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C36',this)">C36</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C37',this)">C37</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C38',this)">C38</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C39',this)">C39</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C40',this)">C40</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C41',this)">C41</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C42',this)">C42</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C43',this)">C43</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C44',this)">C44</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C45',this)">C45</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C46',this)">C46</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C47',this)">C47</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C48',this)">C48</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C49',this)">C49</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C50',this)">C50</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C51',this)">C51</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C52',this)">C52</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="mdCfgFilter('C53',this)">C53</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C54',this)">C54</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C55',this)">C55</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C56',this)">C56</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C57',this)">C57</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C58',this)">C58</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C59',this)">C59</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C60',this)">C60</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C61',this)">C61</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C62',this)">C62</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C63',this)">C63</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C64',this)">C64</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C65',this)">C65</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C66',this)">C66</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C67',this)">C67</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C68',this)">C68</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C69',this)">C69</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C70',this)">C70</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C71',this)">C71</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C72',this)">C72</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C73',this)">C73</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C74',this)">C74</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C75',this)">C75</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C76',this)">C76</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C77',this)">C77</button>
-      <button class="btn-filter" onclick="mdCfgFilter('C78',this)">C78</button>
+      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     </div>
     <div id="marketdata-badges" class="tab-badges"></div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
@@ -1860,88 +1024,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <h3 style="margin:0;color:var(--navy);font-size:16px;font-weight:800;">&#128202; Performance Analytics</h3>
       <span style="font-size:12px;color:var(--text3);">Deep dive into closed and open trade statistics</span>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <span class="slbl">Config:</span>
-      <button class="btn-filter active" onclick="perfCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C1',this)">C1</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C2',this)">C2</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C3',this)">C3</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C4',this)">C4</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C5',this)">C5</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C6',this)">C6</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C7',this)">C7</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C8',this)">C8</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C9',this)">C9</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C10',this)">C10</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C11',this)">C11</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C12',this)">C12</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C13',this)">C13</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C14',this)">C14</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C15',this)">C15</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C16',this)">C16</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C17',this)">C17</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C18',this)">C18</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C19',this)">C19</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C20',this)">C20</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C21',this)">C21</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C22',this)">C22</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C23',this)">C23</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C24',this)">C24</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C25',this)">C25</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C26',this)">C26</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="perfCfgFilter('C27',this)">C27</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C28',this)">C28</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C29',this)">C29</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C30',this)">C30</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C31',this)">C31</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C32',this)">C32</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C33',this)">C33</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C34',this)">C34</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C35',this)">C35</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C36',this)">C36</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C37',this)">C37</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C38',this)">C38</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C39',this)">C39</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C40',this)">C40</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C41',this)">C41</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C42',this)">C42</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C43',this)">C43</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C44',this)">C44</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C45',this)">C45</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C46',this)">C46</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C47',this)">C47</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C48',this)">C48</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C49',this)">C49</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C50',this)">C50</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C51',this)">C51</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C52',this)">C52</button>
-      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-filter" onclick="perfCfgFilter('C53',this)">C53</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C54',this)">C54</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C55',this)">C55</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C56',this)">C56</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C57',this)">C57</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C58',this)">C58</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C59',this)">C59</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C60',this)">C60</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C61',this)">C61</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C62',this)">C62</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C63',this)">C63</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C64',this)">C64</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C65',this)">C65</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C66',this)">C66</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C67',this)">C67</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C68',this)">C68</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C69',this)">C69</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C70',this)">C70</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C71',this)">C71</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C72',this)">C72</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C73',this)">C73</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C74',this)">C74</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C75',this)">C75</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C76',this)">C76</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C77',this)">C77</button>
-      <button class="btn-filter" onclick="perfCfgFilter('C78',this)">C78</button>
+      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
     </div>
     <div id="perf-hero" class="perf-hero"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;" class="perf-panels">
@@ -2032,6 +1115,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
         <input type="number" id="mtf-tgt-input" value="5" min="1" max="100" step="0.5"
                style="width:65px;padding:5px 8px;font-size:13px;border:1px solid var(--border);border-radius:6px;"
                onchange="mtfTgtChange()">
+        <input type="text" id="mtf-search" placeholder="&#128269; Symbol..." oninput="renderMTFOutput()" style="padding:5px 8px;font-size:13px;border:1px solid var(--border);border-radius:6px;width:130px;">
         <button class="btn-sm btn-green" onclick="exportMTFCSV()">&#8595; CSV</button>
       </div>
     </div>
@@ -2201,6 +1285,7 @@ let _dataReady = false;
 
     _dataReady = true;
     if (banner) banner.innerHTML = origBanner;
+    _initCfgSelector();
 
     // Dynamically update Data date from sim_meta.json (bhavcopy date)
     try {
@@ -2401,6 +1486,59 @@ function statusFilterHist(val,btn){
   buildHistory();
 }
 
+
+// ════ GLOBAL CONFIG SELECTOR ════
+let _selCfgs = null;
+function cfgMatch(cfg){ return !_selCfgs||_selCfgs.has(cfg); }
+function _initCfgSelector(){
+  const saved=localStorage.getItem('btst_sel_cfgs');
+  if(saved){ try{ const arr=JSON.parse(saved);
+    _selCfgs=arr.length===CONFIGS_DEF.length?null:new Set(arr);
+  }catch(e){ _selCfgs=null; } }
+  _updateCfgBadges();
+}
+function _updateCfgBadges(){
+  const total=CONFIGS_DEF.length, sel=_selCfgs?_selCfgs.size:total;
+  const txt=(!_selCfgs||sel===total)?'All ('+total+')':sel+' / '+total;
+  document.querySelectorAll('.cfg-sel-badge').forEach(el=>el.textContent=txt);
+  const sub=document.getElementById('cfgCountDisplay');
+  if(sub) sub.textContent=total;
+}
+function openConfigModal(){
+  document.getElementById('globalCfgModal').style.display='flex';
+  _renderCfgModal();
+}
+function closeConfigModal(){ document.getElementById('globalCfgModal').style.display='none'; }
+function _renderCfgModal(){
+  const sel=_selCfgs||new Set(CONFIGS_DEF.map(c=>c.id));
+  const grid=document.getElementById('cfgModalGrid');
+  const cnt=document.getElementById('cfgModalCount');
+  grid.innerHTML=CONFIGS_DEF.map(function(c){
+    const on=sel.has(c.id);
+    return '<label class="cfg-pill'+(on?' on':'')+'" onclick="cfgToggle(this,\''+c.id+'\')">'
+      +'<input type="checkbox" value="'+c.id+'"'+(on?' checked':'')+' style="display:none">'+c.id+'</label>';
+  }).join('');
+  if(cnt) cnt.textContent=sel.size+' of '+CONFIGS_DEF.length+' selected';
+}
+function cfgToggle(lbl,id){
+  if(!_selCfgs) _selCfgs=new Set(CONFIGS_DEF.map(c=>c.id));
+  const cb=lbl.querySelector('input');
+  if(cb.checked){ cb.checked=false; _selCfgs.delete(id); lbl.classList.remove('on'); }
+  else{ cb.checked=true; _selCfgs.add(id); lbl.classList.add('on'); }
+  const cnt=document.getElementById('cfgModalCount');
+  if(cnt) cnt.textContent=_selCfgs.size+' of '+CONFIGS_DEF.length+' selected';
+}
+function cfgSelectAll(){ _selCfgs=null; _renderCfgModal(); }
+function cfgClearAll(){ _selCfgs=new Set(); _renderCfgModal(); }
+function applyConfigFilter(){
+  const all=new Set(CONFIGS_DEF.map(c=>c.id));
+  if(_selCfgs&&_selCfgs.size>=all.size) _selCfgs=null;
+  try{ localStorage.setItem('btst_sel_cfgs',JSON.stringify(_selCfgs?[..._selCfgs]:[...all])); }catch(e){}
+  closeConfigModal(); _updateCfgBadges();
+  const at=document.querySelector('.tab.active'); if(at) at.click();
+}
+// ════════════════════════════════
+
 function cfgFilter(tab,val,btn){
   state[tab].cfg=val;
   if(state[tab].page!==undefined)state[tab].page=1;
@@ -2464,17 +1602,18 @@ function setPager(tab,cur,total,pgSz){
 // ─── GET FILTERED DATA ────────────────────────────────────────────────────────
 function getFiltered(tab){
   let rows = ALL_ROWS;
+  if(_selCfgs) rows=rows.filter(r=>cfgMatch(r.CONFIG));
 
   if(tab==='open'){
     rows = rows.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-    if(state.open.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.open.cfg);
+    
     if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
     const _os=(document.getElementById('open-search')||{}).value||'';
     if(_os) rows=rows.filter(r=>(r.SYMBOL||'').toUpperCase().includes(_os.toUpperCase()));
   }
   else if(tab==='closed'){
     rows = rows.filter(r=>r.STATUS==='Closed'&&r.RESULT);
-    if(state.closed.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.closed.cfg);
+    
     if(state.closed.res==='P') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('profit')&&!r.RESULT.includes('FE'));
     if(state.closed.res==='L') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('loss')&&!r.RESULT.includes('FE'));
     if(state.closed.res==='FE') rows=rows.filter(r=>r.RESULT&&r.RESULT.includes('FE'));
@@ -2486,7 +1625,7 @@ function getFiltered(tab){
     const cfgDurMap={};
     CONFIGS_DEF.forEach(c=>{ cfgDurMap[c.id||c.ID]=parseInt(c.max_duration||c.MAXDURA||90); });
     rows = rows.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-    if(state.fe.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.fe.cfg);
+    
     if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
     const _fs=(document.getElementById('fe-search')||{}).value||'';
     if(_fs) rows=rows.filter(r=>(r.SYMBOL||'').toUpperCase().includes(_fs.toUpperCase()));
@@ -2503,7 +1642,7 @@ function getFiltered(tab){
   else if(tab==='ledger'){
     // Build ledger from closed rows
     let closed = ALL_ROWS.filter(r=>r.STATUS==='Closed'&&r.PROFIT!=null&&r.EXIT_DATE);
-    if(state.ledger.cfg!=='ALL') closed=closed.filter(r=>r.CONFIG===state.ledger.cfg);
+    
     if(dateRangeActive) closed=closed.filter(r=>inDateRange(r.SIGNAL_DATE));
     const map={};
     closed.forEach(r=>{
@@ -2529,16 +1668,16 @@ function getFiltered(tab){
   }
   else if(tab==='trades'){
     rows = rows.filter(r=>r.ORDER==='Executed');
-    if(state.trades.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.trades.cfg);
+    
     if(state.trades.status!=='ALL') rows=rows.filter(r=>r.STATUS===state.trades.status);
     const q=(document.getElementById('trades-search')||{}).value||'';
     if(q)rows=rows.filter(r=>(r.SYMBOL||'').toLowerCase().includes(q.toLowerCase()));
   }
   else if(tab==='signals'){
     rows=[...SIGNALS_RAW];
-    if(sigCfg!=='ALL') rows=rows.filter(r=>{
+    if(_selCfgs) rows=rows.filter(r=>{
       const cfgRaw=(r.CONFIGS_MATCHED||r.configs_matched||r.CONFIG||'');
-      return cfgRaw.split(',').map(s=>s.trim()).includes(sigCfg);
+      return cfgRaw.split(',').map(s=>s.trim()).some(c=>cfgMatch(c));
     });
     const statusF=(document.getElementById('sig-status-filter')||{}).value||'ALL';
     if(statusF!=='ALL') rows=rows.filter(r=>{
@@ -2798,7 +1937,7 @@ function renderSignals(rows){
 
 function renderAvgTrigger(){
   let rows = ALL_ROWS.filter(r => r.ORDER === 'Executed' && r.STATUS === 'Open');
-  if(avgTrigCfg !== 'ALL') rows = rows.filter(r => r.CONFIG === avgTrigCfg);
+  if(_selCfgs) rows = rows.filter(r => cfgMatch(r.CONFIG));
   if(dateRangeActive) rows = rows.filter(r => inDateRange(r.SIGNAL_DATE));
 
   const cfgMap = {};
@@ -2893,7 +2032,7 @@ function renderAvgTrigger(){
 // ─── STOCK HISTORY ────────────────────────────────────────────────────────────
 function buildHistory(){
   const q=(document.getElementById('hist-search')||{}).value||'';
-  const cfg=state.hist.cfg;
+  const cfg='ALL';
   const statusF=state.hist.status;
 
   let rows=ALL_ROWS.filter(r=>r.ORDER==='Executed');
@@ -3212,7 +2351,7 @@ function mdSubTab(type, btn){
 // ─── SELL TRIGGER ─────────────────────────────────────────────────────────────
 function renderSellTrigger(){
   let rows=ALL_ROWS.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-  if(sellTrigCfg!=='ALL') rows=rows.filter(r=>r.CONFIG===sellTrigCfg);
+  if(_selCfgs) rows=rows.filter(r=>cfgMatch(r.CONFIG));
   if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
   const _stq=(document.getElementById('selltrig-search')||{}).value||'';
   if(_stq) rows=rows.filter(r=>(r.SYMBOL||'').toLowerCase().includes(_stq.toLowerCase()));
@@ -3290,7 +2429,7 @@ function ovCfgFilter(val,btn){
 function renderAvgHistory(){
   const q=(document.getElementById('avghist-search')||{}).value||'';
   let rows=ALL_ROWS.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open'&&parseInt(r.BUY_COUNT||0)>1);
-  if(avgHistCfg!=='ALL') rows=rows.filter(r=>r.CONFIG===avgHistCfg);
+  if(_selCfgs) rows=rows.filter(r=>cfgMatch(r.CONFIG));
   if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
   if(q) rows=rows.filter(r=>(r.SYMBOL||'').toLowerCase().includes(q.toLowerCase()));
 
@@ -3432,7 +2571,7 @@ function renderBatchCard(rows) {
 
 function renderMarketData(){
   let rows=ALL_ROWS.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-  if(mdCfg!=='ALL') rows=rows.filter(r=>r.CONFIG===mdCfg);
+  if(_selCfgs) rows=rows.filter(r=>cfgMatch(r.CONFIG));
   if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
   if(mdSubFilter==='gainers') rows=rows.filter(r=>(parseFloat(r.GAIN_PCT)||0)>0);
   else if(mdSubFilter==='losers') rows=rows.filter(r=>(parseFloat(r.GAIN_PCT)||0)<0);
@@ -3484,7 +2623,7 @@ function perfCfgFilter(val,btn){
 }
 function renderPerformance(){
   const allCfgIds=CONFIGS_DEF.map(c=>c.id||c.ID).filter(Boolean).sort((a,b)=>parseInt(a.slice(1))-parseInt(b.slice(1)));
-  const cfgIds=perfCfg==='ALL'?allCfgIds:[perfCfg];
+  const cfgIds=(!_selCfgs)?allCfgIds:[..._selCfgs].filter(c=>allCfgIds.includes(c));
   let closed=ALL_ROWS.filter(r=>r.STATUS==='Closed'&&r.RESULT&&!r.RESULT.includes('FE'));
   let open=ALL_ROWS.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
   if(perfCfg!=='ALL'){ closed=closed.filter(r=>r.CONFIG===perfCfg); open=open.filter(r=>r.CONFIG===perfCfg); }
@@ -3700,7 +2839,7 @@ document.addEventListener('keydown', e=>{
 // ─── OVERVIEW ────────────────────────────────────────────────────────────────
 function buildOverview(){
   const allCfgIds = CONFIGS_DEF.map(c=>c.id||c.ID).filter(Boolean).sort((a,b)=>parseInt(a.slice(1))-parseInt(b.slice(1)));
-  const cfgIds = ovCfg==='ALL' ? allCfgIds : [ovCfg];
+  const cfgIds = (!_selCfgs) ? allCfgIds : [..._selCfgs].filter(c=>allCfgIds.includes(c));
   let totExec=0,totOpen=0,totClosed=0,totPnl=0,totPT=0,totLoss=0;
   const rows=[];
 
@@ -3741,7 +2880,7 @@ function buildOverview(){
   document.getElementById('ov-body').innerHTML=rows.join('');
   const totWr=totPT+totLoss>0?(totPT/(totPT+totLoss)*100).toFixed(1)+'%':'—';
 
-  let totalSigsFiltered = ovCfg==='ALL' ? ALL_ROWS : ALL_ROWS.filter(r=>r.CONFIG===ovCfg);
+  let totalSigsFiltered = (!_selCfgs) ? ALL_ROWS : ALL_ROWS.filter(r=>cfgMatch(r.CONFIG));
   if(dateRangeActive) totalSigsFiltered = totalSigsFiltered.filter(r=>inDateRange(r.SIGNAL_DATE));
 
   document.getElementById('ov-stats').innerHTML=`
@@ -3828,6 +2967,8 @@ async function renderMTFOutput() {
   });
 
   let filtered = Object.values(passMap);
+  const _mtfQ=((document.getElementById('mtf-search')||{}).value||'').toUpperCase().trim();
+  if(_mtfQ) filtered=filtered.filter(f=>(f.r.SYMBOL||'').toUpperCase().includes(_mtfQ));
 
   // Sort
   const st = state.mtf || {};
@@ -4132,7 +3273,7 @@ function _renderPortfolioNow() {
       '<td class="green">₹' + fN(tgt) + '</td>' +
       '<td class="' + cls + '" style="font-weight:700">' + icon + ' ' + (p.status||'—') + '</td>' +
       '<td><button class="btn-sm" style="background:#ef4444;color:#fff;padding:3px 8px;" ' +
-        'onclick="deletePortfolioItem(' + p.symbol + ')">&#128465;</button></td>' +
+        'onclick="deletePortfolioItem(\\' + p.symbol + \\')">&#128465;</button></td>' +
       '</tr>';
   }).join('');
 }
@@ -4307,5 +3448,23 @@ function exportPortfolioExcel() {
 }
 
 </script>
+<div id="globalCfgModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9900;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:14px;padding:24px;max-width:700px;width:93%;max-height:84vh;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.3);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <div><div style="font-size:17px;font-weight:700;color:#0d1f3c;">&#9881; Select Configurations</div>
+        <div id="cfgModalCount" style="font-size:12px;color:#888;margin-top:2px;"></div></div>
+      <button onclick="closeConfigModal()" style="border:none;background:#f0f2f5;border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:16px;color:#555;">&#10005;</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <button onclick="cfgSelectAll()" style="padding:5px 14px;border-radius:6px;border:1px solid #0d1f3c;background:#0d1f3c;color:#fff;cursor:pointer;font-size:13px;">Select All</button>
+      <button onclick="cfgClearAll()" style="padding:5px 14px;border-radius:6px;border:1px solid #e53e3e;background:#fff;color:#e53e3e;cursor:pointer;font-size:13px;">Clear All</button>
+    </div>
+    <div id="cfgModalGrid" style="overflow-y:auto;flex:1;display:flex;flex-wrap:wrap;gap:6px;padding:4px 2px;align-content:flex-start;min-height:60px;"></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px;border-top:1px solid #eee;padding-top:14px;">
+      <button onclick="closeConfigModal()" style="padding:8px 20px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;font-size:14px;">Cancel</button>
+      <button onclick="applyConfigFilter()" style="padding:8px 20px;border-radius:8px;border:none;background:#0d1f3c;color:#fff;cursor:pointer;font-weight:700;font-size:14px;">Apply &amp; Save</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
