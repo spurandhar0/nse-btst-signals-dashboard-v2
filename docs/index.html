@@ -159,7 +159,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <div class="hdr-sep"></div>
       <div class="hdr-title">
         <div class="t1">NSE BTST Signals</div>
-        <div class="t2">DAILY SIGNAL SCANNER &middot; <span id="cfgCountDisplay">52</span> CONFIGS &middot; SIMULATION TRACKER</div>
+        <div class="t2">DAILY SIGNAL SCANNER &middot; <span id="cfgCountDisplay">78</span> CONFIGS &middot; SIMULATION TRACKER</div>
       </div>
     </div>
     <div class="hdr-right">
@@ -1466,7 +1466,7 @@ function statusFilterHist(val,btn){
 let _selCfgs = null;
 function cfgMatch(cfg){ return !_selCfgs||_selCfgs.has(cfg); }
 function _initCfgSelector(){
-  const saved=localStorage.getItem('btst_sel_cfgs');
+  const saved=localStorage.getItem('btst_sel_cfgs_v2');
   if(saved){ try{ const arr=JSON.parse(saved);
     _selCfgs=arr.length===CONFIGS_DEF.length?null:new Set(arr);
   }catch(e){ _selCfgs=null; } }
@@ -1508,7 +1508,7 @@ function cfgClearAll(){ _selCfgs=new Set(); _renderCfgModal(); }
 function applyConfigFilter(){
   const all=new Set(CONFIGS_DEF.map(c=>c.id));
   if(_selCfgs&&_selCfgs.size>=all.size) _selCfgs=null;
-  try{ localStorage.setItem('btst_sel_cfgs',JSON.stringify(_selCfgs?[..._selCfgs]:[...all])); }catch(e){}
+  try{ localStorage.setItem('btst_sel_cfgs_v2',JSON.stringify(_selCfgs?[..._selCfgs]:[...all])); }catch(e){}
   closeConfigModal(); _updateCfgBadges();
   const at=document.querySelector('.tab.active'); if(at) at.click();
 }
