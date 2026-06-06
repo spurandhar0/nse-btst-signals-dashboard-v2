@@ -374,17 +374,23 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
         <th onclick="srt('open',0)">#</th>
         <th onclick="srt('open',1)">CFG</th>
         <th onclick="srt('open',2)">SYMBOL</th>
-        <th onclick="srt('open',3)">BUY DATE</th>
-        <th onclick="srt('open',4)">AVG BUY &#8377;</th>
-        <th onclick="srt('open',5)">CURRENT LTP &#8377;</th>
-        <th onclick="srt('open',6)">TARGET &#8377;</th>
-        <th onclick="srt('open',7)">STOP &#8377;</th>
-        <th onclick="srt('open',8)">BUYS</th>
-        <th onclick="srt('open',9)">QTY</th>
-        <th onclick="srt('open',10)">INVESTED &#8377;</th>
-        <th onclick="srt('open',11)">MARKET DAYS</th>
-        <th onclick="srt('open',12)">UNREAL P&amp;L &#8377;</th>
-        <th onclick="srt('open',13)">GAIN %</th>
+        <th onclick="srt('open',3)">SIGNAL DATE</th>
+        <th onclick="srt('open',4)">SIG CLOSE &#8377;</th>
+        <th onclick="srt('open',5)">CHG 1D%</th>
+        <th onclick="srt('open',6)">PCT LOW%</th>
+        <th onclick="srt('open',7)">5D LOW &#8377;</th>
+        <th onclick="srt('open',8)">5D LOW DATE</th>
+        <th onclick="srt('open',9)">LTP &#8377;</th>
+        <th onclick="srt('open',10)">BUYS</th>
+        <th onclick="srt('open',11)">AVG BUY &#8377;</th>
+        <th onclick="srt('open',12)">QTY</th>
+        <th onclick="srt('open',13)">INVESTED &#8377;</th>
+        <th onclick="srt('open',14)">TARGET &#8377;</th>
+        <th onclick="srt('open',15)">STOP &#8377;</th>
+        <th onclick="srt('open',16)">MKT DAYS</th>
+        <th onclick="srt('open',17)">P&amp;L &#8377;</th>
+        <th onclick="srt('open',18)">GAIN %</th>
+        <th>Buy&#8321;</th><th>Buy&#8322;</th><th>Buy&#8323;</th><th>Buy&#8324;</th>
       </tr></thead>
       <tbody id="open-body"></tbody></table>
     </div>
@@ -2035,13 +2041,15 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
         <th onclick="mtfSort('symbol')" style="cursor:pointer" id="mth-symbol">Symbol</th>
         <th onclick="mtfSort('sigdate')" style="cursor:pointer" id="mth-sigdate">Signal Date</th>
         <th onclick="mtfSort('sigprice')" style="cursor:pointer" id="mth-sigprice">Signal Price &#8377;</th>
-        <th onclick="mtfSort('dur')" style="cursor:pointer" id="mth-dur">Duration</th>
         <th onclick="mtfSort('avg')" style="cursor:pointer" id="mth-avg">Avg Buy &#8377;</th>
         <th onclick="mtfSort('ltp')" style="cursor:pointer" id="mth-ltp">Current LTP &#8377;</th>
         <th onclick="mtfSort('drop')" style="cursor:pointer" id="mth-drop">Drop% &#9660;</th>
         <th onclick="mtfSort('qty')" style="cursor:pointer" id="mth-qty">Qty</th>
         <th onclick="mtfSort('inv')" style="cursor:pointer" id="mth-inv">Investment &#8377;</th>
         <th onclick="mtfSort('target')" style="cursor:pointer" id="mth-target">Target &#8377;</th>
+        <th onclick="mtfSort('stop')" style="cursor:pointer" id="mth-stop">Stoploss &#8377;</th>
+        <th>Buys Done</th>
+        <th onclick="mtfSort('dur')" style="cursor:pointer" id="mth-dur">Days Held</th>
         <th>Action</th>
       </tr></thead><tbody id="mtf-body"><tr><td colspan="12" class="empty">Click the tab to load&hellip;</td></tr></tbody></table>
     </div>
@@ -2651,12 +2659,20 @@ function rowHTML(tab,r,n){
     return `<tr>
       <td>${n}</td><td>${cfgBadge(r.CONFIG)}</td><td><strong>${r.SYMBOL}</strong>${foTag(r.SYMBOL)}</td>
       <td>${fD(r.SIGNAL_DATE)}</td>
-      <td>&#8377;${fN(r.AVG_BUY_PRICE)}</td><td>&#8377;${fN(r.CURRENT_LTP)}</td>
+      <td>&#8377;${fN(r.SIGNAL_CLOSE)}</td>
+      <td style="color:${(parseFloat(r.CHG_1D)||0)>=0?'#059669':'#dc2626'}">${(parseFloat(r.CHG_1D)||0)>=0?'+':''}${f2(r.CHG_1D)}%</td>
+      <td style="color:${(parseFloat(r.PCT_FROM_LOW)||0)>=0?'#059669':'#dc2626'}">${(parseFloat(r.PCT_FROM_LOW)||0)>=0?'+':''}${f2(r.PCT_FROM_LOW)}%</td>
+      <td>&#8377;${fN(r.MIN_5D_LOW)}</td>
+      <td>${fD(r.MIN_5D_DATE)}</td>
+      <td>&#8377;${fN(r.CURRENT_LTP)}</td>
+      <td>${bcHtml}</td>
+      <td>&#8377;${fN(r.AVG_BUY_PRICE)}</td><td>${fI(r.TOTAL_QTY)}</td>
+      <td>&#8377;${fN(r.TOTAL_INVESTMENT)}</td>
       <td>&#8377;${fN(r.TARGET_PRICE)}</td><td>&#8377;${fN(r.STOP_PRICE)}</td>
-      <td>${bcHtml}</td><td>${fI(r.TOTAL_QTY)}</td>
-      <td>&#8377;${fN(r.TOTAL_INVESTMENT)}</td><td>${fI(r.MARKET_DAYS)}</td>
+      <td>${fI(r.MARKET_DAYS)}</td>
       <td ${pnlColor(r.PROFIT)}>&#8377;${fN(r.PROFIT)}</td>
       <td ${pnlColor(r.GAIN_PCT)}>${gp>=0?'+':''}${f2(r.GAIN_PCT)}%</td>
+      ${(()=>{const s=parseFloat(r.SIGNAL_CLOSE)||0;const b2=+(s*.9).toFixed(2);const b3=+(s*.855).toFixed(2);const b4=+(s*.7695).toFixed(2);return '<td>&#8377;'+fN(s)+'</td><td>&#8377;'+fN(b2)+'</td><td>&#8377;'+fN(b3)+'</td><td>&#8377;'+fN(b4)+'</td>';})()} 
     </tr>`;
   }
   if(tab==='closed'){
@@ -3755,11 +3771,11 @@ async function _loadMTFSymbols() {
 
 async function renderMTFOutput() {
   const body = document.getElementById('mtf-body');
-  body.innerHTML = '<tr><td colspan="12" class="empty">Loading MTF symbols…</td></tr>';
+  body.innerHTML = '<tr><td colspan="14" class="empty">Loading MTF symbols…</td></tr>';
 
   const syms = await _loadMTFSymbols();
   if (!syms || !syms.length) {
-    body.innerHTML = '<tr><td colspan="12" class="empty">⚠ Failed to load MTF symbols (data/mtf_symbols.json missing)</td></tr>';
+    body.innerHTML = '<tr><td colspan="14" class="empty">⚠ Failed to load MTF symbols (data/mtf_symbols.json missing)</td></tr>';
     return;
   }
   const mtfSet = new Set(syms.map(s => s.trim().toUpperCase()));
@@ -3829,6 +3845,8 @@ async function renderMTFOutput() {
     if (sortCol === 'qty')      { va = Math.floor(inv/(parseFloat(a.r.CURRENT_LTP)||1)); vb = Math.floor(inv/(parseFloat(b.r.CURRENT_LTP)||1)); }
     if (sortCol === 'inv')      { va = Math.floor(inv/(parseFloat(a.r.CURRENT_LTP)||1))*(parseFloat(a.r.CURRENT_LTP)||0); vb = Math.floor(inv/(parseFloat(b.r.CURRENT_LTP)||1))*(parseFloat(b.r.CURRENT_LTP)||0); }
     if (sortCol === 'target')   { va = a.avg*(1+tgtPct); vb = b.avg*(1+tgtPct); }
+    if (sortCol === 'stop')     { va = a.avg*0.75; vb = b.avg*0.75; }
+    if (sortCol === 'dur')      { va = a.durDays||0; vb = b.durDays||0; }
     va = va||0; vb = vb||0;
     return asc ? (va>vb?1:-1) : (va<vb?1:-1);
   });
@@ -3878,13 +3896,15 @@ async function renderMTFOutput() {
       '<td><strong>' + r.SYMBOL + '</strong>' + foTag(r.SYMBOL) + '</td>' +
       '<td>' + fD(item.sigDate) + '</td>' +
       '<td>₹' + fN(item.sigPrice) + '</td>' +
-      '<td>' + dur + '</td>' +
       '<td>₹' + fN(avg) + '</td>' +
       '<td class="red">₹' + fN(ltp) + '</td>' +
       '<td class="red">' + drop.toFixed(2) + '%</td>' +
       '<td>' + qty + '</td>' +
       '<td>₹' + fN(invAmt) + '</td>' +
       '<td class="green">₹' + fN(target) + '</td>' +
+      '<td class="red">₹' + fN((avg*0.75).toFixed(2)) + '</td>' +
+      '<td class="blue">' + (parseInt(r.BUY_COUNT)||1) + '/4</td>' +
+      '<td>' + (item.durDays>0?item.durDays+'d':'—') + '</td>' +
       '<td><button class="btn-sm btn-green" onclick="addToPortfolio(' + addPayload + ')">➕ Add</button></td>' +
       '</tr>';
   }).join('');
@@ -4112,7 +4132,7 @@ function _renderPortfolioNow() {
       '<td class="green">₹' + fN(tgt) + '</td>' +
       '<td class="' + cls + '" style="font-weight:700">' + icon + ' ' + (p.status||'—') + '</td>' +
       '<td><button class="btn-sm" style="background:#ef4444;color:#fff;padding:3px 8px;" ' +
-        'onclick="deletePortfolioItem(' + (startIdx+i) + ')">&#128465;</button></td>' +
+        'onclick="deletePortfolioItem(' + p.symbol + ')">&#128465;</button></td>' +
       '</tr>';
   }).join('');
 }
@@ -4145,10 +4165,11 @@ function addToPortfolio(data) {
 }
 
 let _portfolioModified = false;
-async function deletePortfolioItem(idx) {
+async function deletePortfolioItem(sym) {
   const arr = getPortfolio();
-  const sym = arr[idx] ? arr[idx].symbol : '?';
   if (!confirm('Delete ' + sym + ' from Portfolio?')) return;
+  const idx = arr.findIndex(function(p) { return p.symbol === sym; });
+  if (idx < 0) { alert(sym + ' not found in portfolio'); return; }
   arr.splice(idx, 1);
   _portfolioModified = true;
   savePortfolio(arr);
