@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>/* psmarket.in auth bypass */sessionStorage.setItem("_lg_ok",JSON.stringify({user:"psm",role:"admin"}));</script>
 <meta charset="UTF-8">
 <title>PS Market — NSE BTST Signals</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -136,21 +137,82 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 .brow .bs{font-size:12px;color:#475569;}
 
 .fo-badge{background:#7c3aed;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:3px;vertical-align:middle;letter-spacing:0.3px;white-space:nowrap}
-.cfg-pill{cursor:pointer;display:inline-flex;align-items:center;padding:4px 10px;border-radius:6px;border:1px solid #ddd;background:#f5f7fa;color:#333;font-size:13px;user-select:none;transition:all .15s;}
-.cfg-pill.on{background:var(--navy,#0d1f3c);color:#fff;border-color:var(--navy,#0d1f3c);}
-.cfg-pill:hover{border-color:#0d1f3c;}
-.btn-cfg-open{padding:5px 14px;border-radius:6px;border:1.5px solid var(--navy,#0d1f3c);background:var(--navy,#0d1f3c);color:#fff;font-size:13px;cursor:pointer;font-weight:600;transition:opacity .15s;white-space:nowrap;}
-.btn-cfg-open:hover{opacity:.85;}
 
 
-
-
+/* ── LOGIN GATE ─────────────────────────────────── */
+#login-gate{position:fixed;inset:0;background:linear-gradient(135deg,#0d1b2a 0%,#1e3a5f 60%,#0f2940 100%);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',sans-serif;}
+#login-gate.hidden{display:none;}
+.lg-box{background:#fff;border-radius:18px;padding:40px 44px 36px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center;position:relative;}
+.lg-logo{font-size:26px;font-weight:900;color:#0d1f3c;letter-spacing:-0.5px;margin-bottom:4px;}
+.lg-sub{font-size:13px;color:#64748b;margin-bottom:28px;}
+.lg-field{position:relative;margin-bottom:14px;}
+.lg-field input{width:100%;box-sizing:border-box;padding:11px 14px;border-radius:9px;border:1.5px solid #e2e8f0;font-size:15px;transition:border-color .2s;outline:none;}
+.lg-field input:focus{border-color:#2563eb;}
+.lg-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:#94a3b8;font-size:18px;user-select:none;}
+.lg-eye:hover{color:#2563eb;}
+.btn-login{width:100%;padding:12px;border:none;border-radius:9px;background:linear-gradient(135deg,#0d1f3c,#2563eb);color:#fff;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:opacity .2s;}
+.btn-login:hover{opacity:.9;}
+.btn-login:disabled{opacity:.6;cursor:not-allowed;}
+.lg-err{color:#dc2626;font-size:13px;margin-top:10px;min-height:18px;font-weight:500;}
+.lg-footer{margin-top:20px;font-size:11px;color:#94a3b8;}
+/* progress bar */
+#lg-progress{position:fixed;top:0;left:0;width:0;height:4px;background:linear-gradient(90deg,#2563eb,#10b981);z-index:100000;transition:width .4s ease;border-radius:0 2px 2px 0;}
+/* user mgmt modal */
+#ums-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200000;display:flex;align-items:center;justify-content:center;}
+#ums-modal.hidden{display:none;}
+.ums-box{background:#fff;border-radius:14px;padding:28px 32px;width:420px;max-height:80vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.3);}
+.ums-box h3{margin:0 0 18px;font-size:17px;color:#0d1f3c;}
+.ums-row{display:flex;gap:8px;margin-bottom:10px;}
+.ums-row input{flex:1;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:13px;}
+.ums-add{padding:8px 14px;background:#2563eb;color:#fff;border:none;border-radius:7px;cursor:pointer;font-size:13px;white-space:nowrap;}
+.ums-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px;}
+.ums-table th{background:#0d1b2a;color:#fff;padding:7px 10px;text-align:left;}
+.ums-table td{padding:7px 10px;border-bottom:1px solid #f1f5f9;}
+.ums-del{background:#dc2626;color:#fff;border:none;border-radius:5px;padding:3px 9px;cursor:pointer;font-size:12px;}
+.ums-close{float:right;background:#64748b;color:#fff;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:13px;}
 
 </style>
 </head>
 <body>
 
+<!-- ── LOGIN GATE ── -->
+<div id="lg-progress"></div>
+<div id="login-gate">
+  <div class="lg-box">
+    <div class="lg-logo">&#128202; NSE BTST Dashboard</div>
+    <div class="lg-sub">Secure access &mdash; enter your credentials</div>
+    <div class="lg-field">
+      <input type="text" id="lg-user" placeholder="Username" value="admin" autocomplete="username"
+             onkeydown="if(event.key==='Enter')document.getElementById('lg-pass').focus()" />
+    </div>
+    <div class="lg-field">
+      <input type="password" id="lg-pass" placeholder="Password" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter')_doLogin()" />
+      <span class="lg-eye" id="lg-eye" onclick="_toggleEye()" title="Show/Hide password">&#128065;</span>
+    </div>
+    <button class="btn-login" id="lg-btn" onclick="_doLogin()">Sign In &#8594;</button>
+    <div class="lg-err" id="lg-err"></div>
+    <div class="lg-hint" style="font-size:11px;color:#888;text-align:center;margin-top:6px;margin-bottom:-4px;">Default username: <b>admin</b></div>
+    <div class="lg-footer">NSE BTST Signals &mdash; Private Dashboard</div>
+  </div>
+</div>
 
+<!-- ── USER MANAGEMENT MODAL (admin only) ── -->
+<div id="ums-modal" class="hidden">
+  <div class="ums-box">
+    <button class="ums-close" onclick="document.getElementById('ums-modal').classList.add('hidden')">&#x2715; Close</button>
+    <h3>&#128100; Manage Users</h3>
+    <div class="ums-row">
+      <input type="text" id="ums-uname" placeholder="New username" />
+      <input type="password" id="ums-pwd" placeholder="Password" />
+      <button class="ums-add" onclick="_umsAdd()">+ Add</button>
+    </div>
+    <table class="ums-table" id="ums-tbl">
+      <thead><tr><th>#</th><th>Username</th><th>Role</th><th></th></tr></thead>
+      <tbody id="ums-tbody"></tbody>
+    </table>
+  </div>
+</div>
 
 <header>
   <div class="hdr">
@@ -159,11 +221,11 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <div class="hdr-sep"></div>
       <div class="hdr-title">
         <div class="t1">NSE BTST Signals</div>
-        <div class="t2">DAILY SIGNAL SCANNER &middot; <span id="cfgCountDisplay">78</span> CONFIGS &middot; SIMULATION TRACKER</div>
+        <div class="t2">DAILY SIGNAL SCANNER &middot; 52 CONFIGS &middot; SIMULATION TRACKER</div>
       </div>
     </div>
     <div class="hdr-right">
-      <span class="hdr-badge">&#9679; 05-Jun-2026 20:14 IST</span>
+      <span class="hdr-badge">&#9679; 07-Jun-2026 22:14 IST</span>
       <button class="hdr-btn" onclick="location.reload()">&#8635; Refresh</button>
     </div>
   </div>
@@ -180,7 +242,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 </div>
 
 <div id="liveBanner">
-  &#10003; Last simulation: <strong id="bannerDate">05-Jun-2026 20:14 IST</strong> &nbsp;|&nbsp; Data date: <strong id="bannerDataDate">2026-05-25</strong>
+  &#10003; Last simulation: <strong id="bannerDate">07-Jun-2026 22:14 IST</strong> &nbsp;|&nbsp; Data date: <strong id="bannerDataDate">2026-05-25</strong>
 </div>
 
 <div class="container">
@@ -189,7 +251,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
   <span class="slbl">Range:</span>
   <input type="date" id="fromDate" value="" placeholder="From Date" style="padding:6px 10px;font-size:12px;min-width:130px;">
   <span style="color:var(--text3);font-weight:600;">to</span>
-  <input type="date" id="toDate" value="2026-06-05" style="padding:6px 10px;font-size:12px;min-width:130px;">
+  <input type="date" id="toDate" value="2026-06-07" style="padding:6px 10px;font-size:12px;min-width:130px;">
   <button onclick="applyDateRange()" style="padding:6px 14px;font-size:12px;">Apply</button>
   <button onclick="resetDateRange()" style="padding:6px 14px;font-size:12px;background:#64748b;">Reset</button>
   <span id="filterPill" class="pill" style="display:none;"></span>
@@ -224,7 +286,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 
 <div id="tab-overview">
   <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;padding:10px 0 0 0;">
-      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+      <span class="slbl">CONFIG:</span>
+      <button class="btn-filter active" onclick="ovCfgFilter('ALL',this)">All</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C1',this)">C1</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C2',this)">C2</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C3',this)">C3</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C4',this)">C4</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C5',this)">C5</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C6',this)">C6</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C7',this)">C7</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C8',this)">C8</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C9',this)">C9</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C10',this)">C10</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C11',this)">C11</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C12',this)">C12</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C13',this)">C13</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C14',this)">C14</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C15',this)">C15</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C16',this)">C16</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C17',this)">C17</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C18',this)">C18</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C19',this)">C19</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C20',this)">C20</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C21',this)">C21</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C22',this)">C22</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C23',this)">C23</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C24',this)">C24</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C25',this)">C25</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C26',this)">C26</button>
+      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+      <button class="btn-filter" onclick="ovCfgFilter('C27',this)">C27</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C28',this)">C28</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C29',this)">C29</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C30',this)">C30</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C31',this)">C31</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C32',this)">C32</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C33',this)">C33</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C34',this)">C34</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C35',this)">C35</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C36',this)">C36</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C37',this)">C37</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C38',this)">C38</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C39',this)">C39</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C40',this)">C40</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C41',this)">C41</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C42',this)">C42</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C43',this)">C43</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C44',this)">C44</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C45',this)">C45</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C46',this)">C46</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C47',this)">C47</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C48',this)">C48</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C49',this)">C49</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C50',this)">C50</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C51',this)">C51</button>
+      <button class="btn-filter" onclick="ovCfgFilter('C52',this)">C52</button>
     </div>
 <div id="ov-stats" class="stat-grid"></div>
   <div class="card" style="padding:0 0 8px">
@@ -239,19 +355,67 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
         <tbody id="ov-body"></tbody>
       </table>
     </div>
-    <div class="pager" style="padding:8px 12px">
-      <button class="btn-sm btn-outline" onclick="pgTab('overview',-1)">&#8249; Prev</button>
-      <span id="overview-info" class="info"></span>
-      <button class="btn-sm btn-outline" onclick="pgTab('overview',1)">Next &#8250;</button>
-      <select id="overview-pgsize" onchange="(function(){if(!state['overview'])state['overview']={page:1};state['overview'].page=1;pgTab('overview',0);})()"><option value="10">10</option><option value="25" selected>25</option><option value="50">50</option><option value="100">100</option></select>
-    </div>
   </div>
 </div>
 
 <div id="tab-open" class="hidden">
   <div class="tab-badges" id="open-badges"></div>
   <div class="cstrip">
-    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+    <span class="slbl">Config:</span>
+    <button class="btn-filter active" onclick="cfgFilter('open','ALL',this)">All</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C1',this)">C1</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C2',this)">C2</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C3',this)">C3</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C4',this)">C4</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C5',this)">C5</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C6',this)">C6</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C7',this)">C7</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C8',this)">C8</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C9',this)">C9</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C10',this)">C10</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C11',this)">C11</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C12',this)">C12</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C13',this)">C13</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C14',this)">C14</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C15',this)">C15</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C16',this)">C16</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C17',this)">C17</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C18',this)">C18</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C19',this)">C19</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C20',this)">C20</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C21',this)">C21</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C22',this)">C22</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C23',this)">C23</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C24',this)">C24</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C25',this)">C25</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C26',this)">C26</button>
+    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+    <button class="btn-filter" onclick="cfgFilter('open','C27',this)">C27</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C28',this)">C28</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C29',this)">C29</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C30',this)">C30</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C31',this)">C31</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C32',this)">C32</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C33',this)">C33</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C34',this)">C34</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C35',this)">C35</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C36',this)">C36</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C37',this)">C37</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C38',this)">C38</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C39',this)">C39</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C40',this)">C40</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C41',this)">C41</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C42',this)">C42</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C43',this)">C43</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C44',this)">C44</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C45',this)">C45</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C46',this)">C46</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C47',this)">C47</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C48',this)">C48</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C49',this)">C49</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C50',this)">C50</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C51',this)">C51</button>
+    <button class="btn-filter" onclick="cfgFilter('open','C52',this)">C52</button>
     <div style="flex:1"></div>
     <input type="text" id="open-search" placeholder="🔍 Search symbol..." oninput="renderTab('open')" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">
     <button class="btn-green btn-sm" onclick="exportTab('open')">&#8595; Excel</button>
@@ -263,23 +427,17 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
         <th onclick="srt('open',0)">#</th>
         <th onclick="srt('open',1)">CFG</th>
         <th onclick="srt('open',2)">SYMBOL</th>
-        <th onclick="srt('open',3)">SIGNAL DATE</th>
-        <th onclick="srt('open',4)">SIG CLOSE &#8377;</th>
-        <th onclick="srt('open',5)">CHG 1D%</th>
-        <th onclick="srt('open',6)">PCT LOW%</th>
-        <th onclick="srt('open',7)">5D LOW &#8377;</th>
-        <th onclick="srt('open',8)">5D LOW DATE</th>
-        <th onclick="srt('open',9)">LTP &#8377;</th>
-        <th onclick="srt('open',10)">BUYS</th>
-        <th onclick="srt('open',11)">AVG BUY &#8377;</th>
-        <th onclick="srt('open',12)">QTY</th>
-        <th onclick="srt('open',13)">INVESTED &#8377;</th>
-        <th onclick="srt('open',14)">TARGET &#8377;</th>
-        <th onclick="srt('open',15)">STOP &#8377;</th>
-        <th onclick="srt('open',16)">MKT DAYS</th>
-        <th onclick="srt('open',17)">P&amp;L &#8377;</th>
-        <th onclick="srt('open',18)">GAIN %</th>
-        <th>Buy&#8321;</th><th>Buy&#8322;</th><th>Buy&#8323;</th><th>Buy&#8324;</th>
+        <th onclick="srt('open',3)">BUY DATE</th>
+        <th onclick="srt('open',4)">AVG BUY &#8377;</th>
+        <th onclick="srt('open',5)">CURRENT LTP &#8377;</th>
+        <th onclick="srt('open',6)">TARGET &#8377;</th>
+        <th onclick="srt('open',7)">STOP &#8377;</th>
+        <th onclick="srt('open',8)">BUYS</th>
+        <th onclick="srt('open',9)">QTY</th>
+        <th onclick="srt('open',10)">INVESTED &#8377;</th>
+        <th onclick="srt('open',11)">MARKET DAYS</th>
+        <th onclick="srt('open',12)">UNREAL P&amp;L &#8377;</th>
+        <th onclick="srt('open',13)">GAIN %</th>
       </tr></thead>
       <tbody id="open-body"></tbody></table>
     </div>
@@ -294,7 +452,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 <div id="tab-fno" class="hidden">
   <div class="tab-badges" id="fno-badges"></div>
   <div class="cstrip">
-    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+    <span class="slbl">Config:</span>
+    <button class="btn-filter active" onclick="cfgFilter('fno','ALL',this)">All</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C1',this)">C1</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C2',this)">C2</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C3',this)">C3</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C4',this)">C4</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C5',this)">C5</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C6',this)">C6</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C7',this)">C7</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C8',this)">C8</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C9',this)">C9</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C10',this)">C10</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C11',this)">C11</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C12',this)">C12</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C13',this)">C13</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C14',this)">C14</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C15',this)">C15</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C16',this)">C16</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C17',this)">C17</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C18',this)">C18</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C19',this)">C19</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C20',this)">C20</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C21',this)">C21</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C22',this)">C22</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C23',this)">C23</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C24',this)">C24</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C25',this)">C25</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C26',this)">C26</button>
+    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+    <button class="btn-filter" onclick="cfgFilter('fno','C27',this)">C27</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C28',this)">C28</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C29',this)">C29</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C30',this)">C30</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C31',this)">C31</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C32',this)">C32</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C33',this)">C33</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C34',this)">C34</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C35',this)">C35</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C36',this)">C36</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C37',this)">C37</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C38',this)">C38</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C39',this)">C39</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C40',this)">C40</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C41',this)">C41</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C42',this)">C42</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C43',this)">C43</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C44',this)">C44</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C45',this)">C45</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C46',this)">C46</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C47',this)">C47</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C48',this)">C48</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C49',this)">C49</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C50',this)">C50</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C51',this)">C51</button>
+    <button class="btn-filter" onclick="cfgFilter('fno','C52',this)">C52</button>
     <div style="flex:1"></div>
     <input type="text" id="fno-search" placeholder="🔍 Search symbol..." oninput="renderTab('fno')" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">
     <button class="btn-green btn-sm" onclick="exportTab('fno')">&#8595; Excel</button>
@@ -306,23 +518,17 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
         <th onclick="srt('fno',0)">#</th>
         <th onclick="srt('fno',1)">CFG</th>
         <th onclick="srt('fno',2)">SYMBOL</th>
-        <th onclick="srt('fno',3)">SIGNAL DATE</th>
-        <th onclick="srt('fno',4)">SIG CLOSE &#8377;</th>
-        <th onclick="srt('fno',5)">CHG 1D%</th>
-        <th onclick="srt('fno',6)">PCT LOW%</th>
-        <th onclick="srt('fno',7)">5D LOW &#8377;</th>
-        <th onclick="srt('fno',8)">5D LOW DATE</th>
-        <th onclick="srt('fno',9)">LTP &#8377;</th>
-        <th onclick="srt('fno',10)">BUYS</th>
-        <th onclick="srt('fno',11)">AVG BUY &#8377;</th>
-        <th onclick="srt('fno',12)">QTY</th>
-        <th onclick="srt('fno',13)">INVESTED &#8377;</th>
-        <th onclick="srt('fno',14)">TARGET &#8377;</th>
-        <th onclick="srt('fno',15)">STOP &#8377;</th>
-        <th onclick="srt('fno',16)">MKT DAYS</th>
-        <th onclick="srt('fno',17)">P&amp;L &#8377;</th>
-        <th onclick="srt('fno',18)">GAIN %</th>
-        <th>Buy&#8321;</th><th>Buy&#8322;</th><th>Buy&#8323;</th><th>Buy&#8324;</th>
+        <th onclick="srt('fno',3)">BUY DATE</th>
+        <th onclick="srt('fno',4)">AVG BUY &#8377;</th>
+        <th onclick="srt('fno',5)">CURRENT LTP &#8377;</th>
+        <th onclick="srt('fno',6)">TARGET &#8377;</th>
+        <th onclick="srt('fno',7)">STOP &#8377;</th>
+        <th onclick="srt('fno',8)">BUYS</th>
+        <th onclick="srt('fno',9)">QTY</th>
+        <th onclick="srt('fno',10)">INVESTED &#8377;</th>
+        <th onclick="srt('fno',11)">MARKET DAYS</th>
+        <th onclick="srt('fno',12)">UNREAL P&amp;L &#8377;</th>
+        <th onclick="srt('fno',13)">GAIN %</th>
       </tr></thead>
       <tbody id="fno-body"></tbody></table>
     </div>
@@ -337,12 +543,68 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 <div id="tab-fnoclosed" class="hidden">
   <div class="tab-badges" id="fnoclosed-badges"></div>
   <div class="cstrip">
-    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
-    <div style="flex:1"></div>
+    <span class="slbl">Config:</span>
+    <button class="btn-filter active" onclick="cfgFilter('fnoclosed','ALL',this)">All</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C1',this)">C1</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C2',this)">C2</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C3',this)">C3</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C4',this)">C4</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C5',this)">C5</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C6',this)">C6</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C7',this)">C7</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C8',this)">C8</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C9',this)">C9</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C10',this)">C10</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C11',this)">C11</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C12',this)">C12</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C13',this)">C13</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C14',this)">C14</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C15',this)">C15</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C16',this)">C16</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C17',this)">C17</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C18',this)">C18</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C19',this)">C19</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C20',this)">C20</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C21',this)">C21</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C22',this)">C22</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C23',this)">C23</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C24',this)">C24</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C25',this)">C25</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C26',this)">C26</button>
+    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C27',this)">C27</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C28',this)">C28</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C29',this)">C29</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C30',this)">C30</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C31',this)">C31</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C32',this)">C32</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C33',this)">C33</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C34',this)">C34</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C35',this)">C35</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C36',this)">C36</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C37',this)">C37</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C38',this)">C38</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C39',this)">C39</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C40',this)">C40</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C41',this)">C41</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C42',this)">C42</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C43',this)">C43</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C44',this)">C44</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C45',this)">C45</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C46',this)">C46</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C47',this)">C47</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C48',this)">C48</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C49',this)">C49</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C50',this)">C50</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C51',this)">C51</button>
+    <button class="btn-filter" onclick="cfgFilter('fnoclosed','C52',this)">C52</button>
+    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+    <span class="slbl">Result:</span>
     <button class="btn-filter active" id="fnoclosed-res-ALL" onclick="resFilter('fnoclosed','ALL',this)">All</button>
     <button class="btn-filter" id="fnoclosed-res-P" onclick="resFilter('fnoclosed','P',this)">Profit</button>
     <button class="btn-filter" id="fnoclosed-res-L" onclick="resFilter('fnoclosed','L',this)">Loss</button>
     <button class="btn-filter" id="fnoclosed-res-FE" onclick="resFilter('fnoclosed','FE',this)">FE Only</button>
+    <div style="flex:1"></div>
     <input type="text" id="fnoclosed-search" placeholder="&#128269; Search symbol..." oninput="renderTab('fnoclosed')" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">
     <button class="btn-green btn-sm" onclick="exportTab('fnoclosed')">&#8595; Excel</button>
     <button class="btn-teal btn-sm" onclick="exportCSVTab('fnoclosed')">&#8595; CSV</button>
@@ -377,7 +639,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 <div id="tab-closed" class="hidden">
   <div class="tab-badges" id="closed-badges"></div>
   <div class="cstrip">
-    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+    <span class="slbl">Config:</span>
+    <button class="btn-filter active" onclick="cfgFilter('closed','ALL',this)">All</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C1',this)">C1</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C2',this)">C2</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C3',this)">C3</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C4',this)">C4</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C5',this)">C5</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C6',this)">C6</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C7',this)">C7</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C8',this)">C8</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C9',this)">C9</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C10',this)">C10</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C11',this)">C11</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C12',this)">C12</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C13',this)">C13</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C14',this)">C14</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C15',this)">C15</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C16',this)">C16</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C17',this)">C17</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C18',this)">C18</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C19',this)">C19</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C20',this)">C20</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C21',this)">C21</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C22',this)">C22</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C23',this)">C23</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C24',this)">C24</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C25',this)">C25</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C26',this)">C26</button>
+    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+    <button class="btn-filter" onclick="cfgFilter('closed','C27',this)">C27</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C28',this)">C28</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C29',this)">C29</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C30',this)">C30</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C31',this)">C31</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C32',this)">C32</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C33',this)">C33</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C34',this)">C34</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C35',this)">C35</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C36',this)">C36</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C37',this)">C37</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C38',this)">C38</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C39',this)">C39</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C40',this)">C40</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C41',this)">C41</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C42',this)">C42</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C43',this)">C43</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C44',this)">C44</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C45',this)">C45</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C46',this)">C46</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C47',this)">C47</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C48',this)">C48</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C49',this)">C49</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C50',this)">C50</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C51',this)">C51</button>
+    <button class="btn-filter" onclick="cfgFilter('closed','C52',this)">C52</button>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <span class="slbl">Result:</span>
     <button class="btn-filter active" id="closed-res-ALL" onclick="resFilter('closed','ALL',this)">All</button>
@@ -591,7 +907,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 <div id="tab-fe" class="hidden">
   <div class="tab-badges" id="fe-badges"></div>
   <div class="cstrip">
-    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+    <span class="slbl">Config:</span>
+    <button class="btn-filter active" onclick="cfgFilter('fe','ALL',this)">All</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C1',this)">C1</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C2',this)">C2</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C3',this)">C3</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C4',this)">C4</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C5',this)">C5</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C6',this)">C6</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C7',this)">C7</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C8',this)">C8</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C9',this)">C9</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C10',this)">C10</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C11',this)">C11</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C12',this)">C12</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C13',this)">C13</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C14',this)">C14</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C15',this)">C15</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C16',this)">C16</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C17',this)">C17</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C18',this)">C18</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C19',this)">C19</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C20',this)">C20</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C21',this)">C21</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C22',this)">C22</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C23',this)">C23</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C24',this)">C24</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C25',this)">C25</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C26',this)">C26</button>
+    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+    <button class="btn-filter" onclick="cfgFilter('fe','C27',this)">C27</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C28',this)">C28</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C29',this)">C29</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C30',this)">C30</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C31',this)">C31</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C32',this)">C32</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C33',this)">C33</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C34',this)">C34</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C35',this)">C35</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C36',this)">C36</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C37',this)">C37</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C38',this)">C38</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C39',this)">C39</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C40',this)">C40</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C41',this)">C41</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C42',this)">C42</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C43',this)">C43</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C44',this)">C44</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C45',this)">C45</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C46',this)">C46</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C47',this)">C47</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C48',this)">C48</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C49',this)">C49</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C50',this)">C50</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C51',this)">C51</button>
+    <button class="btn-filter" onclick="cfgFilter('fe','C52',this)">C52</button>
     <div style="flex:1"></div>
     <input type="text" id="fe-search" placeholder="🔍 Search symbol..." oninput="renderTab('fe')" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">
     <button class="btn-green btn-sm" onclick="exportTab('fe')">&#8595; Excel</button>
@@ -633,7 +1003,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
     <button class="btn-filter" id="hist-status-Open" onclick="statusFilterHist('Open',this)">Hold</button>
     <button class="btn-filter" id="hist-status-Closed" onclick="statusFilterHist('Closed',this)">Sold</button>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+    <span class="slbl">Config:</span>
+    <button class="btn-filter active" onclick="cfgFilter('hist','ALL',this)">All</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C1',this)">C1</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C2',this)">C2</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C3',this)">C3</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C4',this)">C4</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C5',this)">C5</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C6',this)">C6</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C7',this)">C7</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C8',this)">C8</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C9',this)">C9</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C10',this)">C10</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C11',this)">C11</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C12',this)">C12</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C13',this)">C13</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C14',this)">C14</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C15',this)">C15</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C16',this)">C16</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C17',this)">C17</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C18',this)">C18</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C19',this)">C19</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C20',this)">C20</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C21',this)">C21</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C22',this)">C22</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C23',this)">C23</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C24',this)">C24</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C25',this)">C25</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C26',this)">C26</button>
+    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+    <button class="btn-filter" onclick="cfgFilter('hist','C27',this)">C27</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C28',this)">C28</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C29',this)">C29</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C30',this)">C30</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C31',this)">C31</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C32',this)">C32</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C33',this)">C33</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C34',this)">C34</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C35',this)">C35</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C36',this)">C36</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C37',this)">C37</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C38',this)">C38</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C39',this)">C39</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C40',this)">C40</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C41',this)">C41</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C42',this)">C42</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C43',this)">C43</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C44',this)">C44</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C45',this)">C45</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C46',this)">C46</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C47',this)">C47</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C48',this)">C48</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C49',this)">C49</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C50',this)">C50</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C51',this)">C51</button>
+    <button class="btn-filter" onclick="cfgFilter('hist','C52',this)">C52</button>
   </div>
   <div id="hist-stats" style="display:flex;gap:12px;flex-wrap:wrap;margin:0 0 12px 0"></div>
   <div id="hist-container"></div>
@@ -648,7 +1072,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 
 <div id="tab-ledger" class="hidden">
   <div class="cstrip">
-    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+    <span class="slbl">Config:</span>
+    <button class="btn-filter active" onclick="cfgFilter('ledger','ALL',this)">All</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C1',this)">C1</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C2',this)">C2</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C3',this)">C3</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C4',this)">C4</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C5',this)">C5</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C6',this)">C6</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C7',this)">C7</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C8',this)">C8</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C9',this)">C9</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C10',this)">C10</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C11',this)">C11</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C12',this)">C12</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C13',this)">C13</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C14',this)">C14</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C15',this)">C15</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C16',this)">C16</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C17',this)">C17</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C18',this)">C18</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C19',this)">C19</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C20',this)">C20</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C21',this)">C21</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C22',this)">C22</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C23',this)">C23</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C24',this)">C24</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C25',this)">C25</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C26',this)">C26</button>
+    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C27',this)">C27</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C28',this)">C28</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C29',this)">C29</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C30',this)">C30</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C31',this)">C31</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C32',this)">C32</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C33',this)">C33</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C34',this)">C34</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C35',this)">C35</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C36',this)">C36</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C37',this)">C37</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C38',this)">C38</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C39',this)">C39</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C40',this)">C40</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C41',this)">C41</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C42',this)">C42</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C43',this)">C43</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C44',this)">C44</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C45',this)">C45</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C46',this)">C46</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C47',this)">C47</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C48',this)">C48</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C49',this)">C49</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C50',this)">C50</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C51',this)">C51</button>
+    <button class="btn-filter" onclick="cfgFilter('ledger','C52',this)">C52</button>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <label style="font-size:12px;color:var(--text2);">Exit From:</label>
     <input type="date" id="ledger-from" onchange="renderLedger()" style="padding:3px 6px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;">
@@ -692,7 +1170,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
     <button class="btn-green btn-sm" onclick="exportTab('trades')">&#8595; Excel</button>
     <button class="btn-teal btn-sm" onclick="exportCSVTab('trades')">&#8595; CSV</button>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+    <span class="slbl">Config:</span>
+    <button class="btn-filter active" onclick="cfgFilter('trades','ALL',this)">All</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C1',this)">C1</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C2',this)">C2</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C3',this)">C3</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C4',this)">C4</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C5',this)">C5</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C6',this)">C6</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C7',this)">C7</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C8',this)">C8</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C9',this)">C9</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C10',this)">C10</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C11',this)">C11</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C12',this)">C12</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C13',this)">C13</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C14',this)">C14</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C15',this)">C15</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C16',this)">C16</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C17',this)">C17</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C18',this)">C18</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C19',this)">C19</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C20',this)">C20</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C21',this)">C21</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C22',this)">C22</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C23',this)">C23</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C24',this)">C24</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C25',this)">C25</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C26',this)">C26</button>
+    <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+    <button class="btn-filter" onclick="cfgFilter('trades','C27',this)">C27</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C28',this)">C28</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C29',this)">C29</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C30',this)">C30</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C31',this)">C31</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C32',this)">C32</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C33',this)">C33</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C34',this)">C34</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C35',this)">C35</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C36',this)">C36</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C37',this)">C37</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C38',this)">C38</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C39',this)">C39</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C40',this)">C40</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C41',this)">C41</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C42',this)">C42</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C43',this)">C43</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C44',this)">C44</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C45',this)">C45</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C46',this)">C46</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C47',this)">C47</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C48',this)">C48</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C49',this)">C49</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C50',this)">C50</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C51',this)">C51</button>
+    <button class="btn-filter" onclick="cfgFilter('trades','C52',this)">C52</button>
   </div>
   <div class="card" style="padding:0 0 8px">
     <div class="table-area">
@@ -844,7 +1376,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
-      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+      <span class="slbl">CONFIG:</span>
+      <button class="btn-filter active" onclick="avgTrigCfgFilter('ALL',this)">All</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C1',this)">C1</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C2',this)">C2</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C3',this)">C3</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C4',this)">C4</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C5',this)">C5</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C6',this)">C6</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C7',this)">C7</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C8',this)">C8</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C9',this)">C9</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C10',this)">C10</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C11',this)">C11</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C12',this)">C12</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C13',this)">C13</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C14',this)">C14</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C15',this)">C15</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C16',this)">C16</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C17',this)">C17</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C18',this)">C18</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C19',this)">C19</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C20',this)">C20</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C21',this)">C21</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C22',this)">C22</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C23',this)">C23</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C24',this)">C24</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C25',this)">C25</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C26',this)">C26</button>
+      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C27',this)">C27</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C28',this)">C28</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C29',this)">C29</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C30',this)">C30</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C31',this)">C31</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C32',this)">C32</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C33',this)">C33</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C34',this)">C34</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C35',this)">C35</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C36',this)">C36</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C37',this)">C37</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C38',this)">C38</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C39',this)">C39</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C40',this)">C40</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C41',this)">C41</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C42',this)">C42</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C43',this)">C43</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C44',this)">C44</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C45',this)">C45</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C46',this)">C46</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C47',this)">C47</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C48',this)">C48</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C49',this)">C49</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C50',this)">C50</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C51',this)">C51</button>
+      <button class="btn-filter" onclick="avgTrigCfgFilter('C52',this)">C52</button>
     </div>
     <div id="avgtrigger-badges" class="tab-badges"></div>
     <div class="table-area">
@@ -878,7 +1464,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <span style="font-size:12px;color:var(--text3);">Open positions within 3% of target price — sell candidates</span>
       </div>
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
-      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+      <span class="slbl">CONFIG:</span>
+      <button class="btn-filter active" onclick="sellTrigCfgFilter('ALL',this)">All</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C1',this)">C1</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C2',this)">C2</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C3',this)">C3</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C4',this)">C4</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C5',this)">C5</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C6',this)">C6</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C7',this)">C7</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C8',this)">C8</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C9',this)">C9</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C10',this)">C10</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C11',this)">C11</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C12',this)">C12</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C13',this)">C13</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C14',this)">C14</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C15',this)">C15</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C16',this)">C16</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C17',this)">C17</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C18',this)">C18</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C19',this)">C19</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C20',this)">C20</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C21',this)">C21</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C22',this)">C22</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C23',this)">C23</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C24',this)">C24</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C25',this)">C25</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C26',this)">C26</button>
+      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C27',this)">C27</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C28',this)">C28</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C29',this)">C29</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C30',this)">C30</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C31',this)">C31</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C32',this)">C32</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C33',this)">C33</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C34',this)">C34</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C35',this)">C35</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C36',this)">C36</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C37',this)">C37</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C38',this)">C38</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C39',this)">C39</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C40',this)">C40</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C41',this)">C41</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C42',this)">C42</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C43',this)">C43</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C44',this)">C44</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C45',this)">C45</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C46',this)">C46</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C47',this)">C47</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C48',this)">C48</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C49',this)">C49</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C50',this)">C50</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C51',this)">C51</button>
+      <button class="btn-filter" onclick="sellTrigCfgFilter('C52',this)">C52</button>
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">  <div id="selltrigger-badges" class="tab-badges" style="flex:1;min-width:0;"></div>  <input id="selltrig-search" type="text" placeholder="🔍 Search symbol..." oninput="renderSellTrigger()" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">  <button class="btn-sm btn-green" onclick="exportTabCSV('selltrigger')">Export CSV</button></div>
     <div class="table-area">
@@ -903,7 +1543,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <span style="font-size:12px;color:var(--text3);">Stocks with averaging (BUY_COUNT &gt; 1) — grouped by date &amp; stock</span>
     </div>
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+      <span class="slbl">Config:</span>
+      <button class="btn-filter active" onclick="avgHistCfgFilter('ALL',this)">All</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C1',this)">C1</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C2',this)">C2</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C3',this)">C3</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C4',this)">C4</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C5',this)">C5</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C6',this)">C6</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C7',this)">C7</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C8',this)">C8</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C9',this)">C9</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C10',this)">C10</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C11',this)">C11</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C12',this)">C12</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C13',this)">C13</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C14',this)">C14</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C15',this)">C15</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C16',this)">C16</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C17',this)">C17</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C18',this)">C18</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C19',this)">C19</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C20',this)">C20</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C21',this)">C21</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C22',this)">C22</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C23',this)">C23</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C24',this)">C24</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C25',this)">C25</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C26',this)">C26</button>
+      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C27',this)">C27</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C28',this)">C28</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C29',this)">C29</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C30',this)">C30</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C31',this)">C31</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C32',this)">C32</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C33',this)">C33</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C34',this)">C34</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C35',this)">C35</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C36',this)">C36</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C37',this)">C37</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C38',this)">C38</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C39',this)">C39</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C40',this)">C40</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C41',this)">C41</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C42',this)">C42</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C43',this)">C43</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C44',this)">C44</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C45',this)">C45</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C46',this)">C46</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C47',this)">C47</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C48',this)">C48</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C49',this)">C49</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C50',this)">C50</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C51',this)">C51</button>
+      <button class="btn-filter" onclick="avgHistCfgFilter('C52',this)">C52</button>
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
       <div id="avghistory-badges" class="tab-badges" style="flex:1;min-width:0;"></div>
@@ -939,7 +1633,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <h3 style="margin:0;color:var(--navy);font-size:16px;font-weight:800;">&#128200; Market Data</h3>
       <span style="font-size:12px;color:var(--text3);">All open positions with latest price & P&amp;L</span>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+      <span class="slbl">Config:</span>
+      <button class="btn-filter active" onclick="mdCfgFilter('ALL',this)">All</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C1',this)">C1</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C2',this)">C2</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C3',this)">C3</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C4',this)">C4</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C5',this)">C5</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C6',this)">C6</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C7',this)">C7</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C8',this)">C8</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C9',this)">C9</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C10',this)">C10</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C11',this)">C11</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C12',this)">C12</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C13',this)">C13</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C14',this)">C14</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C15',this)">C15</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C16',this)">C16</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C17',this)">C17</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C18',this)">C18</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C19',this)">C19</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C20',this)">C20</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C21',this)">C21</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C22',this)">C22</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C23',this)">C23</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C24',this)">C24</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C25',this)">C25</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C26',this)">C26</button>
+      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+      <button class="btn-filter" onclick="mdCfgFilter('C27',this)">C27</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C28',this)">C28</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C29',this)">C29</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C30',this)">C30</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C31',this)">C31</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C32',this)">C32</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C33',this)">C33</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C34',this)">C34</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C35',this)">C35</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C36',this)">C36</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C37',this)">C37</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C38',this)">C38</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C39',this)">C39</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C40',this)">C40</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C41',this)">C41</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C42',this)">C42</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C43',this)">C43</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C44',this)">C44</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C45',this)">C45</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C46',this)">C46</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C47',this)">C47</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C48',this)">C48</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C49',this)">C49</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C50',this)">C50</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C51',this)">C51</button>
+      <button class="btn-filter" onclick="mdCfgFilter('C52',this)">C52</button>
     </div>
     <div id="marketdata-badges" class="tab-badges"></div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
@@ -970,7 +1718,61 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
       <h3 style="margin:0;color:var(--navy);font-size:16px;font-weight:800;">&#128202; Performance Analytics</h3>
       <span style="font-size:12px;color:var(--text3);">Deep dive into closed and open trade statistics</span>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-      <button class="btn-cfg-open" onclick="openConfigModal()">&#9881; Configs &nbsp;<span class="cfg-sel-badge" style="font-weight:400;opacity:.85">All</span></button>
+      <span class="slbl">Config:</span>
+      <button class="btn-filter active" onclick="perfCfgFilter('ALL',this)">All</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C1',this)">C1</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C2',this)">C2</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C3',this)">C3</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C4',this)">C4</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C5',this)">C5</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C6',this)">C6</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C7',this)">C7</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C8',this)">C8</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C9',this)">C9</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C10',this)">C10</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C11',this)">C11</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C12',this)">C12</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C13',this)">C13</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C14',this)">C14</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C15',this)">C15</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C16',this)">C16</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C17',this)">C17</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C18',this)">C18</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C19',this)">C19</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C20',this)">C20</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C21',this)">C21</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C22',this)">C22</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C23',this)">C23</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C24',this)">C24</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C25',this)">C25</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C26',this)">C26</button>
+      <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
+      <button class="btn-filter" onclick="perfCfgFilter('C27',this)">C27</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C28',this)">C28</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C29',this)">C29</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C30',this)">C30</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C31',this)">C31</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C32',this)">C32</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C33',this)">C33</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C34',this)">C34</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C35',this)">C35</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C36',this)">C36</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C37',this)">C37</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C38',this)">C38</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C39',this)">C39</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C40',this)">C40</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C41',this)">C41</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C42',this)">C42</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C43',this)">C43</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C44',this)">C44</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C45',this)">C45</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C46',this)">C46</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C47',this)">C47</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C48',this)">C48</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C49',this)">C49</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C50',this)">C50</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C51',this)">C51</button>
+      <button class="btn-filter" onclick="perfCfgFilter('C52',this)">C52</button>
     </div>
     <div id="perf-hero" class="perf-hero"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;" class="perf-panels">
@@ -1061,7 +1863,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
         <input type="number" id="mtf-tgt-input" value="5" min="1" max="100" step="0.5"
                style="width:65px;padding:5px 8px;font-size:13px;border:1px solid var(--border);border-radius:6px;"
                onchange="mtfTgtChange()">
-        <input type="text" id="mtf-search" placeholder="&#128269; Symbol..." oninput="renderMTFOutput()" style="padding:5px 8px;font-size:13px;border:1px solid var(--border);border-radius:6px;width:130px;">
         <button class="btn-sm btn-teal" onclick="exportMTFExcel()">&#8595; Excel</button>
         <button class="btn-sm btn-green" onclick="exportMTFCSV()">&#8595; CSV</button>
       </div>
@@ -1072,15 +1873,13 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
         <th onclick="mtfSort('symbol')" style="cursor:pointer" id="mth-symbol">Symbol</th>
         <th onclick="mtfSort('sigdate')" style="cursor:pointer" id="mth-sigdate">Signal Date</th>
         <th onclick="mtfSort('sigprice')" style="cursor:pointer" id="mth-sigprice">Signal Price &#8377;</th>
+        <th onclick="mtfSort('dur')" style="cursor:pointer" id="mth-dur">Duration</th>
         <th onclick="mtfSort('avg')" style="cursor:pointer" id="mth-avg">Avg Buy &#8377;</th>
         <th onclick="mtfSort('ltp')" style="cursor:pointer" id="mth-ltp">Current LTP &#8377;</th>
         <th onclick="mtfSort('drop')" style="cursor:pointer" id="mth-drop">Drop% &#9660;</th>
         <th onclick="mtfSort('qty')" style="cursor:pointer" id="mth-qty">Qty</th>
         <th onclick="mtfSort('inv')" style="cursor:pointer" id="mth-inv">Investment &#8377;</th>
         <th onclick="mtfSort('target')" style="cursor:pointer" id="mth-target">Target &#8377;</th>
-        <th onclick="mtfSort('stop')" style="cursor:pointer" id="mth-stop">Stoploss &#8377;</th>
-        <th>Buys Done</th>
-        <th onclick="mtfSort('dur')" style="cursor:pointer" id="mth-dur">Days Held</th>
         <th>Action</th>
       </tr></thead><tbody id="mtf-body"><tr><td colspan="12" class="empty">Click the tab to load&hellip;</td></tr></tbody></table>
     </div>
@@ -1177,16 +1976,139 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 
 <script>
 
+/* ═══════════════════════════════════════════════
+   LOGIN GATE  —  multi-user, session-based
+   ═══════════════════════════════════════════════ */
+(function(){
+  /* ── Default users (username → btoa(password)) ─────────────────
+     Add extra entries here; they are the built-in fallback.
+     Runtime additions are stored in localStorage under _lg_users.  */
+  var _BUILTIN = [
+    {u:'admin',    p:btoa('NSE@BTST#2024'), role:'admin'},
+    {u:'viewer',   p:btoa('View@2024'),     role:'viewer'}
+  ];
 
+  /* ── Helpers ────────────────────────────────────────────────── */
+  function _getUsers(){
+    try{
+      var stored=JSON.parse(localStorage.getItem('_lg_users')||'null');
+      if(!stored) return _BUILTIN;
+      var merged=stored.slice();
+      _BUILTIN.forEach(function(b){
+        if(!merged.find(function(x){ return x.u===b.u; })) merged.unshift(b);
+      });
+      return merged;
+    }catch(e){ return _BUILTIN; }
+  }
+  function _saveUsers(arr){ localStorage.setItem('_lg_users',JSON.stringify(arr)); }
 
+  /* ── Check session ──────────────────────────────────────────── */
+  var _sess = sessionStorage.getItem('_lg_ok');
+  if(_sess){
+    var gate=document.getElementById('login-gate');
+    if(gate) gate.classList.add('hidden');
+    /* show manage-users button if admin */
+    try{
+      var info=JSON.parse(_sess);
+      if(info && info.role==='admin') _injectAdminBtn();
+    }catch(e){}
+  }
+
+  /* ── Main login ─────────────────────────────────────────────── */
+  window._doLogin = function(){
+    var u=(document.getElementById('lg-user').value||'').trim();
+    var p=(document.getElementById('lg-pass').value||'');
+    var err=document.getElementById('lg-err');
+    var btn=document.getElementById('lg-btn');
+    if(!u||!p){ err.textContent='Please enter username and password.'; return; }
+
+    var users=_getUsers();
+    var match=users.find(function(x){ return x.u===u && x.p===btoa(p); });
+    if(!match){ err.textContent='Invalid username or password.'; document.getElementById('lg-pass').value=''; document.getElementById('lg-pass').focus(); return; }
+
+    /* ── SUCCESS: show progress bar ─────────────────────────── */
+    err.textContent='';
+    btn.disabled=true; btn.textContent='Signing in…';
+    var bar=document.getElementById('lg-progress');
+    bar.style.width='20%';
+    setTimeout(function(){ bar.style.width='55%'; },300);
+    setTimeout(function(){ bar.style.width='80%'; },700);
+    setTimeout(function(){
+      bar.style.width='100%';
+      setTimeout(function(){
+        sessionStorage.setItem('_lg_ok', JSON.stringify({u:match.u, role:match.role}));
+        var gate=document.getElementById('login-gate');
+        if(gate) gate.classList.add('hidden');
+        bar.style.width='0';
+        btn.disabled=false; btn.textContent='Sign In \u2192';
+        if(match.role==='admin') _injectAdminBtn();
+      },350);
+    },1200);
+  };
+
+  /* ── Eye toggle ─────────────────────────────────────────────── */
+  window._toggleEye = function(){
+    var inp=document.getElementById('lg-pass');
+    var eye=document.getElementById('lg-eye');
+    if(inp.type==='password'){ inp.type='text'; eye.innerHTML='&#128064;'; }
+    else { inp.type='password'; eye.innerHTML='&#128065;'; }
+  };
+
+  /* ── Admin "Manage Users" button ─────────────────────────────── */
+  function _injectAdminBtn(){
+    if(document.getElementById('_ums-btn')) return;
+    var btn=document.createElement('button');
+    btn.id='_ums-btn';
+    btn.title='Manage Users';
+    btn.innerHTML='&#128100; Users';
+    btn.style.cssText='position:fixed;bottom:18px;right:18px;z-index:50000;background:#0d1f3c;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);';
+    btn.onclick=_umsOpen;
+    document.body.appendChild(btn);
+  }
+
+  /* ── User management ─────────────────────────────────────────── */
+  window._umsOpen = function(){
+    _umsRender();
+    document.getElementById('ums-modal').classList.remove('hidden');
+  };
+  window._umsAdd = function(){
+    var u=(document.getElementById('ums-uname').value||'').trim();
+    var p=(document.getElementById('ums-pwd').value||'').trim();
+    if(!u||!p){ alert('Both username and password are required.'); return; }
+    var users=_getUsers();
+    if(users.find(function(x){ return x.u===u; })){ alert('Username already exists.'); return; }
+    users.push({u:u, p:btoa(p), role:'viewer'});
+    _saveUsers(users);
+    document.getElementById('ums-uname').value='';
+    document.getElementById('ums-pwd').value='';
+    _umsRender();
+  };
+  window._umsDel = function(uname){
+    var sess=JSON.parse(sessionStorage.getItem('_lg_ok')||'{}');
+    if(sess.u===uname){ alert("You cannot delete your own account."); return; }
+    if(!confirm('Delete user "'+uname+'"?')) return;
+    var users=_getUsers().filter(function(x){ return x.u!==uname; });
+    _saveUsers(users);
+    _umsRender();
+  };
+  function _umsRender(){
+    var tbody=document.getElementById('ums-tbody');
+    if(!tbody) return;
+    var users=_getUsers();
+    tbody.innerHTML=users.map(function(u,i){
+      return '<tr><td>'+(i+1)+'</td><td><b>'+u.u+'</b></td><td>'+u.role+'</td>'
+        +'<td><button class="ums-del" onclick="_umsDel(\''+u.u+'\')">&#x1F5D1;</button></td></tr>';
+    }).join('');
+  }
+})();
 
 
 // ─── DATA — loaded asynchronously to keep index.html small ────────────────────
 // SIGNALS_RAW, NIFTY_DATA, CONFIGS_DEF are small enough to inline safely.
 // ALL_ROWS and TRADE_OHLC are fetched from separate JSON files at runtime.
-const SIGNALS_RAW = [{"SYMBOL": "EXICOM", "SIGNAL_DATE": "2026-06-05", "SIGNAL_CLOSE": "133.85", "PREV_CLOSE": "144.98", "ATH_PRICE": "275.71", "MIN_5D_LOW": "142.89", "PCT_FROM_LOW": "-6.33", "PCT_FROM_ATH": "-51.45", "PCT_1D_CHANGE": "-7.68", "CHG_5D": "-16.03", "CONFIGS_MATCHED": "C1,C2,C3,C4,C5,C6,C8,C22,C23,C24,C25,C26", "CONFIG_COUNT": "12"}, {"SYMBOL": "5PAISA", "SIGNAL_DATE": "2026-06-05", "SIGNAL_CLOSE": "311.6", "PREV_CLOSE": "320.6", "ATH_PRICE": "487.7", "MIN_5D_LOW": "318.0", "PCT_FROM_LOW": "-2.01", "PCT_FROM_ATH": "-36.11", "PCT_1D_CHANGE": "-2.81", "CHG_5D": "-4.91", "CONFIGS_MATCHED": "C2,C3,C5,C6,C7", "CONFIG_COUNT": "5"}, {"SYMBOL": "MEDICAMEQ", "SIGNAL_DATE": "2026-06-05", "SIGNAL_CLOSE": "245.65", "PREV_CLOSE": "255.7", "ATH_PRICE": "560.7", "MIN_5D_LOW": "253.9", "PCT_FROM_LOW": "-3.25", "PCT_FROM_ATH": "-56.19", "PCT_1D_CHANGE": "-3.93", "CHG_5D": "-9.54", "CONFIGS_MATCHED": "C1,C2,C4,C5,C8", "CONFIG_COUNT": "5"}, {"SYMBOL": "SOLEX", "SIGNAL_DATE": "2026-06-05", "SIGNAL_CLOSE": "1109.9", "PREV_CLOSE": "1153.6", "ATH_PRICE": "1985.0", "MIN_5D_LOW": "1133.3", "PCT_FROM_LOW": "-2.06", "PCT_FROM_ATH": "-44.09", "PCT_1D_CHANGE": "-3.79", "CHG_5D": "-8.91", "CONFIGS_MATCHED": "C2,C3,C5,C6,C7", "CONFIG_COUNT": "5"}, {"SYMBOL": "THOMASCOTT", "SIGNAL_DATE": "2026-06-05", "SIGNAL_CLOSE": "253.5", "PREV_CLOSE": "262.75", "ATH_PRICE": "459.8", "MIN_5D_LOW": "260.2", "PCT_FROM_LOW": "-2.57", "PCT_FROM_ATH": "-44.87", "PCT_1D_CHANGE": "-3.52", "CHG_5D": "-18.04", "CONFIGS_MATCHED": "C2,C3,C5,C6,C7", "CONFIG_COUNT": "5"}, {"SYMBOL": "TIRUMALCHM", "SIGNAL_DATE": "2026-06-05", "SIGNAL_CLOSE": "174.14", "PREV_CLOSE": "178.8", "ATH_PRICE": "341.0", "MIN_5D_LOW": "178.1", "PCT_FROM_LOW": "-2.22", "PCT_FROM_ATH": "-48.93", "PCT_1D_CHANGE": "-2.61", "CHG_5D": "-15.15", "CONFIGS_MATCHED": "C2,C3,C5,C6,C7", "CONFIG_COUNT": "5"}, {"SYMBOL": "DSSL", "SIGNAL_DATE": "2026-06-05", "SIGNAL_CLOSE": "1288.7", "PREV_CLOSE": "1356.5", "ATH_PRICE": "1924.8", "MIN_5D_LOW": "1356.5", "PCT_FROM_LOW": "-5.0", "PCT_FROM_ATH": "-33.05", "PCT_1D_CHANGE": "-5.0", "CHG_5D": "-26.19", "CONFIGS_MATCHED": "C1,C4,C8,C26", "CONFIG_COUNT": "4"}];
+const SIGNALS_RAW = [];
 const NIFTY_DATA  = {"nifty50": {"price": 23366.7, "change": -49.85, "change_pct": -0.21, "date": "05-Jun-2026"}, "banknifty": {"price": 54496.25, "change": 188.4, "change_pct": 0.35, "date": "05-Jun-2026"}, "sensex": {"price": 74243.34, "change": -116.67, "change_pct": -0.16, "date": "05-Jun-2026"}, "niftyit": {"price": 29010.3, "change": -290.3, "change_pct": -0.99, "date": "05-Jun-2026"}, "updated_at": "05-Jun-2026 07:39 PM IST"};
-const CONFIGS_DEF = [{"id": "C1","name": "Config 1","days_back": 5,"pct_min": -0.1,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C2","name": "Config 2","days_back": 5,"pct_min": -0.1,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C3","name": "Config 3","days_back": 5,"pct_min": -0.1,"pct_max": -0.04,"ath_min": -0.5,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C4","name": "Config 4","days_back": 5,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C5","name": "Config 5","days_back": 5,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C6","name": "Config 6","days_back": 5,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.55,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C7","name": "Config 7","days_back": 5,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.5,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C8","name": "Config 8","days_back": 5,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.45,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C9","name": "Config 9","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C10","name": "Config 10","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C11","name": "Config 11","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C12","name": "Config 12","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.5,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C13","name": "Config 13","days_back": 5,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C14","name": "Config 14","days_back": 5,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C15","name": "Config 15","days_back": 5,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.55,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C16","name": "Config 16","days_back": 5,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.5,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C17","name": "Config 17","days_back": 5,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.45,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C18","name": "Config 18","days_back": 5,"pct_min": -0.08,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C19","name": "Config 19","days_back": 5,"pct_min": -0.08,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C20","name": "Config 20","days_back": 5,"pct_min": -0.08,"pct_max": -0.04,"ath_min": -0.5,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C21","name": "Config 21","days_back": 5,"pct_min": -0.08,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C22","name": "Config 22","days_back": 5,"pct_min": -0.08,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C23","name": "Config 23","days_back": 5,"pct_min": -0.08,"pct_max": -0.03,"ath_min": -0.55,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C24","name": "Config 24","days_back": 5,"pct_min": -0.08,"pct_max": -0.03,"ath_min": -0.5,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C25","name": "Config 25","days_back": 5,"pct_min": -0.08,"pct_max": -0.03,"ath_min": -0.45,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C26","name": "Config 26","days_back": 5,"pct_min": -0.07,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C27","name": "Config 27","days_back": 5,"pct_min": -0.07,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C28","name": "Config 28","days_back": 5,"pct_min": -0.07,"pct_max": -0.04,"ath_min": -0.45,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C29","name": "Config 29","days_back": 5,"pct_min": -0.07,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C30","name": "Config 30","days_back": 5,"pct_min": -0.07,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C31","name": "Config 31","days_back": 5,"pct_min": -0.07,"pct_max": -0.03,"ath_min": -0.55,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C32","name": "Config 32","days_back": 5,"pct_min": -0.07,"pct_max": -0.03,"ath_min": -0.5,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C33","name": "Config 33","days_back": 5,"pct_min": -0.07,"pct_max": -0.03,"ath_min": -0.45,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C34","name": "Config 34","days_back": 5,"pct_min": -0.06,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C35","name": "Config 35","days_back": 5,"pct_min": -0.06,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C36","name": "Config 36","days_back": 5,"pct_min": -0.06,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C37","name": "Config 37","days_back": 5,"pct_min": -0.06,"pct_max": -0.03,"ath_min": -0.55,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C38","name": "Config 38","days_back": 5,"pct_min": -0.1,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C39","name": "Config 39","days_back": 5,"pct_min": -0.1,"pct_max": -0.02,"ath_min": -0.6,"ath_max": -0.45,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C40","name": "Config 40","days_back": 5,"pct_min": -0.1,"pct_max": -0.02,"ath_min": -0.6,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C41","name": "Config 41","days_back": 5,"pct_min": -0.1,"pct_max": -0.02,"ath_min": -0.55,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C42","name": "Config 42","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C43","name": "Config 43","days_back": 5,"pct_min": -0.09,"pct_max": -0.02,"ath_min": -0.6,"ath_max": -0.45,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C44","name": "Config 44","days_back": 5,"pct_min": -0.09,"pct_max": -0.02,"ath_min": -0.6,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C45","name": "Config 45","days_back": 5,"pct_min": -0.09,"pct_max": -0.02,"ath_min": -0.55,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C46","name": "Config 46","days_back": 5,"pct_min": -0.08,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C47","name": "Config 47","days_back": 5,"pct_min": -0.08,"pct_max": -0.04,"ath_min": -0.45,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C48","name": "Config 48","days_back": 10,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C49","name": "Config 49","days_back": 10,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.55,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C50","name": "Config 50","days_back": 10,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.5,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C51","name": "Config 51","days_back": 10,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C52","name": "Config 52","days_back": 10,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.55,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C53","name": "Config 53","days_back": 10,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.5,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C54","name": "Config 54","days_back": 5,"pct_min": -0.1,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C55","name": "Config 55","days_back": 5,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.4,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C56","name": "Config 56","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.6,"ath_max": -0.4,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C57","name": "Config 57","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.45,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C58","name": "Config 58","days_back": 5,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.4,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C59","name": "Config 59","days_back": 5,"pct_min": -0.08,"pct_max": -0.03,"ath_min": -0.4,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C60","name": "Config 60","days_back": 5,"pct_min": -0.07,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C61","name": "Config 61","days_back": 5,"pct_min": -0.07,"pct_max": -0.03,"ath_min": -0.4,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C62","name": "Config 62","days_back": 5,"pct_min": -0.06,"pct_max": -0.03,"ath_min": -0.5,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C63","name": "Config 63","days_back": 5,"pct_min": -0.06,"pct_max": -0.03,"ath_min": -0.4,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C64","name": "Config 64","days_back": 5,"pct_min": -0.1,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C65","name": "Config 65","days_back": 5,"pct_min": -0.1,"pct_max": -0.04,"ath_min": -0.5,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C66","name": "Config 66","days_back": 5,"pct_min": -0.1,"pct_max": -0.04,"ath_min": -0.45,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C67","name": "Config 67","days_back": 5,"pct_min": -0.1,"pct_max": -0.02,"ath_min": -0.4,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C68","name": "Config 68","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C69","name": "Config 69","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.5,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C70","name": "Config 70","days_back": 5,"pct_min": -0.09,"pct_max": -0.04,"ath_min": -0.45,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C71","name": "Config 71","days_back": 5,"pct_min": -0.09,"pct_max": -0.02,"ath_min": -0.4,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C72","name": "Config 72","days_back": 5,"pct_min": -0.08,"pct_max": -0.04,"ath_min": -0.55,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C73","name": "Config 73","days_back": 5,"pct_min": -0.08,"pct_max": -0.04,"ath_min": -0.5,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C74","name": "Config 74","days_back": 5,"pct_min": -0.08,"pct_max": -0.04,"ath_min": -0.45,"ath_max": -0.25,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C75","name": "Config 75","days_back": 5,"pct_min": -0.08,"pct_max": -0.03,"ath_min": -0.6,"ath_max": -0.45,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C76","name": "Config 76","days_back": 10,"pct_min": -0.1,"pct_max": -0.03,"ath_min": -0.45,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C77","name": "Config 77","days_back": 10,"pct_min": -0.09,"pct_max": -0.03,"ath_min": -0.45,"ath_max": -0.3,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40},{"id": "C78","name": "Config 78","days_back": 5,"pct_min": -0.08,"pct_max": -0.02,"ath_min": -0.4,"ath_max": -0.35,"max_buys": 4,"buy_drop": 0.1,"target": 0.1,"stoploss": 0.25,"max_duration": 40}];
+const CONFIGS_DEF = [{"id": "C1", "name": "Config 1", "days_back": 15, "pct_min": -0.1, "pct_max": -0.05, "ath_min": -0.45, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C2", "name": "Config 2", "days_back": 15, "pct_min": -0.09, "pct_max": -0.05, "ath_min": -0.45, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C3", "name": "Config 3", "days_back": 15, "pct_min": -0.08, "pct_max": -0.05, "ath_min": -0.45, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C4", "name": "Config 4", "days_back": 15, "pct_min": -0.07, "pct_max": -0.05, "ath_min": -0.45, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C5", "name": "Config 5", "days_back": 15, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.45, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C6", "name": "Config 6", "days_back": 15, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.45, "ath_max": -0.35, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C7", "name": "Config 7", "days_back": 20, "pct_min": -0.08, "pct_max": -0.05, "ath_min": -0.45, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C8", "name": "Config 8", "days_back": 20, "pct_min": -0.07, "pct_max": -0.05, "ath_min": -0.45, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C9", "name": "Config 9", "days_back": 20, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.55, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C10", "name": "Config 10", "days_back": 30, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.6, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C11", "name": "Config 11", "days_back": 30, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.55, "ath_max": -0.45, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C12", "name": "Config 12", "days_back": 30, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.55, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C13", "name": "Config 13", "days_back": 30, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.55, "ath_max": -0.35, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C14", "name": "Config 14", "days_back": 30, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.5, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C15", "name": "Config 15", "days_back": 30, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.5, "ath_max": -0.35, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C16", "name": "Config 16", "days_back": 30, "pct_min": -0.06, "pct_max": -0.05, "ath_min": -0.45, "ath_max": -0.35, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C17", "name": "Config 17", "days_back": 30, "pct_min": -0.06, "pct_max": -0.04, "ath_min": -0.6, "ath_max": -0.45, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C18", "name": "Config 18", "days_back": 30, "pct_min": -0.06, "pct_max": -0.04, "ath_min": -0.6, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C19", "name": "Config 19", "days_back": 30, "pct_min": -0.06, "pct_max": -0.04, "ath_min": -0.55, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}, {"id": "C20", "name": "Config 20", "days_back": 30, "pct_min": -0.06, "pct_max": -0.04, "ath_min": -0.45, "ath_max": -0.4, "max_buys": 4, "buy_drop": 0.1, "target": 0.1, "stoploss": 0.25, "max_duration": 40}];
 
 let ALL_ROWS   = [];
 let TRADE_OHLC = {};
@@ -1237,7 +2159,6 @@ let _dataReady = false;
 
     _dataReady = true;
     if (banner) banner.innerHTML = origBanner;
-    _initCfgSelector();
 
     // Dynamically update Data date from sim_meta.json (bhavcopy date)
     try {
@@ -1350,7 +2271,6 @@ function inDateRange(dateStr){
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 const state = {
-  overview:    {page:1},
   open:        {cfg:'ALL', page:1, sort:0, asc:false},
   closed:      {cfg:'ALL', res:'ALL', page:1, sort:0, asc:false},
   fe:          {cfg:'ALL', page:1, sort:0, asc:false},
@@ -1453,59 +2373,6 @@ function statusFilterHist(val,btn){
   buildHistory();
 }
 
-
-// ════ GLOBAL CONFIG SELECTOR ════
-let _selCfgs = null;
-function cfgMatch(cfg){ return !_selCfgs||_selCfgs.has(cfg); }
-function _initCfgSelector(){
-  const saved=localStorage.getItem('btst_sel_cfgs_v2');
-  if(saved){ try{ const arr=JSON.parse(saved);
-    _selCfgs=arr.length===CONFIGS_DEF.length?null:new Set(arr);
-  }catch(e){ _selCfgs=null; } }
-  _updateCfgBadges();
-}
-function _updateCfgBadges(){
-  const total=CONFIGS_DEF.length, sel=_selCfgs?_selCfgs.size:total;
-  const txt=(!_selCfgs||sel===total)?'All ('+total+')':sel+' / '+total;
-  document.querySelectorAll('.cfg-sel-badge').forEach(el=>el.textContent=txt);
-  const sub=document.getElementById('cfgCountDisplay');
-  if(sub) sub.textContent=total;
-}
-function openConfigModal(){
-  document.getElementById('globalCfgModal').style.display='flex';
-  _renderCfgModal();
-}
-function closeConfigModal(){ document.getElementById('globalCfgModal').style.display='none'; }
-function _renderCfgModal(){
-  const sel=_selCfgs||new Set(CONFIGS_DEF.map(c=>c.id));
-  const grid=document.getElementById('cfgModalGrid');
-  const cnt=document.getElementById('cfgModalCount');
-  grid.innerHTML=CONFIGS_DEF.map(function(c){
-    const on=sel.has(c.id);
-    return '<label class="cfg-pill'+(on?' on':'')+'" onclick="cfgToggle(this,\''+c.id+'\')">'
-      +'<input type="checkbox" value="'+c.id+'"'+(on?' checked':'')+' style="display:none">'+c.id+'</label>';
-  }).join('');
-  if(cnt) cnt.textContent=sel.size+' of '+CONFIGS_DEF.length+' selected';
-}
-function cfgToggle(lbl,id){
-  if(!_selCfgs) _selCfgs=new Set(CONFIGS_DEF.map(c=>c.id));
-  const cb=lbl.querySelector('input');
-  if(cb.checked){ cb.checked=false; _selCfgs.delete(id); lbl.classList.remove('on'); }
-  else{ cb.checked=true; _selCfgs.add(id); lbl.classList.add('on'); }
-  const cnt=document.getElementById('cfgModalCount');
-  if(cnt) cnt.textContent=_selCfgs.size+' of '+CONFIGS_DEF.length+' selected';
-}
-function cfgSelectAll(){ _selCfgs=null; _renderCfgModal(); }
-function cfgClearAll(){ _selCfgs=new Set(); _renderCfgModal(); }
-function applyConfigFilter(){
-  const all=new Set(CONFIGS_DEF.map(c=>c.id));
-  if(_selCfgs&&_selCfgs.size>=all.size) _selCfgs=null;
-  try{ localStorage.setItem('btst_sel_cfgs_v2',JSON.stringify(_selCfgs?[..._selCfgs]:[...all])); }catch(e){}
-  closeConfigModal(); _updateCfgBadges();
-  const at=document.querySelector('.tab.active'); if(at) at.click();
-}
-// ════════════════════════════════
-
 function cfgFilter(tab,val,btn){
   state[tab].cfg=val;
   if(state[tab].page!==undefined)state[tab].page=1;
@@ -1546,8 +2413,7 @@ function pg(tab,dir){
 function pgTab(tab,dir){
   if(!state[tab]) state[tab]={page:1};
   state[tab].page=Math.max(1,(state[tab].page||1)+dir);
-  if(tab==='overview') buildOverview();
-  else if(tab==='avgtrigger') renderAvgTrigger();
+  if(tab==='avgtrigger') renderAvgTrigger();
   else if(tab==='selltrigger') renderSellTrigger();
   else if(tab==='avghistory') renderAvgHistory();
   else if(tab==='marketdata') renderMarketData();
@@ -1567,6 +2433,8 @@ function setPager(tab,cur,total,pgSz){
   const _infoEl=document.getElementById(tab+'-info');
   if(_infoEl) _infoEl.textContent=`${(cur-1)*pgSz+1}–${Math.min(cur*pgSz,total)} of ${total} | Page ${Math.min(cur,pages)}/${pages}`;
 }
+
+// ─── GET FILTERED DATA ────────────────────────────────────────────────────────
 
 // ─── DEDUPLICATE BY SYMBOL ──────────────────────────────────────────────────
 // mode='min': keep cheapest AVG_BUY_PRICE per symbol (Open Positions / F&O Open)
@@ -1602,21 +2470,19 @@ function dedupeBySymbol(rows, mode) {
   return Object.values(map);
 }
 
-// ─── GET FILTERED DATA ────────────────────────────────────────────────────────
 function getFiltered(tab){
   let rows = ALL_ROWS;
-  if(_selCfgs) rows=rows.filter(r=>cfgMatch(r.CONFIG));
 
   if(tab==='open'){
     rows = rows.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-    
+    if(state.open.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.open.cfg);
     if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
     const _os=(document.getElementById('open-search')||{}).value||'';
     if(_os) rows=rows.filter(r=>(r.SYMBOL||'').toUpperCase().includes(_os.toUpperCase()));
   }
   else if(tab==='closed'){
     rows = rows.filter(r=>r.STATUS==='Closed'&&r.RESULT);
-    
+    if(state.closed.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.closed.cfg);
     if(state.closed.res==='P') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('profit')&&!r.RESULT.includes('FE'));
     if(state.closed.res==='L') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('loss')&&!r.RESULT.includes('FE'));
     if(state.closed.res==='FE') rows=rows.filter(r=>r.RESULT&&r.RESULT.includes('FE'));
@@ -1628,7 +2494,7 @@ function getFiltered(tab){
     const cfgDurMap={};
     CONFIGS_DEF.forEach(c=>{ cfgDurMap[c.id||c.ID]=parseInt(c.max_duration||c.MAXDURA||90); });
     rows = rows.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-    
+    if(state.fe.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.fe.cfg);
     if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
     const _fs=(document.getElementById('fe-search')||{}).value||'';
     if(_fs) rows=rows.filter(r=>(r.SYMBOL||'').toUpperCase().includes(_fs.toUpperCase()));
@@ -1645,7 +2511,7 @@ function getFiltered(tab){
   else if(tab==='ledger'){
     // Build ledger from closed rows
     let closed = ALL_ROWS.filter(r=>r.STATUS==='Closed'&&r.PROFIT!=null&&r.EXIT_DATE);
-    
+    if(state.ledger.cfg!=='ALL') closed=closed.filter(r=>r.CONFIG===state.ledger.cfg);
     if(dateRangeActive) closed=closed.filter(r=>inDateRange(r.SIGNAL_DATE));
     const map={};
     closed.forEach(r=>{
@@ -1671,16 +2537,16 @@ function getFiltered(tab){
   }
   else if(tab==='trades'){
     rows = rows.filter(r=>r.ORDER==='Executed');
-    
+    if(state.trades.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.trades.cfg);
     if(state.trades.status!=='ALL') rows=rows.filter(r=>r.STATUS===state.trades.status);
     const q=(document.getElementById('trades-search')||{}).value||'';
     if(q)rows=rows.filter(r=>(r.SYMBOL||'').toLowerCase().includes(q.toLowerCase()));
   }
   else if(tab==='signals'){
     rows=[...SIGNALS_RAW];
-    if(_selCfgs) rows=rows.filter(r=>{
+    if(sigCfg!=='ALL') rows=rows.filter(r=>{
       const cfgRaw=(r.CONFIGS_MATCHED||r.configs_matched||r.CONFIG||'');
-      return cfgRaw.split(',').map(s=>s.trim()).some(c=>cfgMatch(c));
+      return cfgRaw.split(',').map(s=>s.trim()).includes(sigCfg);
     });
     const statusF=(document.getElementById('sig-status-filter')||{}).value||'ALL';
     if(statusF!=='ALL') rows=rows.filter(r=>{
@@ -1690,12 +2556,14 @@ function getFiltered(tab){
   }
   else if(tab==='fno'){
     rows = rows.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open'&&FO_SYMBOLS.has((r.SYMBOL||'').toUpperCase()));
+    if(state.fno.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.fno.cfg);
     if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
     const _fs=(document.getElementById('fno-search')||{}).value||'';
     if(_fs) rows=rows.filter(r=>(r.SYMBOL||'').toUpperCase().includes(_fs.toUpperCase()));
   }
   else if(tab==='fnoclosed'){
     rows = rows.filter(r=>r.STATUS==='Closed'&&r.RESULT&&FO_SYMBOLS.has((r.SYMBOL||'').toUpperCase()));
+    if(state.fnoclosed.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.fnoclosed.cfg);
     if(state.fnoclosed.res==='P') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('profit')&&!r.RESULT.includes('FE'));
     if(state.fnoclosed.res==='L') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('loss')&&!r.RESULT.includes('FE'));
     if(state.fnoclosed.res==='FE') rows=rows.filter(r=>r.RESULT&&r.RESULT.includes('FE'));
@@ -1765,7 +2633,7 @@ function getTabSortVals(tab,a,b,col){
     return[nv(a[k]),nv(b[k])];
   }
   if(tab==='open'||tab==='fno'){
-    const cols=[0,'CONFIG','SYMBOL','SIGNAL_DATE','SIGNAL_CLOSE','CHG_1D','PCT_FROM_LOW','MIN_5D_LOW','MIN_5D_DATE','CURRENT_LTP','BUY_COUNT','AVG_BUY_PRICE','TOTAL_QTY','TOTAL_INVESTMENT','TARGET_PRICE','STOP_PRICE','MARKET_DAYS','PROFIT','GAIN_PCT'];
+    const cols=[0,'CONFIG','SYMBOL','SIGNAL_DATE','AVG_BUY_PRICE','CURRENT_LTP','TARGET_PRICE','STOP_PRICE','BUY_COUNT','TOTAL_QTY','TOTAL_INVESTMENT','MARKET_DAYS','PROFIT','GAIN_PCT'];
     const k=cols[col]||'SYMBOL';
     if(typeof a[k]==='string')return[sv(a[k]),sv(b[k])];
     return[nv(a[k]),nv(b[k])];
@@ -1873,20 +2741,12 @@ function rowHTML(tab,r,n){
     return `<tr>
       <td>${n}</td><td>${cfgBadge(r.CONFIG)}</td><td><strong>${r.SYMBOL}</strong>${foTag(r.SYMBOL)}</td>
       <td>${fD(r.SIGNAL_DATE)}</td>
-      <td>&#8377;${fN(r.SIGNAL_CLOSE)}</td>
-      <td style="color:${(parseFloat(r.CHG_1D)||0)>=0?'#059669':'#dc2626'}">${(parseFloat(r.CHG_1D)||0)>=0?'+':''}${f2(r.CHG_1D)}%</td>
-      <td style="color:${(parseFloat(r.PCT_FROM_LOW)||0)>=0?'#059669':'#dc2626'}">${(parseFloat(r.PCT_FROM_LOW)||0)>=0?'+':''}${f2(r.PCT_FROM_LOW)}%</td>
-      <td>&#8377;${fN(r.MIN_5D_LOW)}</td>
-      <td>${fD(r.MIN_5D_DATE)}</td>
-      <td>&#8377;${fN(r.CURRENT_LTP)}</td>
-      <td>${bcHtml}</td>
-      <td>&#8377;${fN(r.AVG_BUY_PRICE)}</td><td>${fI(r.TOTAL_QTY)}</td>
-      <td>&#8377;${fN(r.TOTAL_INVESTMENT)}</td>
+      <td>&#8377;${fN(r.AVG_BUY_PRICE)}</td><td>&#8377;${fN(r.CURRENT_LTP)}</td>
       <td>&#8377;${fN(r.TARGET_PRICE)}</td><td>&#8377;${fN(r.STOP_PRICE)}</td>
-      <td>${fI(r.MARKET_DAYS)}</td>
+      <td>${bcHtml}</td><td>${fI(r.TOTAL_QTY)}</td>
+      <td>&#8377;${fN(r.TOTAL_INVESTMENT)}</td><td>${fI(r.MARKET_DAYS)}</td>
       <td ${pnlColor(r.PROFIT)}>&#8377;${fN(r.PROFIT)}</td>
       <td ${pnlColor(r.GAIN_PCT)}>${gp>=0?'+':''}${f2(r.GAIN_PCT)}%</td>
-      ${(()=>{const s=parseFloat(r.SIGNAL_CLOSE)||0;const b2=+(s*.9).toFixed(2);const b3=+(s*.855).toFixed(2);const b4=+(s*.7695).toFixed(2);const _g='background:rgba(5,150,105,0.38);font-weight:700;';return (bc>=1?'<td style="'+_g+'">':'<td>')+'&#8377;'+fN(s)+'</td>'+(bc>=2?'<td style="'+_g+'">':'<td>')+'&#8377;'+fN(b2)+'</td>'+(bc>=3?'<td style="'+_g+'">':'<td>')+'&#8377;'+fN(b3)+'</td>'+(bc>=4?'<td style="'+_g+'">':'<td>')+'&#8377;'+fN(b4)+'</td>';})()}  
     </tr>`;
   }
   if(tab==='uniopen'||tab==='unifno'){
@@ -2035,7 +2895,7 @@ function renderSignals(rows){
 
 function renderAvgTrigger(){
   let rows = ALL_ROWS.filter(r => r.ORDER === 'Executed' && r.STATUS === 'Open');
-  if(_selCfgs) rows = rows.filter(r => cfgMatch(r.CONFIG));
+  if(avgTrigCfg !== 'ALL') rows = rows.filter(r => r.CONFIG === avgTrigCfg);
   if(dateRangeActive) rows = rows.filter(r => inDateRange(r.SIGNAL_DATE));
 
   const cfgMap = {};
@@ -2130,7 +2990,7 @@ function renderAvgTrigger(){
 // ─── STOCK HISTORY ────────────────────────────────────────────────────────────
 function buildHistory(){
   const q=(document.getElementById('hist-search')||{}).value||'';
-  const cfg='ALL';
+  const cfg=state.hist.cfg;
   const statusF=state.hist.status;
 
   let rows=ALL_ROWS.filter(r=>r.ORDER==='Executed');
@@ -2384,17 +3244,8 @@ function exportHistCard(btn,name){
 
 // ─── EXPORTS ─────────────────────────────────────────────────────────────────
 function exportTab(tab){
-  let rows=getFiltered(tab);
+  const rows=getFiltered(tab);
   if(!rows.length){toast('No data','info');return;}
-  // For uniopen/unifno, select only the 19 cols shown in table
-  if(tab==='uniopen'||tab==='unifno'){
-    const cols=['CONFIG','SYMBOL','SIGNAL_DATE','SIGNAL_CLOSE','CURRENT_LTP','BUY_COUNT','AVG_BUY_PRICE','TOTAL_QTY','TOTAL_INVESTMENT','TARGET_PRICE','STOP_PRICE','MARKET_DAYS','PROFIT','GAIN_PCT','Buy1','Buy2','Buy3','Buy4'];
-    rows=rows.map(r=>{
-      const out={};
-      cols.forEach(c=>{out[c]=r[c]||''});
-      return out;
-    });
-  }
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.json_to_sheet(rows);
   XLSX.utils.book_append_sheet(wb,ws,tab);
@@ -2403,11 +3254,6 @@ function exportTab(tab){
 }
 function exportCSVTab(tab){
   const rows=getFiltered(tab);
-  // For uniopen/unifno, select only the 19 cols shown in table
-  if(tab==='uniopen'||tab==='unifno'){
-    const cols=['CONFIG','SYMBOL','SIGNAL_DATE','SIGNAL_CLOSE','CURRENT_LTP','BUY_COUNT','AVG_BUY_PRICE','TOTAL_QTY','TOTAL_INVESTMENT','TARGET_PRICE','STOP_PRICE','MARKET_DAYS','PROFIT','GAIN_PCT','Buy1','Buy2','Buy3','Buy4'];
-    rows=rows.map(r=>{const out={};cols.forEach(c=>{out[c]=r[c]||''});return out;});
-  }
   if(!rows.length){toast('No data','info');return;}
   const keys=Object.keys(rows[0]);
   const csv=[keys.join(','),...rows.map(r=>keys.map(k=>`"${r[k]!=null?r[k]:''}"`)
@@ -2464,7 +3310,7 @@ function mdSubTab(type, btn){
 // ─── SELL TRIGGER ─────────────────────────────────────────────────────────────
 function renderSellTrigger(){
   let rows=ALL_ROWS.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-  if(_selCfgs) rows=rows.filter(r=>cfgMatch(r.CONFIG));
+  if(sellTrigCfg!=='ALL') rows=rows.filter(r=>r.CONFIG===sellTrigCfg);
   if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
   const _stq=(document.getElementById('selltrig-search')||{}).value||'';
   if(_stq) rows=rows.filter(r=>(r.SYMBOL||'').toLowerCase().includes(_stq.toLowerCase()));
@@ -2542,7 +3388,7 @@ function ovCfgFilter(val,btn){
 function renderAvgHistory(){
   const q=(document.getElementById('avghist-search')||{}).value||'';
   let rows=ALL_ROWS.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open'&&parseInt(r.BUY_COUNT||0)>1);
-  if(_selCfgs) rows=rows.filter(r=>cfgMatch(r.CONFIG));
+  if(avgHistCfg!=='ALL') rows=rows.filter(r=>r.CONFIG===avgHistCfg);
   if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
   if(q) rows=rows.filter(r=>(r.SYMBOL||'').toLowerCase().includes(q.toLowerCase()));
 
@@ -2684,7 +3530,7 @@ function renderBatchCard(rows) {
 
 function renderMarketData(){
   let rows=ALL_ROWS.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-  if(_selCfgs) rows=rows.filter(r=>cfgMatch(r.CONFIG));
+  if(mdCfg!=='ALL') rows=rows.filter(r=>r.CONFIG===mdCfg);
   if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
   if(mdSubFilter==='gainers') rows=rows.filter(r=>(parseFloat(r.GAIN_PCT)||0)>0);
   else if(mdSubFilter==='losers') rows=rows.filter(r=>(parseFloat(r.GAIN_PCT)||0)<0);
@@ -2736,7 +3582,7 @@ function perfCfgFilter(val,btn){
 }
 function renderPerformance(){
   const allCfgIds=CONFIGS_DEF.map(c=>c.id||c.ID).filter(Boolean).sort((a,b)=>parseInt(a.slice(1))-parseInt(b.slice(1)));
-  const cfgIds=(!_selCfgs)?allCfgIds:[..._selCfgs].filter(c=>allCfgIds.includes(c));
+  const cfgIds=perfCfg==='ALL'?allCfgIds:[perfCfg];
   let closed=ALL_ROWS.filter(r=>r.STATUS==='Closed'&&r.RESULT&&!r.RESULT.includes('FE'));
   let open=ALL_ROWS.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
   if(perfCfg!=='ALL'){ closed=closed.filter(r=>r.CONFIG===perfCfg); open=open.filter(r=>r.CONFIG===perfCfg); }
@@ -2952,7 +3798,7 @@ document.addEventListener('keydown', e=>{
 // ─── OVERVIEW ────────────────────────────────────────────────────────────────
 function buildOverview(){
   const allCfgIds = CONFIGS_DEF.map(c=>c.id||c.ID).filter(Boolean).sort((a,b)=>parseInt(a.slice(1))-parseInt(b.slice(1)));
-  const cfgIds = (!_selCfgs) ? allCfgIds : [..._selCfgs].filter(c=>allCfgIds.includes(c));
+  const cfgIds = ovCfg==='ALL' ? allCfgIds : [ovCfg];
   let totExec=0,totOpen=0,totClosed=0,totPnl=0,totPT=0,totLoss=0;
   const rows=[];
 
@@ -2990,20 +3836,10 @@ function buildOverview(){
     totPnl+=pnl; totPT+=profitTrades.length; totLoss+=lossTrades.length;
   });
 
-  // ── Paginate overview rows ────────────────────────────────────────────
-  const _ovPgSzEl=document.getElementById('overview-pgsize');
-  const _ovPgSz=_ovPgSzEl?parseInt(_ovPgSzEl.value):25;
-  if(!state.overview) state.overview={page:1};
-  const _ovPages=Math.max(1,Math.ceil(rows.length/_ovPgSz));
-  if(state.overview.page>_ovPages) state.overview.page=_ovPages;
-  const _ovStart=(state.overview.page-1)*_ovPgSz;
-  const _ovSlice=rows.slice(_ovStart,_ovStart+_ovPgSz);
-  const _ovInfoEl=document.getElementById('overview-info');
-  if(_ovInfoEl) _ovInfoEl.textContent=`${_ovStart+1}–${Math.min(state.overview.page*_ovPgSz,rows.length)} of ${rows.length} | Page ${state.overview.page}/${_ovPages}`;
-  document.getElementById('ov-body').innerHTML=_ovSlice.join('');
+  document.getElementById('ov-body').innerHTML=rows.join('');
   const totWr=totPT+totLoss>0?(totPT/(totPT+totLoss)*100).toFixed(1)+'%':'—';
 
-  let totalSigsFiltered = (!_selCfgs) ? ALL_ROWS : ALL_ROWS.filter(r=>cfgMatch(r.CONFIG));
+  let totalSigsFiltered = ovCfg==='ALL' ? ALL_ROWS : ALL_ROWS.filter(r=>r.CONFIG===ovCfg);
   if(dateRangeActive) totalSigsFiltered = totalSigsFiltered.filter(r=>inDateRange(r.SIGNAL_DATE));
 
   document.getElementById('ov-stats').innerHTML=`
@@ -3033,11 +3869,11 @@ async function _loadMTFSymbols() {
 
 async function renderMTFOutput() {
   const body = document.getElementById('mtf-body');
-  body.innerHTML = '<tr><td colspan="14" class="empty">Loading MTF symbols…</td></tr>';
+  body.innerHTML = '<tr><td colspan="12" class="empty">Loading MTF symbols…</td></tr>';
 
   const syms = await _loadMTFSymbols();
   if (!syms || !syms.length) {
-    body.innerHTML = '<tr><td colspan="14" class="empty">⚠ Failed to load MTF symbols (data/mtf_symbols.json missing)</td></tr>';
+    body.innerHTML = '<tr><td colspan="12" class="empty">⚠ Failed to load MTF symbols (data/mtf_symbols.json missing)</td></tr>';
     return;
   }
   const mtfSet = new Set(syms.map(s => s.trim().toUpperCase()));
@@ -3090,8 +3926,6 @@ async function renderMTFOutput() {
   });
 
   let filtered = Object.values(passMap);
-  const _mtfQ=((document.getElementById('mtf-search')||{}).value||'').toUpperCase().trim();
-  if(_mtfQ) filtered=filtered.filter(f=>(f.r.SYMBOL||'').toUpperCase().includes(_mtfQ));
 
   // Sort
   const st = state.mtf || {};
@@ -3109,8 +3943,6 @@ async function renderMTFOutput() {
     if (sortCol === 'qty')      { va = Math.floor(inv/(parseFloat(a.r.CURRENT_LTP)||1)); vb = Math.floor(inv/(parseFloat(b.r.CURRENT_LTP)||1)); }
     if (sortCol === 'inv')      { va = Math.floor(inv/(parseFloat(a.r.CURRENT_LTP)||1))*(parseFloat(a.r.CURRENT_LTP)||0); vb = Math.floor(inv/(parseFloat(b.r.CURRENT_LTP)||1))*(parseFloat(b.r.CURRENT_LTP)||0); }
     if (sortCol === 'target')   { va = a.avg*(1+tgtPct); vb = b.avg*(1+tgtPct); }
-    if (sortCol === 'stop')     { va = a.avg*0.75; vb = b.avg*0.75; }
-    if (sortCol === 'dur')      { va = a.durDays||0; vb = b.durDays||0; }
     va = va||0; vb = vb||0;
     return asc ? (va>vb?1:-1) : (va<vb?1:-1);
   });
@@ -3160,15 +3992,13 @@ async function renderMTFOutput() {
       '<td><strong>' + r.SYMBOL + '</strong>' + foTag(r.SYMBOL) + '</td>' +
       '<td>' + fD(item.sigDate) + '</td>' +
       '<td>₹' + fN(item.sigPrice) + '</td>' +
+      '<td>' + dur + '</td>' +
       '<td>₹' + fN(avg) + '</td>' +
       '<td class="red">₹' + fN(ltp) + '</td>' +
       '<td class="red">' + drop.toFixed(2) + '%</td>' +
       '<td>' + qty + '</td>' +
       '<td>₹' + fN(invAmt) + '</td>' +
       '<td class="green">₹' + fN(target) + '</td>' +
-      '<td class="red">₹' + fN((avg*0.75).toFixed(2)) + '</td>' +
-      '<td class="blue">' + (parseInt(r.BUY_COUNT)||1) + '/4</td>' +
-      '<td>' + (item.durDays>0?item.durDays+'d':'—') + '</td>' +
       '<td><button class="btn-sm btn-green" onclick="addToPortfolio(' + addPayload + ')">➕ Add</button></td>' +
       '</tr>';
   }).join('');
@@ -3426,7 +4256,7 @@ function _renderPortfolioNow() {
       '<td class="green">₹' + fN(tgt) + '</td>' +
       '<td class="' + cls + '" style="font-weight:700">' + icon + ' ' + (p.status||'—') + '</td>' +
       '<td><button class="btn-sm" style="background:#ef4444;color:#fff;padding:3px 8px;" ' +
-        'onclick="deletePortfolioItem(\'' + p.symbol + '\')">&#128465;</button></td>' +
+        'onclick="deletePortfolioItem(' + (startIdx+i) + ')">&#128465;</button></td>' +
       '</tr>';
   }).join('');
 }
@@ -3459,11 +4289,10 @@ function addToPortfolio(data) {
 }
 
 let _portfolioModified = false;
-async function deletePortfolioItem(sym) {
+async function deletePortfolioItem(idx) {
   const arr = getPortfolio();
+  const sym = arr[idx] ? arr[idx].symbol : '?';
   if (!confirm('Delete ' + sym + ' from Portfolio?')) return;
-  const idx = arr.findIndex(function(p) { return p.symbol === sym; });
-  if (idx < 0) { alert(sym + ' not found in portfolio'); return; }
   arr.splice(idx, 1);
   _portfolioModified = true;
   savePortfolio(arr);
@@ -3724,23 +4553,5 @@ function exportPortfolioExcel() {
 }
 
 </script>
-<div id="globalCfgModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9900;align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:14px;padding:24px;max-width:700px;width:93%;max-height:84vh;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.3);">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-      <div><div style="font-size:17px;font-weight:700;color:#0d1f3c;">&#9881; Select Configurations</div>
-        <div id="cfgModalCount" style="font-size:12px;color:#888;margin-top:2px;"></div></div>
-      <button onclick="closeConfigModal()" style="border:none;background:#f0f2f5;border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:16px;color:#555;">&#10005;</button>
-    </div>
-    <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <button onclick="cfgSelectAll()" style="padding:5px 14px;border-radius:6px;border:1px solid #0d1f3c;background:#0d1f3c;color:#fff;cursor:pointer;font-size:13px;">Select All</button>
-      <button onclick="cfgClearAll()" style="padding:5px 14px;border-radius:6px;border:1px solid #e53e3e;background:#fff;color:#e53e3e;cursor:pointer;font-size:13px;">Clear All</button>
-    </div>
-    <div id="cfgModalGrid" style="overflow-y:auto;flex:1;display:flex;flex-wrap:wrap;gap:6px;padding:4px 2px;align-content:flex-start;min-height:60px;"></div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px;border-top:1px solid #eee;padding-top:14px;">
-      <button onclick="closeConfigModal()" style="padding:8px 20px;border-radius:8px;border:1px solid #ccc;background:#fff;color:#1e293b;cursor:pointer;font-size:14px;">Cancel</button>
-      <button onclick="applyConfigFilter()" style="padding:8px 20px;border-radius:8px;border:none;background:#0d1f3c;color:#fff;cursor:pointer;font-weight:700;font-size:14px;">Apply &amp; Save</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
