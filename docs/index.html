@@ -2384,8 +2384,17 @@ function exportHistCard(btn,name){
 
 // ─── EXPORTS ─────────────────────────────────────────────────────────────────
 function exportTab(tab){
-  const rows=getFiltered(tab);
+  let rows=getFiltered(tab);
   if(!rows.length){toast('No data','info');return;}
+  // For uniopen/unifno, select only the 19 cols shown in table
+  if(tab==='uniopen'||tab==='unifno'){
+    const cols=['CONFIG','SYMBOL','SIGNAL_DATE','SIGNAL_CLOSE','CURRENT_LTP','BUY_COUNT','AVG_BUY_PRICE','TOTAL_QTY','TOTAL_INVESTMENT','TARGET_PRICE','STOP_PRICE','MARKET_DAYS','PROFIT','GAIN_PCT','Buy1','Buy2','Buy3','Buy4'];
+    rows=rows.map(r=>{
+      const out={};
+      cols.forEach(c=>{out[c]=r[c]||''});
+      return out;
+    });
+  }
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.json_to_sheet(rows);
   XLSX.utils.book_append_sheet(wb,ws,tab);
@@ -2394,6 +2403,11 @@ function exportTab(tab){
 }
 function exportCSVTab(tab){
   const rows=getFiltered(tab);
+  // For uniopen/unifno, select only the 19 cols shown in table
+  if(tab==='uniopen'||tab==='unifno'){
+    const cols=['CONFIG','SYMBOL','SIGNAL_DATE','SIGNAL_CLOSE','CURRENT_LTP','BUY_COUNT','AVG_BUY_PRICE','TOTAL_QTY','TOTAL_INVESTMENT','TARGET_PRICE','STOP_PRICE','MARKET_DAYS','PROFIT','GAIN_PCT','Buy1','Buy2','Buy3','Buy4'];
+    rows=rows.map(r=>{const out={};cols.forEach(c=>{out[c]=r[c]||''});return out;});
+  }
   if(!rows.length){toast('No data','info');return;}
   const keys=Object.keys(rows[0]);
   const csv=[keys.join(','),...rows.map(r=>keys.map(k=>`"${r[k]!=null?r[k]:''}"`)
