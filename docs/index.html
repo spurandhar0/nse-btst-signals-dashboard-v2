@@ -3431,7 +3431,7 @@ function _renderPortfolioNow() {
   // Refresh LTPs from live sim data
   arr.forEach(function(p) {
     const sym = (p.symbol || '').toUpperCase();
-    const ltp = symLtpMap[sym] || symLtpMap[(p.symbol||'')] || openMap[sym] || openMap[p.symbol] || 0;
+    const ltp = openMap[sym] || openMap[p.symbol] || 0; // use live open-position LTP only; preserve portfolio.json stored LTP for others
     if (ltp) p.current_ltp = ltp;
     if (p.avg_buy > 0 && p.current_ltp) {
       p.status = p.current_ltp >= p.target ? 'Yes' : 'No';
@@ -3822,7 +3822,7 @@ function _getPortfolioExportData() {
   // Refresh LTPs from latest sim data (same as renderPortfolio)
   arr.forEach(function(p) {
     const sym = (p.symbol || '').toUpperCase();
-    const ltp = symLtpMap[sym] || symLtpMap[(p.symbol||'')] || openMap[sym] || openMap[p.symbol] || 0;
+    const ltp = openMap[sym] || openMap[p.symbol] || 0; // use live open-position LTP only; preserve portfolio.json stored LTP for others
     if (ltp) p.current_ltp = ltp;
     if (p.avg_buy > 0 && p.current_ltp) {
       p.status = p.current_ltp >= p.target ? 'Yes' : 'No';
