@@ -215,27 +215,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 <div id="tab-overview">
   <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;padding:10px 0 0 0;">
       <span class="slbl">CONFIG:</span>
-      <button class="btn-filter active" onclick="ovCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C1',this)">C1</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C2',this)">C2</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C3',this)">C3</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C4',this)">C4</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C5',this)">C5</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C6',this)">C6</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C7',this)">C7</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C8',this)">C8</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C9',this)">C9</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C10',this)">C10</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C11',this)">C11</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C12',this)">C12</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C13',this)">C13</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C14',this)">C14</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C15',this)">C15</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C16',this)">C16</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C17',this)">C17</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C18',this)">C18</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C19',this)">C19</button>
-      <button class="btn-filter" onclick="ovCfgFilter('C20',this)">C20</button>
+      <button class="btn-filter active" id="cfgf-overview-all" onclick="cfgFilter('overview','ALL',this)">All</button>
+      <button class="btn-filter" id="cfgf-overview-sel" onclick="openTabCfgPicker('overview')">&#9881; Show All</button>
+      <span id="cfgf-overview-badge" style="display:none;background:#1d4ed8;color:#fff;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:700;margin-left:2px;"></span>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     </div>
 <div id="ov-stats" class="stat-grid"></div>
@@ -1448,6 +1430,7 @@ const state = {
   unifno:      {page:1, sort:0, asc:false, dedup:'min'},
   unifnoclosed:{res:'ALL', page:1, sort:0, asc:false, dedup:'max'},
   configs:    {page:1, pgSz:25, filter:'ALL'},
+  overview:   {cfg:'ALL'},
 };
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
@@ -1543,6 +1526,7 @@ function cfgFilter(tab,val,btn){
            else{_ab.classList.remove('active');if(_sb)_sb.classList.add('active');} }
   if(_bg){ if(val==='ALL')_bg.style.display='none'; else{_bg.textContent=val;_bg.style.display='inline-block';} }
   if(tab==='hist')buildHistory();
+  else if(tab==='overview'){ovCfg=val;buildOverview();}
   else renderTab(tab);
 }
 
@@ -3431,8 +3415,6 @@ function _renderPortfolioNow() {
   // Refresh LTPs from live sim data
   arr.forEach(function(p) {
     const sym = (p.symbol || '').toUpperCase();
-    const ltp = openMap[sym] || openMap[p.symbol] || 0; // use live open-position LTP only; preserve portfolio.json stored LTP for others
-    if (ltp) p.current_ltp = ltp;
     if (p.avg_buy > 0 && p.current_ltp) {
       p.status = p.current_ltp >= p.target ? 'Yes' : 'No';
     }
@@ -3822,8 +3804,6 @@ function _getPortfolioExportData() {
   // Refresh LTPs from latest sim data (same as renderPortfolio)
   arr.forEach(function(p) {
     const sym = (p.symbol || '').toUpperCase();
-    const ltp = openMap[sym] || openMap[p.symbol] || 0; // use live open-position LTP only; preserve portfolio.json stored LTP for others
-    if (ltp) p.current_ltp = ltp;
     if (p.avg_buy > 0 && p.current_ltp) {
       p.status = p.current_ltp >= p.target ? 'Yes' : 'No';
     }
