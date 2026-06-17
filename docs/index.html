@@ -138,7 +138,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 
 
 /* Embed mode - hide chrome when loaded in iframe */
-body.embed-mode #db-header-bar,
 body.embed-mode header,
 body.embed-mode .idx-bar,
 body.embed-mode footer { display: none !important; }
@@ -178,51 +177,7 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
   }
 })();
 </script>
-    <!-- Dashboard header bar -->
-    <div id="db-header-bar" style="background:#1a1a2e;padding:6px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #333;font-size:13px;">
-      <span style="color:#aaa;">📊 Dashboard: <strong style="color:#fff;">Basic Dashboard</strong></span>
-      <div style="display:flex;gap:12px;align-items:center">
-      <a href="/signals/" style="color:#7ec8e3;text-decoration:none;font-size:12px;">← All Dashboards</a>
-            </div>
-    </div>
-
-    <!-- Admin Basket Selector Bar -->
-    <div id="admin-basket-bar" style="background:#0d1b2a;padding:8px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1b2838;font-size:12px;">
-      <span style="color:#94a3b8;font-weight:600;"><i class="fas fa-shopping-basket" style="margin-right:4px"></i>BASKET:</span>
-      <select id="basketSelector" onchange="switchBasket(this.value)" style="background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;min-width:200px;">
-        <option value="0" selected="">All Baskets (28 configs)</option>
-                <option value="1">
-          Long-term (28 configs)
-        </option>
-                <option value="8">
-          Max_buy_2 (513 configs)
-        </option>
-                <option value="2">
-          Mid-term (21 configs)
-        </option>
-                <option value="6">
-          Short-term (57 configs)
-        </option>
-                <option value="7">
-          Super Dhamaka (55 configs)
-        </option>
-              </select>
-      <span style="color:#475569;font-size:11px;">Admin reference view — select a basket to filter configs</span>
-    </div>
-    <script>
-    function switchBasket(basketId){
-      var url = new URL(window.location.href);
-      if(basketId && basketId !== '0'){
-        url.searchParams.set('basket', basketId);
-      } else {
-        url.searchParams.delete('basket');
-      }
-      // Preserve tpl param
-      if(!url.searchParams.get('tpl')) url.searchParams.set('tpl','2');
-      window.location.href = url.toString();
-    }
-    </script>
-
+</div>
 <header>
   <div class="hdr">
     <div class="hdr-left">
@@ -4026,7 +3981,11 @@ function portSort(col) {
 function _renderPortfolioNow() {
   let arr = getPortfolio();
 
-  // Refresh LTPs from live sim data
+  // Auto-remove symbols no longer in open positions, refresh LTPs
+  arr = arr.filter(function(p) {
+    const sym = (p.symbol || '').toUpperCase();
+    return openSymbols.has(p.symbol) || openSymbols.has(sym);
+  });
   arr.forEach(function(p) {
     const sym = (p.symbol || '').toUpperCase();
     const ltp = openMap[sym] || openMap[p.symbol] || 0;
@@ -4111,7 +4070,7 @@ function _renderPortfolioNow() {
   document.getElementById('portfolio-info').textContent = arr.length + ' holdings';
 
   if (!arr.length) {
-    body.innerHTML = '<tr><td colspan="11" class="empty">No holdings' + (searchQ||statusF!=='ALL'?' matching filter':' yet — add from MTF Output tab or use + Add') + '</td></tr>';
+    body.innerHTML = '<tr><td colspan="11" class="empty">No open-position holdings' + (searchQ||statusF!=='ALL'?' matching filter':' yet. Add from MTF Output tab or use + Add') + '</td></tr>';
     return;
   }
 
