@@ -185,7 +185,7 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
       <div class="hdr-sep"></div>
       <div class="hdr-title">
         <div class="t1">NSE BTST Signals</div>
-        <div class="t2">DAILY SIGNAL SCANNER · <span id="hdrCfgCount">28 CONFIGS</span> · SIMULATION TRACKER</div>
+        <div class="t2">DAILY SIGNAL SCANNER · <span id="hdrCfgCount">… CONFIGS</span> · SIMULATION TRACKER</div>
       </div>
     </div>
     <div class="hdr-right">
@@ -256,36 +256,7 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
   <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;padding:10px 0 0 0;">
       <span class="slbl">CONFIG:</span>
       <button class="btn-filter active" onclick="ovCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('overview',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-      <div class="cfg-panel cfg-collapsed" id="cfg-panel-overview" style="display:none;flex-basis:100%;margin-top:6px;">
-            <button class="btn-filter" onclick="ovCfgFilter('C1',this)">C1</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C2',this)">C2</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C3',this)">C3</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C4',this)">C4</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C5',this)">C5</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C6',this)">C6</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C7',this)">C7</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C8',this)">C8</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C9',this)">C9</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C10',this)">C10</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C11',this)">C11</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C12',this)">C12</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C13',this)">C13</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C14',this)">C14</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C15',this)">C15</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C16',this)">C16</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C17',this)">C17</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C18',this)">C18</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C19',this)">C19</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C20',this)">C20</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C21',this)">C21</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C22',this)">C22</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C23',this)">C23</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C24',this)">C24</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C25',this)">C25</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C26',this)">C26</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C27',this)">C27</button>
-            <button class="btn-filter" onclick="ovCfgFilter('C28',this)">C28</button>
+            <span id="dynCfgBtns"></span>
             </div>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     </div>
@@ -4256,14 +4227,38 @@ function reloadDataForConfigs(){
   ALL_ROWS = [];
   var banner = document.getElementById('liveBanner');
   if(banner) banner.innerHTML = '⌛ Loading trade data…';
-  var configIds = [];
-  if(_cfgTabActive === 'ALL'){
-    configIds = CONFIGS_DEF.map(function(c){ return c.id; });
-  } else {
-    configIds = _cfgTabActive.split(',').filter(function(id){ return id.trim() !== ''; });
-  }
   (async function(){
     try{
+      // Step 1: fetch sim_meta.json to get the FULL list of config IDs
+      var metaRes = await fetch('https://raw.githubusercontent.com/spurandhar0/nse-btst-signals-dashboard-v2/main/docs/data/sim_meta.json');
+      var simMeta = await metaRes.json();
+      var allConfigIds = simMeta.configs || CONFIGS_DEF.map(function(c){ return c.id; });
+
+      // Step 2: update header count from sim_meta
+      var hdrEl = document.getElementById('hdrCfgCount');
+      if(hdrEl) hdrEl.textContent = allConfigIds.length + ' CONFIG' + (allConfigIds.length !== 1 ? 'S' : '');
+
+      // Step 3: build dynamic config filter buttons
+      var dynBtns = document.getElementById('dynCfgBtns');
+      if(dynBtns && dynBtns.children.length === 0){
+        allConfigIds.forEach(function(cid){
+          var b = document.createElement('button');
+          b.className = 'btn-filter';
+          b.textContent = cid;
+          b.onclick = function(){ ovCfgFilter(cid, b); };
+          dynBtns.appendChild(b);
+        });
+      }
+
+      // Step 4: determine which configs to load
+      var configIds = [];
+      if(_cfgTabActive === 'ALL'){
+        configIds = allConfigIds;
+      } else {
+        configIds = _cfgTabActive.split(',').filter(function(id){ return id.trim() !== ''; });
+      }
+
+      // Step 5: fetch all sim_results + trade_ohlc in parallel
       var allFetches = [
         ...configIds.map(function(cid){ return fetch('https://raw.githubusercontent.com/spurandhar0/nse-btst-signals-dashboard-v2/main/docs/data/sim_results_'+cid+'.json'); }),
         fetch('https://raw.githubusercontent.com/spurandhar0/nse-btst-signals-dashboard-v2/main/docs/data/trade_ohlc.json'),
@@ -4280,16 +4275,15 @@ function reloadDataForConfigs(){
       var ohlcRes = allResults[configIds.length];
       try{ TRADE_OHLC = await ohlcRes.json(); } catch(e){ console.warn('trade_ohlc.json parse error',e); }
       _dataReady = true;
-      try{
-        var metaRes = await fetch('https://raw.githubusercontent.com/spurandhar0/nse-btst-signals-dashboard-v2/main/docs/data/sim_meta.json');
-        var simMeta = await metaRes.json();
-          var ddEl = document.getElementById('bannerDataDate');
-          if(ddEl && simMeta.last_date) ddEl.textContent = simMeta.last_date;
-          var bdEl = document.getElementById('bannerDate');
-          if(bdEl && simMeta.generated_at) bdEl.textContent = simMeta.generated_at;
-          var hdrEl = document.getElementById('hdr-sim-date');
-          if(hdrEl && simMeta.generated_at) hdrEl.textContent = '● ' + simMeta.generated_at;
-      } catch(e){}
+
+      // Step 6: update banner dates from sim_meta
+      var ddEl = document.getElementById('bannerDataDate');
+      if(ddEl && simMeta.last_date) ddEl.textContent = simMeta.last_date;
+      var bdEl = document.getElementById('bannerDate');
+      if(bdEl && simMeta.generated_at) bdEl.textContent = simMeta.generated_at;
+      var simDateEl = document.getElementById('hdr-sim-date');
+      if(simDateEl && simMeta.generated_at) simDateEl.textContent = '● ' + simMeta.generated_at;
+
       openSymbols.clear();
       for(var k of Object.keys(openMap)) delete openMap[k];
       ALL_ROWS.filter(function(r){ return r.ORDER === 'Executed' && r.STATUS === 'Open'; }).forEach(function(r){
@@ -4303,7 +4297,7 @@ function reloadDataForConfigs(){
       var activeTab = document.querySelector('.tab.active');
       if(activeTab){ var tabName = activeTab.getAttribute('data-tab'); if(tabName) renderTab(tabName); }
       if(banner) banner.innerHTML = totalSignals > 0 
-        ? '✓ Data loaded: ' + totalSignals + ' signals'
+        ? '✓ Data loaded: ' + totalSignals + ' signals across ' + configIds.length + ' configs'
         : '<span style="color:#d97706">⚠ No trade data found. Run the Generate Signal workflow first.</span>';
     }catch(err){
       console.error('Data reload failed:', err);
