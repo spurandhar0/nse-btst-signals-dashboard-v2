@@ -138,7 +138,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
 
 
 /* Embed mode - hide chrome when loaded in iframe */
-body.embed-mode #db-header-bar,
 body.embed-mode header,
 body.embed-mode .idx-bar,
 body.embed-mode footer { display: none !important; }
@@ -178,14 +177,7 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
   }
 })();
 </script>
-    <!-- Dashboard header bar -->
-    <div id="db-header-bar" style="background:#1a1a2e;padding:6px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #333;font-size:13px;">
-      <span style="color:#aaa;">📊 Dashboard: <strong style="color:#fff;">Basic Dashboard</strong></span>
-      <div style="display:flex;gap:12px;align-items:center">
-      <a href="https://spurandhar0.github.io/nse-btst-signals-dashboard-v2/" style="color:#7ec8e3;text-decoration:none;font-size:12px;">← All Dashboards</a>
-            
-            </div>
-    </div>
+</div>
 
 
 <header>
@@ -3535,7 +3527,11 @@ function portSort(col) {
 function _renderPortfolioNow() {
   let arr = getPortfolio();
 
-  // Refresh LTPs from live sim data
+  // Auto-remove symbols no longer in open positions, refresh LTPs
+  arr = arr.filter(function(p) {
+    const sym = (p.symbol || '').toUpperCase();
+    return openSymbols.has(p.symbol) || openSymbols.has(sym);
+  });
   arr.forEach(function(p) {
     const sym = (p.symbol || '').toUpperCase();
     const ltp = openMap[sym] || openMap[p.symbol] || 0;
@@ -3620,7 +3616,7 @@ function _renderPortfolioNow() {
   document.getElementById('portfolio-info').textContent = arr.length + ' holdings';
 
   if (!arr.length) {
-    body.innerHTML = '<tr><td colspan="11" class="empty">No holdings' + (searchQ||statusF!=='ALL'?' matching filter':' yet — add from MTF Output tab or use + Add') + '</td></tr>';
+    body.innerHTML = '<tr><td colspan="11" class="empty">No open-position holdings' + (searchQ||statusF!=='ALL'?' matching filter':' yet. Add from MTF Output tab or use + Add') + '</td></tr>';
     return;
   }
 
