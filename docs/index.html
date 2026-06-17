@@ -277,7 +277,7 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
       <select id="ov-pgsize" onchange="ovPage=1;buildOverview()" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);font-size:11px;background:var(--surface);color:var(--text)">
         <option value="50" selected="">50 / page</option><option value="100">100 / page</option><option value="9999">All</option>
       </select>
-      <span id="ov-info" style="color:var(--text-dim);font-size:11px">1–28 of 28 | Page 1/1</span>
+      <span id="ov-info" style="color:var(--text-dim);font-size:11px"></span>
       <button class="btn-filter" onclick="pgOv(-1)" style="padding:4px 10px">‹ Prev</button>
       <button class="btn-filter" onclick="pgOv(1)" style="padding:4px 10px">Next ›</button>
     </div>
@@ -289,37 +289,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
   <div class="cstrip">
     <span class="slbl">Config:</span>
     <button class="btn-filter active" onclick="cfgFilter('open','ALL',this)">All</button>
-    <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('open',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-    <div class="cfg-panel cfg-collapsed" id="cfg-panel-open" style="display:none;flex-basis:100%;margin-top:6px;">
-        <button class="btn-filter" onclick="cfgFilter('open','C1',this)">C1</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C2',this)">C2</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C3',this)">C3</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C4',this)">C4</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C5',this)">C5</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C6',this)">C6</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C7',this)">C7</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C8',this)">C8</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C9',this)">C9</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C10',this)">C10</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C11',this)">C11</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C12',this)">C12</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C13',this)">C13</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C14',this)">C14</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C15',this)">C15</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C16',this)">C16</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C17',this)">C17</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C18',this)">C18</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C19',this)">C19</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C20',this)">C20</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C21',this)">C21</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C22',this)">C22</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C23',this)">C23</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C24',this)">C24</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C25',this)">C25</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C26',this)">C26</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C27',this)">C27</button>
-        <button class="btn-filter" onclick="cfgFilter('open','C28',this)">C28</button>
-        </div>
+    <button class="btn-filter" onclick="openTabCfgModal('open',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+    <div class="cfg-panel cfg-collapsed" id="cfg-panel-open" style="display:none;flex-basis:100%;margin-top:6px;"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <div style="flex:1"></div>
     <input type="text" id="open-search" placeholder="🔍 Search symbol..." oninput="renderTab('open')" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">
@@ -359,37 +330,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
   <div class="cstrip">
     <span class="slbl">Config:</span>
     <button class="btn-filter active" onclick="cfgFilter('fno','ALL',this)">All</button>
-    <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('fno',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-    <div class="cfg-panel cfg-collapsed" id="cfg-panel-fno" style="display:none;flex-basis:100%;margin-top:6px;">
-        <button class="btn-filter" onclick="cfgFilter('fno','C1',this)">C1</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C2',this)">C2</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C3',this)">C3</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C4',this)">C4</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C5',this)">C5</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C6',this)">C6</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C7',this)">C7</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C8',this)">C8</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C9',this)">C9</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C10',this)">C10</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C11',this)">C11</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C12',this)">C12</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C13',this)">C13</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C14',this)">C14</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C15',this)">C15</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C16',this)">C16</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C17',this)">C17</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C18',this)">C18</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C19',this)">C19</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C20',this)">C20</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C21',this)">C21</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C22',this)">C22</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C23',this)">C23</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C24',this)">C24</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C25',this)">C25</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C26',this)">C26</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C27',this)">C27</button>
-        <button class="btn-filter" onclick="cfgFilter('fno','C28',this)">C28</button>
-        </div>
+    <button class="btn-filter" onclick="openTabCfgModal('fno',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+    <div class="cfg-panel cfg-collapsed" id="cfg-panel-fno" style="display:none;flex-basis:100%;margin-top:6px;"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <div style="flex:1"></div>
     <input type="text" id="fno-search" placeholder="🔍 Search symbol..." oninput="renderTab('fno')" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">
@@ -429,37 +371,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
   <div class="cstrip">
     <span class="slbl">Config:</span>
     <button class="btn-filter active" onclick="cfgFilter('fnoclosed','ALL',this)">All</button>
-    <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('fnoclosed',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-    <div class="cfg-panel cfg-collapsed" id="cfg-panel-fnoclosed" style="display:none;flex-basis:100%;margin-top:6px;">
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C1',this)">C1</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C2',this)">C2</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C3',this)">C3</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C4',this)">C4</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C5',this)">C5</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C6',this)">C6</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C7',this)">C7</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C8',this)">C8</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C9',this)">C9</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C10',this)">C10</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C11',this)">C11</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C12',this)">C12</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C13',this)">C13</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C14',this)">C14</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C15',this)">C15</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C16',this)">C16</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C17',this)">C17</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C18',this)">C18</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C19',this)">C19</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C20',this)">C20</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C21',this)">C21</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C22',this)">C22</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C23',this)">C23</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C24',this)">C24</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C25',this)">C25</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C26',this)">C26</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C27',this)">C27</button>
-        <button class="btn-filter" onclick="cfgFilter('fnoclosed','C28',this)">C28</button>
-        </div>
+    <button class="btn-filter" onclick="openTabCfgModal('fnoclosed',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+    <div class="cfg-panel cfg-collapsed" id="cfg-panel-fnoclosed" style="display:none;flex-basis:100%;margin-top:6px;"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <span class="slbl">Result:</span>
@@ -504,37 +417,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
   <div class="cstrip">
     <span class="slbl">Config:</span>
     <button class="btn-filter active" onclick="cfgFilter('closed','ALL',this)">All</button>
-    <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('closed',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-    <div class="cfg-panel cfg-collapsed" id="cfg-panel-closed" style="display:none;flex-basis:100%;margin-top:6px;">
-        <button class="btn-filter" onclick="cfgFilter('closed','C1',this)">C1</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C2',this)">C2</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C3',this)">C3</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C4',this)">C4</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C5',this)">C5</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C6',this)">C6</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C7',this)">C7</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C8',this)">C8</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C9',this)">C9</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C10',this)">C10</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C11',this)">C11</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C12',this)">C12</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C13',this)">C13</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C14',this)">C14</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C15',this)">C15</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C16',this)">C16</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C17',this)">C17</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C18',this)">C18</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C19',this)">C19</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C20',this)">C20</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C21',this)">C21</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C22',this)">C22</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C23',this)">C23</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C24',this)">C24</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C25',this)">C25</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C26',this)">C26</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C27',this)">C27</button>
-        <button class="btn-filter" onclick="cfgFilter('closed','C28',this)">C28</button>
-        </div>
+    <button class="btn-filter" onclick="openTabCfgModal('closed',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+    <div class="cfg-panel cfg-collapsed" id="cfg-panel-closed" style="display:none;flex-basis:100%;margin-top:6px;"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <span class="slbl">Result:</span>
@@ -751,37 +635,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
   <div class="cstrip">
     <span class="slbl">Config:</span>
     <button class="btn-filter active" onclick="cfgFilter('fe','ALL',this)">All</button>
-    <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('fe',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-    <div class="cfg-panel cfg-collapsed" id="cfg-panel-fe" style="display:none;flex-basis:100%;margin-top:6px;">
-        <button class="btn-filter" onclick="cfgFilter('fe','C1',this)">C1</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C2',this)">C2</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C3',this)">C3</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C4',this)">C4</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C5',this)">C5</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C6',this)">C6</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C7',this)">C7</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C8',this)">C8</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C9',this)">C9</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C10',this)">C10</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C11',this)">C11</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C12',this)">C12</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C13',this)">C13</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C14',this)">C14</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C15',this)">C15</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C16',this)">C16</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C17',this)">C17</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C18',this)">C18</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C19',this)">C19</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C20',this)">C20</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C21',this)">C21</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C22',this)">C22</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C23',this)">C23</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C24',this)">C24</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C25',this)">C25</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C26',this)">C26</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C27',this)">C27</button>
-        <button class="btn-filter" onclick="cfgFilter('fe','C28',this)">C28</button>
-        </div>
+    <button class="btn-filter" onclick="openTabCfgModal('fe',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+    <div class="cfg-panel cfg-collapsed" id="cfg-panel-fe" style="display:none;flex-basis:100%;margin-top:6px;"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <div style="flex:1"></div>
     <input type="text" id="fe-search" placeholder="🔍 Search symbol..." oninput="renderTab('fe')" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">
@@ -826,37 +681,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <span class="slbl">Config:</span>
     <button class="btn-filter active" onclick="cfgFilter('hist','ALL',this)">All</button>
-    <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('hist',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-    <div class="cfg-panel cfg-collapsed" id="cfg-panel-hist" style="display:none;flex-basis:100%;margin-top:6px;">
-        <button class="btn-filter" onclick="cfgFilter('hist','C1',this)">C1</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C2',this)">C2</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C3',this)">C3</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C4',this)">C4</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C5',this)">C5</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C6',this)">C6</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C7',this)">C7</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C8',this)">C8</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C9',this)">C9</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C10',this)">C10</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C11',this)">C11</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C12',this)">C12</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C13',this)">C13</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C14',this)">C14</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C15',this)">C15</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C16',this)">C16</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C17',this)">C17</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C18',this)">C18</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C19',this)">C19</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C20',this)">C20</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C21',this)">C21</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C22',this)">C22</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C23',this)">C23</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C24',this)">C24</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C25',this)">C25</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C26',this)">C26</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C27',this)">C27</button>
-        <button class="btn-filter" onclick="cfgFilter('hist','C28',this)">C28</button>
-        </div>
+    <button class="btn-filter" onclick="openTabCfgModal('hist',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+    <div class="cfg-panel cfg-collapsed" id="cfg-panel-hist" style="display:none;flex-basis:100%;margin-top:6px;"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
   </div>
   <div id="hist-stats" style="display:flex;gap:12px;flex-wrap:wrap;margin:0 0 12px 0"></div>
@@ -874,37 +700,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
   <div class="cstrip">
     <span class="slbl">Config:</span>
     <button class="btn-filter active" onclick="cfgFilter('ledger','ALL',this)">All</button>
-    <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('ledger',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-    <div class="cfg-panel cfg-collapsed" id="cfg-panel-ledger" style="display:none;flex-basis:100%;margin-top:6px;">
-        <button class="btn-filter" onclick="cfgFilter('ledger','C1',this)">C1</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C2',this)">C2</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C3',this)">C3</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C4',this)">C4</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C5',this)">C5</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C6',this)">C6</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C7',this)">C7</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C8',this)">C8</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C9',this)">C9</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C10',this)">C10</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C11',this)">C11</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C12',this)">C12</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C13',this)">C13</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C14',this)">C14</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C15',this)">C15</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C16',this)">C16</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C17',this)">C17</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C18',this)">C18</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C19',this)">C19</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C20',this)">C20</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C21',this)">C21</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C22',this)">C22</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C23',this)">C23</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C24',this)">C24</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C25',this)">C25</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C26',this)">C26</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C27',this)">C27</button>
-        <button class="btn-filter" onclick="cfgFilter('ledger','C28',this)">C28</button>
-        </div>
+    <button class="btn-filter" onclick="openTabCfgModal('ledger',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+    <div class="cfg-panel cfg-collapsed" id="cfg-panel-ledger" style="display:none;flex-basis:100%;margin-top:6px;"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <label style="font-size:12px;color:var(--text2);">Exit From:</label>
@@ -951,37 +748,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     <span class="slbl">Config:</span>
     <button class="btn-filter active" onclick="cfgFilter('trades','ALL',this)">All</button>
-    <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('trades',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-    <div class="cfg-panel cfg-collapsed" id="cfg-panel-trades" style="display:none;flex-basis:100%;margin-top:6px;">
-        <button class="btn-filter" onclick="cfgFilter('trades','C1',this)">C1</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C2',this)">C2</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C3',this)">C3</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C4',this)">C4</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C5',this)">C5</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C6',this)">C6</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C7',this)">C7</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C8',this)">C8</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C9',this)">C9</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C10',this)">C10</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C11',this)">C11</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C12',this)">C12</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C13',this)">C13</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C14',this)">C14</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C15',this)">C15</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C16',this)">C16</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C17',this)">C17</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C18',this)">C18</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C19',this)">C19</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C20',this)">C20</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C21',this)">C21</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C22',this)">C22</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C23',this)">C23</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C24',this)">C24</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C25',this)">C25</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C26',this)">C26</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C27',this)">C27</button>
-        <button class="btn-filter" onclick="cfgFilter('trades','C28',this)">C28</button>
-        </div>
+    <button class="btn-filter" onclick="openTabCfgModal('trades',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+    <div class="cfg-panel cfg-collapsed" id="cfg-panel-trades" style="display:none;flex-basis:100%;margin-top:6px;"></div>
     <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
   </div>
   <div class="card" style="padding:0 0 8px">
@@ -1136,37 +904,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
       <span class="slbl">CONFIG:</span>
       <button class="btn-filter active" onclick="avgTrigCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('avgtrigger',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-      <div class="cfg-panel cfg-collapsed" id="cfg-panel-avgtrigger" style="display:none;flex-basis:100%;margin-top:6px;">
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C1',this)">C1</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C2',this)">C2</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C3',this)">C3</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C4',this)">C4</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C5',this)">C5</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C6',this)">C6</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C7',this)">C7</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C8',this)">C8</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C9',this)">C9</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C10',this)">C10</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C11',this)">C11</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C12',this)">C12</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C13',this)">C13</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C14',this)">C14</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C15',this)">C15</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C16',this)">C16</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C17',this)">C17</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C18',this)">C18</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C19',this)">C19</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C20',this)">C20</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C21',this)">C21</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C22',this)">C22</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C23',this)">C23</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C24',this)">C24</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C25',this)">C25</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C26',this)">C26</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C27',this)">C27</button>
-            <button class="btn-filter" onclick="avgTrigCfgFilter('C28',this)">C28</button>
-            </div>
+      <button class="btn-filter" onclick="openTabCfgModal('avgtrigger',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+      <div class="cfg-panel cfg-collapsed" id="cfg-panel-avgtrigger" style="display:none;flex-basis:100%;margin-top:6px;"></div>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     </div>
     <div id="avgtrigger-badges" class="tab-badges"></div>
@@ -1203,37 +942,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
       <span class="slbl">CONFIG:</span>
       <button class="btn-filter active" onclick="sellTrigCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('selltrigger',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-      <div class="cfg-panel cfg-collapsed" id="cfg-panel-selltrigger" style="display:none;flex-basis:100%;margin-top:6px;">
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C1',this)">C1</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C2',this)">C2</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C3',this)">C3</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C4',this)">C4</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C5',this)">C5</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C6',this)">C6</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C7',this)">C7</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C8',this)">C8</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C9',this)">C9</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C10',this)">C10</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C11',this)">C11</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C12',this)">C12</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C13',this)">C13</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C14',this)">C14</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C15',this)">C15</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C16',this)">C16</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C17',this)">C17</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C18',this)">C18</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C19',this)">C19</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C20',this)">C20</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C21',this)">C21</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C22',this)">C22</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C23',this)">C23</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C24',this)">C24</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C25',this)">C25</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C26',this)">C26</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C27',this)">C27</button>
-            <button class="btn-filter" onclick="sellTrigCfgFilter('C28',this)">C28</button>
-            </div>
+      <button class="btn-filter" onclick="openTabCfgModal('selltrigger',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+      <div class="cfg-panel cfg-collapsed" id="cfg-panel-selltrigger" style="display:none;flex-basis:100%;margin-top:6px;"></div>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">  <div id="selltrigger-badges" class="tab-badges" style="flex:1;min-width:0;"></div>  <input id="selltrig-search" type="text" placeholder="🔍 Search symbol..." oninput="renderSellTrigger()" style="padding:4px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-size:12px;width:160px;outline:none;">  <button class="btn-sm btn-green" onclick="exportTabCSV('selltrigger')">Export CSV</button></div>
@@ -1261,37 +971,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
       <span class="slbl">Config:</span>
       <button class="btn-filter active" onclick="avgHistCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('avghistory',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-      <div class="cfg-panel cfg-collapsed" id="cfg-panel-avghistory" style="display:none;flex-basis:100%;margin-top:6px;">
-            <button class="btn-filter" onclick="avgHistCfgFilter('C1',this)">C1</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C2',this)">C2</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C3',this)">C3</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C4',this)">C4</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C5',this)">C5</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C6',this)">C6</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C7',this)">C7</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C8',this)">C8</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C9',this)">C9</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C10',this)">C10</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C11',this)">C11</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C12',this)">C12</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C13',this)">C13</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C14',this)">C14</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C15',this)">C15</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C16',this)">C16</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C17',this)">C17</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C18',this)">C18</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C19',this)">C19</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C20',this)">C20</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C21',this)">C21</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C22',this)">C22</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C23',this)">C23</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C24',this)">C24</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C25',this)">C25</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C26',this)">C26</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C27',this)">C27</button>
-            <button class="btn-filter" onclick="avgHistCfgFilter('C28',this)">C28</button>
-            </div>
+      <button class="btn-filter" onclick="openTabCfgModal('avghistory',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+      <div class="cfg-panel cfg-collapsed" id="cfg-panel-avghistory" style="display:none;flex-basis:100%;margin-top:6px;"></div>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
@@ -1330,37 +1011,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
       <span class="slbl">Config:</span>
       <button class="btn-filter active" onclick="mdCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('marketdata',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-      <div class="cfg-panel cfg-collapsed" id="cfg-panel-marketdata" style="display:none;flex-basis:100%;margin-top:6px;">
-            <button class="btn-filter" onclick="mdCfgFilter('C1',this)">C1</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C2',this)">C2</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C3',this)">C3</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C4',this)">C4</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C5',this)">C5</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C6',this)">C6</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C7',this)">C7</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C8',this)">C8</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C9',this)">C9</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C10',this)">C10</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C11',this)">C11</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C12',this)">C12</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C13',this)">C13</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C14',this)">C14</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C15',this)">C15</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C16',this)">C16</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C17',this)">C17</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C18',this)">C18</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C19',this)">C19</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C20',this)">C20</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C21',this)">C21</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C22',this)">C22</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C23',this)">C23</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C24',this)">C24</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C25',this)">C25</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C26',this)">C26</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C27',this)">C27</button>
-            <button class="btn-filter" onclick="mdCfgFilter('C28',this)">C28</button>
-            </div>
+      <button class="btn-filter" onclick="openTabCfgModal('marketdata',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+      <div class="cfg-panel cfg-collapsed" id="cfg-panel-marketdata" style="display:none;flex-basis:100%;margin-top:6px;"></div>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     </div>
     <div id="marketdata-badges" class="tab-badges"></div>
@@ -1394,37 +1046,8 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
       <span class="slbl">Config:</span>
       <button class="btn-filter active" onclick="perfCfgFilter('ALL',this)">All</button>
-      <button class="btn-filter btn-toggle-cfg" onclick="toggleCfgPanel('performance',this)" style="background:#334155;color:#94a3b8;border:1px dashed #475569">▼ Configs</button>
-      <div class="cfg-panel cfg-collapsed" id="cfg-panel-performance" style="display:none;flex-basis:100%;margin-top:6px;">
-            <button class="btn-filter" onclick="perfCfgFilter('C1',this)">C1</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C2',this)">C2</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C3',this)">C3</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C4',this)">C4</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C5',this)">C5</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C6',this)">C6</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C7',this)">C7</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C8',this)">C8</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C9',this)">C9</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C10',this)">C10</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C11',this)">C11</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C12',this)">C12</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C13',this)">C13</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C14',this)">C14</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C15',this)">C15</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C16',this)">C16</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C17',this)">C17</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C18',this)">C18</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C19',this)">C19</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C20',this)">C20</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C21',this)">C21</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C22',this)">C22</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C23',this)">C23</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C24',this)">C24</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C25',this)">C25</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C26',this)">C26</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C27',this)">C27</button>
-            <button class="btn-filter" onclick="perfCfgFilter('C28',this)">C28</button>
-            </div>
+      <button class="btn-filter" onclick="openTabCfgModal('performance',this)" style="background:#1d4ed8;color:#fff;border:1px solid #1d4ed8;">⚙ Configs</button>
+      <div class="cfg-panel cfg-collapsed" id="cfg-panel-performance" style="display:none;flex-basis:100%;margin-top:6px;"></div>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
     </div>
     <div id="perf-hero" class="perf-hero"></div>
@@ -1992,14 +1615,14 @@ function getFiltered(tab){
 
   if(tab==='open'){
     rows = rows.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-    if(state.open.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.open.cfg);
+    if(state.open.cfg!=='ALL'){var _copen=state.open.cfg;rows=rows.filter(r=>Array.isArray(_copen)?_copen.includes(r.CONFIG):r.CONFIG===_copen);}
     if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
     const _os=(document.getElementById('open-search')||{}).value||'';
     if(_os) rows=rows.filter(r=>(r.SYMBOL||'').toUpperCase().includes(_os.toUpperCase()));
   }
   else if(tab==='closed'){
     rows = rows.filter(r=>r.STATUS==='Closed'&&r.RESULT);
-    if(state.closed.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.closed.cfg);
+    if(state.closed.cfg!=='ALL'){var _cclosed=state.closed.cfg;rows=rows.filter(r=>Array.isArray(_cclosed)?_cclosed.includes(r.CONFIG):r.CONFIG===_cclosed);}
     if(state.closed.res==='P') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('profit')&&!r.RESULT.includes('FE'));
     if(state.closed.res==='L') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('loss')&&!r.RESULT.includes('FE'));
     if(state.closed.res==='FE') rows=rows.filter(r=>r.RESULT&&r.RESULT.includes('FE'));
@@ -2011,7 +1634,7 @@ function getFiltered(tab){
     const cfgDurMap={};
     CONFIGS_DEF.forEach(c=>{ cfgDurMap[c.id||c.ID]=parseInt(c.max_duration||c.MAXDURA||90); });
     rows = rows.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open');
-    if(state.fe.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.fe.cfg);
+    if(state.fe.cfg!=='ALL'){var _cfe=state.fe.cfg;rows=rows.filter(r=>Array.isArray(_cfe)?_cfe.includes(r.CONFIG):r.CONFIG===_cfe);}
     if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
     const _fs=(document.getElementById('fe-search')||{}).value||'';
     if(_fs) rows=rows.filter(r=>(r.SYMBOL||'').toUpperCase().includes(_fs.toUpperCase()));
@@ -2054,7 +1677,7 @@ function getFiltered(tab){
   }
   else if(tab==='trades'){
     rows = rows.filter(r=>r.ORDER==='Executed');
-    if(state.trades.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.trades.cfg);
+    if(state.trades.cfg!=='ALL'){var _ctrades=state.trades.cfg;rows=rows.filter(r=>Array.isArray(_ctrades)?_ctrades.includes(r.CONFIG):r.CONFIG===_ctrades);}
     if(state.trades.status!=='ALL') rows=rows.filter(r=>r.STATUS===state.trades.status);
     const q=(document.getElementById('trades-search')||{}).value||'';
     if(q)rows=rows.filter(r=>(r.SYMBOL||'').toLowerCase().includes(q.toLowerCase()));
@@ -2073,14 +1696,14 @@ function getFiltered(tab){
   }
   else if(tab==='fno'){
     rows = rows.filter(r=>r.ORDER==='Executed'&&r.STATUS==='Open'&&FO_SYMBOLS.has((r.SYMBOL||'').toUpperCase()));
-    if(state.fno.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.fno.cfg);
+    if(state.fno.cfg!=='ALL'){var _cfno=state.fno.cfg;rows=rows.filter(r=>Array.isArray(_cfno)?_cfno.includes(r.CONFIG):r.CONFIG===_cfno);}
     if(dateRangeActive) rows=rows.filter(r=>inDateRange(r.SIGNAL_DATE));
     const _fs=(document.getElementById('fno-search')||{}).value||'';
     if(_fs) rows=rows.filter(r=>(r.SYMBOL||'').toUpperCase().includes(_fs.toUpperCase()));
   }
   else if(tab==='fnoclosed'){
     rows = rows.filter(r=>r.STATUS==='Closed'&&r.RESULT&&FO_SYMBOLS.has((r.SYMBOL||'').toUpperCase()));
-    if(state.fnoclosed.cfg!=='ALL') rows=rows.filter(r=>r.CONFIG===state.fnoclosed.cfg);
+    if(state.fnoclosed.cfg!=='ALL'){var _cfnoclosed=state.fnoclosed.cfg;rows=rows.filter(r=>Array.isArray(_cfnoclosed)?_cfnoclosed.includes(r.CONFIG):r.CONFIG===_cfnoclosed);}
     if(state.fnoclosed.res==='P') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('profit')&&!r.RESULT.includes('FE'));
     if(state.fnoclosed.res==='L') rows=rows.filter(r=>r.RESULT&&r.RESULT.toLowerCase().includes('loss')&&!r.RESULT.includes('FE'));
     if(state.fnoclosed.res==='FE') rows=rows.filter(r=>r.RESULT&&r.RESULT.includes('FE'));
@@ -3372,7 +2995,7 @@ function buildOverview(){
   const allCfgIds = CONFIGS_DEF.map(c=>c.id||c.ID).filter(Boolean).sort((a,b)=>parseInt(a.slice(1))-parseInt(b.slice(1)));
   const cfgIds = ovCfg==='ALL' ? allCfgIds : [ovCfg];
   let totExec=0,totOpen=0,totClosed=0,totPnl=0,totPT=0,totLoss=0;
-  const rows=[];
+  let rows=[];
 
   cfgIds.forEach(cid=>{
     let crows=ALL_ROWS.filter(r=>r.CONFIG===cid);
@@ -3942,18 +3565,38 @@ async function portfolioManualAdd() {
 var _cfgSelTemp = new Set();
 var _cfgTabActive = 'ALL';
 
-function openCfgSelectModal(){
+var _cfgModalTab = null;
+var _tabCfgFilter = {}; // per-tab filter: tab -> Set of cfg IDs or 'ALL'
+
+function openTabCfgModal(tab, btn){
+  _cfgModalTab = tab;
   _cfgSelTemp = new Set();
-  var saved = localStorage.getItem('btst_cfg_active_v2');
-  if(!saved || saved === 'ALL'){
-    CONFIGS_DEF.forEach(function(c){ _cfgSelTemp.add(c.id); });
-  } else {
-    saved.split(',').forEach(function(id){ _cfgSelTemp.add(id.trim()); });
+  var tabFilter = _tabCfgFilter[tab];
+  if(!tabFilter || tabFilter === 'ALL'){
+    CONFIGS_DEF.forEach(function(c){ _cfgSelTemp.add(c.id||c.ID); });
+  } else if(tabFilter instanceof Set){
+    _cfgSelTemp = new Set(tabFilter);
+  }
+  // Populate grid from CONFIGS_DEF
+  var grid = document.getElementById('cfg-sel-grid');
+  if(grid){
+    grid.innerHTML = '';
+    CONFIGS_DEF.forEach(function(c){
+      var id = c.id||c.ID;
+      var b = document.createElement('button');
+      b.className = 'cfg-sel-btn btn-filter';
+      b.dataset.id = id;
+      b.textContent = id;
+      b.onclick = function(){ cfgSelToggle(id); };
+      b.style.cssText = 'padding:3px 10px;font-size:11px;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all .15s;';
+      grid.appendChild(b);
+    });
   }
   updateCfgSelGrid();
   var m = document.getElementById('cfg-select-modal');
   if(m){ m.style.display='flex'; }
 }
+function openCfgSelectModal(){ openTabCfgModal('overview', null); }
 function closeCfgSelectModal(){
   var m = document.getElementById('cfg-select-modal');
   if(m){ m.style.display='none'; }
@@ -3980,17 +3623,30 @@ function cfgSelAll(){ CONFIGS_DEF.forEach(function(c){ _cfgSelTemp.add(c.id); })
 function cfgSelClear(){ _cfgSelTemp.clear(); updateCfgSelGrid(); }
 
 function applyCfgSelect(){
-  var allIds = CONFIGS_DEF.map(function(c){ return c.id; });
+  var allIds = CONFIGS_DEF.map(function(c){ return c.id||c.ID; });
+  var tab = _cfgModalTab || 'overview';
+  if(!state[tab]) state[tab] = {};
   if(_cfgSelTemp.size === 0 || _cfgSelTemp.size === allIds.length){
-    _cfgTabActive = 'ALL';
+    state[tab].cfg = 'ALL';
   } else if(_cfgSelTemp.size === 1){
-    _cfgTabActive = Array.from(_cfgSelTemp)[0];
+    state[tab].cfg = Array.from(_cfgSelTemp)[0];
   } else {
-    _cfgTabActive = Array.from(_cfgSelTemp).join(',');
+    state[tab].cfg = Array.from(_cfgSelTemp); // array = multi-select
   }
-  localStorage.setItem('btst_cfg_active_v2', _cfgTabActive);
-  closeCfgSelectModal();
-  reloadDataForConfigs();
+  if(state[tab].page !== undefined) state[tab].page = 1;
+  // Update active badge on "All" button for this tab
+  var allBtn = document.querySelector('#tab-'+tab+' .btn-filter.active');
+  if(allBtn) allBtn.classList.remove('active');
+  // For overview, also update global _cfgTabActive
+  if(tab === 'overview'){
+    _cfgTabActive = (state[tab].cfg === 'ALL') ? 'ALL' : (Array.isArray(state[tab].cfg) ? state[tab].cfg.join(',') : state[tab].cfg);
+    localStorage.setItem('btst_cfg_active_v2', _cfgTabActive);
+    closeCfgSelectModal();
+    buildOverview();
+  } else {
+    closeCfgSelectModal();
+    renderTab(tab);
+  }
 }
 
 function reloadDataForConfigs(){
