@@ -252,7 +252,6 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
             <span id="dynCfgBtns"></span>
             </div>
       <div style="flex-basis:100%;height:0;margin:0;padding:0"></div>
-    </div>
 <div id="ov-stats" class="stat-grid"><div class="stat-card"><div class="stat-val">—</div><div class="stat-lbl">Loading...</div></div></div>
   <div class="card" style="padding:0 0 8px">
     <div class="table-area">
@@ -3696,9 +3695,30 @@ function reloadDataForConfigs(){
       var metaRes = await fetch('https://raw.githubusercontent.com/spurandhar0/nse-btst-signals-dashboard-v2/main/docs/data/sim_meta.json');
       var simMeta = await metaRes.json();
       var allConfigIds = simMeta.configs || [];
-      // Populate CONFIGS_DEF from sim_meta so all render functions see all configs
+
+      // Try to fetch sim_configs.json for real config parameters
+      var cfgParamsMap = {};
+      try {
+        var cfgParamsRes = await fetch('https://raw.githubusercontent.com/spurandhar0/nse-btst-signals-dashboard-v2/main/docs/data/sim_configs.json');
+        if(cfgParamsRes.ok) cfgParamsMap = await cfgParamsRes.json();
+      } catch(e) { /* sim_configs.json not yet generated — params will show — */ }
+
+      // Populate CONFIGS_DEF: use real params from sim_configs.json if available
       CONFIGS_DEF = allConfigIds.map(function(id){
-        return {id: id, name: id, max_duration: 90, max_buys: 4, target: 0.1, stoploss: 0.25};
+        var p = cfgParamsMap[id] || {};
+        return {
+          id: id, name: id,
+          days_back:    p.days_back    !== undefined ? p.days_back    : '',
+          pct_min:      p.pct_min      !== undefined ? p.pct_min      : '',
+          pct_max:      p.pct_max      !== undefined ? p.pct_max      : '',
+          ath_min:      p.ath_min      !== undefined ? p.ath_min      : '',
+          ath_max:      p.ath_max      !== undefined ? p.ath_max      : '',
+          max_buys:     p.max_buys     !== undefined ? p.max_buys     : '',
+          buy_drop:     p.buy_drop     !== undefined ? p.buy_drop     : '',
+          target:       p.target       !== undefined ? p.target       : '',
+          stop_loss:    p.stop_loss    !== undefined ? p.stop_loss    : '',
+          max_duration: p.max_duration !== undefined ? p.max_duration : ''
+        };
       });
 
       // Step 2: update header count from sim_meta
@@ -3783,17 +3803,18 @@ function buildCfgParamsRows(){
   if(!CONFIGS_DEF||!CONFIGS_DEF.length) return '<tr><td colspan="11" class="empty">No configs loaded.</td></tr>';
   return CONFIGS_DEF.map(function(c){
     var id=c.id||c.ID||'';
+    function fmt(v){ return (v===''||v===null||v===undefined)?'—':v; }
     return '<tr><td><span class="cfg-badge">'+id+'</span></td>'
-      +'<td>'+(c.days_back||c.DAYS_BACK||'')+'</td>'
-      +'<td>'+(c.pct_min||c.PCT_MIN||'')+'</td>'
-      +'<td>'+(c.pct_max||c.PCT_MAX||'')+'</td>'
-      +'<td>'+(c.ath_min||c.ATH_MIN||c.ath_drop_min||'')+'</td>'
-      +'<td>'+(c.ath_max||c.ATH_MAX||c.ath_drop_max||'')+'</td>'
-      +'<td>'+(c.max_buys||c.MAX_BUYS||'')+'</td>'
-      +'<td>'+(c.buy_drop||c.BUY_DROP||'')+'</td>'
-      +'<td>'+(c.target||c.TARGET||'')+'</td>'
-      +'<td>'+(c.stop_loss||c.STOP_LOSS||c.sl||'')+'</td>'
-      +'<td>'+(c.max_duration||c.MAX_DURATION||'')+'</td>'
+      +'<td>'+fmt(c.days_back)+'</td>'
+      +'<td>'+fmt(c.pct_min)+'</td>'
+      +'<td>'+fmt(c.pct_max)+'</td>'
+      +'<td>'+fmt(c.ath_min)+'</td>'
+      +'<td>'+fmt(c.ath_max)+'</td>'
+      +'<td>'+fmt(c.max_buys)+'</td>'
+      +'<td>'+fmt(c.buy_drop)+'</td>'
+      +'<td>'+fmt(c.target)+'</td>'
+      +'<td>'+fmt(c.stop_loss)+'</td>'
+      +'<td>'+fmt(c.max_duration)+'</td>'
       +'</tr>';
   }).join('');
 }
