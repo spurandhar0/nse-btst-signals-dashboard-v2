@@ -862,9 +862,9 @@ th[onclick]::after{content:'⇅';opacity:.3;font-size:9px;margin-left:3px;}
     <table id="cfg-params-table" class="ov-table"><thead><tr>
       <th>CONFIG</th><th>DAYS BACK</th><th>PCT MIN</th><th>PCT MAX</th>
       <th>ATH MIN</th><th>ATH MAX</th><th>MAX BUYS</th><th>BUY DROP</th>
-      <th>TARGET</th><th>STOP LOSS</th><th>MAX DURATION</th>
+      <th>TARGET</th><th>STOP LOSS</th><th>MAX DURATION</th><th>WIN RATE %</th>
     </tr></thead>
-    <tbody id="cfg-params-body"><tr><td colspan="11" style="text-align:center;padding:20px;color:#94a3b8">⌛ Loading...</td></tr></tbody>
+    <tbody id="cfg-params-body"><tr><td colspan="12" style="text-align:center;padding:20px;color:#94a3b8">⌛ Loading...</td></tr></tbody>
     </table>
   </div>
   <div style="margin-top:20px;padding:16px;background:#f8faff;border-radius:10px;border:1.5px solid #c7d7fe;font-size:13px;color:var(--text2);line-height:1.8">
@@ -3680,7 +3680,8 @@ function reloadDataForConfigs(){
           buy_drop:     p.buy_drop     !== undefined ? p.buy_drop     : '',
           target:       p.target       !== undefined ? p.target       : '',
           stop_loss:    p.stop_loss    !== undefined ? p.stop_loss    : '',
-          max_duration: p.max_duration !== undefined ? p.max_duration : ''
+          max_duration: p.max_duration !== undefined ? p.max_duration : '',
+          win_rate:     p.win_rate     !== undefined ? p.win_rate     : null
         };
       });
 
@@ -3763,10 +3764,13 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 function buildCfgParamsRows(){
-  if(!CONFIGS_DEF||!CONFIGS_DEF.length) return '<tr><td colspan="11" class="empty">No configs loaded.</td></tr>';
+  if(!CONFIGS_DEF||!CONFIGS_DEF.length) return '<tr><td colspan="12" class="empty">No configs loaded.</td></tr>';
   return CONFIGS_DEF.map(function(c){
     var id=c.id||c.ID||'';
     function fmt(v){ return (v===''||v===null||v===undefined)?'—':v; }
+    var wr = c.win_rate !== null && c.win_rate !== undefined && c.win_rate !== ''
+      ? '<span style="font-weight:600;color:'+(c.win_rate>=60?'#16a34a':c.win_rate>=45?'#d97706':'#dc2626')+'">'+c.win_rate+'%</span>'
+      : '—';
     return '<tr><td><span class="cfg-badge">'+id+'</span></td>'
       +'<td>'+fmt(c.days_back)+'</td>'
       +'<td>'+fmt(c.pct_min)+'</td>'
@@ -3778,6 +3782,7 @@ function buildCfgParamsRows(){
       +'<td>'+fmt(c.target)+'</td>'
       +'<td>'+fmt(c.stop_loss)+'</td>'
       +'<td>'+fmt(c.max_duration)+'</td>'
+      +'<td>'+wr+'</td>'
       +'</tr>';
   }).join('');
 }
