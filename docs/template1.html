@@ -3779,7 +3779,7 @@ function reloadDataForConfigs(){
       });
       // Fetch today's BTST signals
       try {
-        var sigRes = await fetch('https://raw.githubusercontent.com/spurandhar0/nse-btst-signals-v2/main/docs/data/daily_signals.json?t='+Date.now());
+        var sigRes = await fetch('https://raw.githubusercontent.com/spurandhar0/nse-btst-signals-dashboard-v2/main/docs/data/daily_signals.json?t='+Date.now());
         if(sigRes.ok){ var sigData = await sigRes.json(); SIGNALS_RAW = Array.isArray(sigData) ? sigData : (sigData.signals || []); }
       } catch(e){ /* daily_signals.json not yet available */ }
 
