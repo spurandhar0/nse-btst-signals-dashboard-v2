@@ -3626,7 +3626,7 @@ async function portfolioManualAdd() {
 var _cfgSelTemp = new Set();
 var _cfgTabActive = 'ALL';
 
-function openCfgSelectModal(){
+function openCfgSelectModal(){  var grid = document.getElementById('cfg-sel-grid');  if(grid && !grid.children.length){    grid.innerHTML = CONFIGS_DEF.map(function(c){ return '<button type="button" class="cfg-sel-btn" data-id="'+c.id+'" onclick="cfgSelToggle(this.dataset.id)" style="padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;">'+(c.name||c.id)+'</button>'; }).join('');  }
   _cfgSelTemp = new Set();
   var saved = localStorage.getItem('btst_cfg_active_v2');
   if(!saved || saved === 'ALL'){
