@@ -46,10 +46,10 @@ header{background:linear-gradient(135deg,#0a1628 0%,#0d1f3c 50%,#162847 100%);pa
 .tab:hover{border-color:var(--blue2);color:var(--blue2);background:#eff6ff;transform:translateY(-1px);}
 .tab.active{background:linear-gradient(135deg,var(--blue2),var(--cyan2));color:#fff;border-color:var(--blue2);box-shadow:0 3px 10px rgba(37,99,235,.3);}
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:11px;margin-bottom:18px;}
-.stat-card{background:linear-gradient(135deg,#f8faff,#eef2ff);border:1.5px solid #c7d7fe;border-radius:var(--radius);padding:14px 16px;text-align:center;transition:transform .18s;}
+.stat-card{background:linear-gradient(135deg,#f8faff,#eef2ff);border:1.5px solid #c7d7fe;border-radius:var(--radius);padding:14px 16px;text-align:center;transition:transform .18s;min-width:0;overflow:hidden;}
 .stat-card:hover{transform:translateY(-2px);}
-.stat-val{font-size:clamp(18px,1.35vw,21px);font-weight:900;color:var(--blue2);line-height:1.15;white-space:nowrap;letter-spacing:-.35px;}
-.stat-val.pnl-total{font-size:clamp(15px,1.1vw,19px);letter-spacing:-.35px;overflow:hidden;text-overflow:ellipsis;}
+.stat-val{font-size:clamp(18px,1.35vw,21px);font-weight:900;color:var(--blue2);line-height:1.15;white-space:nowrap;letter-spacing:-.35px;display:block;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;}
+.stat-val.pnl-total{font-size:clamp(12px,1.05vw,18px);letter-spacing:-.45px;font-variant-numeric:tabular-nums;}
 .stat-lbl{font-size:10.5px;color:var(--text3);font-weight:600;margin-top:4px;text-transform:uppercase;letter-spacing:.4px;}
 .stat-card.gc{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#86efac;}.stat-card.gc .stat-val{color:var(--green);}
 .stat-card.rc{background:linear-gradient(135deg,#fff1f2,#ffe4e6);border-color:#fca5a5;}.stat-card.rc .stat-val{color:var(--red);}
@@ -217,7 +217,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
   <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;padding:10px 0 0 0;">
       <span class="slbl">CONFIG:</span>
       <button class="btn-filter" onclick="openCfgSelectModal()">&#9881; Select Configurations</button>
-      <span id="cfg-active-summary" style="font-size:12px;font-weight:700;color:var(--blue2);"></span>
+      <span id="cfg-active-summary" style="display:inline-flex;align-items:center;min-height:26px;box-sizing:border-box;padding:4px 9px;border:1px solid #bfdbfe;border-radius:999px;background:#eff6ff;font-size:12px;font-weight:800;color:#1d4ed8;"></span>
     </div>
 <div id="ov-stats" class="stat-grid"></div>
   <div class="card" style="padding:0 0 8px">
@@ -777,7 +777,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;paddi
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;">
       <div style="min-width:0;">
         <h3 style="margin:0;font-size:17px;color:var(--navy);font-weight:700;">&#9881; Select Configurations</h3>
-        <div id="cfg-sel-count" style="font-size:13px;color:var(--text2);font-weight:700;margin-top:4px;"></div>
+        <div id="cfg-sel-count" aria-live="polite" style="display:inline-flex;align-items:center;box-sizing:border-box;min-height:27px;padding:4px 9px;border:1px solid #bfdbfe;border-radius:999px;background:#eff6ff;font-size:13px;color:#1d4ed8;font-weight:800;margin-top:7px;"></div>
         <div id="cfg-sel-visible" style="font-size:12px;color:var(--text3);margin-top:3px;"></div>
       </div>
       <button onclick="closeCfgSelectModal()" aria-label="Close" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);line-height:1;padding:4px 8px;box-shadow:none;">&#x2715;</button>
