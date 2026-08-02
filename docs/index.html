@@ -3642,7 +3642,7 @@ function closeCfgSelectModal(){
   var m = document.getElementById('cfg-select-modal');
   if(m){ m.style.display='none'; }
 }
-function updateCfgSelGrid(){
+function updateCfgSelGrid(){var g=document.getElementById('cfg-sel-grid');if(g&&!g.children.length)g.innerHTML=CONFIGS_DEF.map(function(c){return '<button class="cfg-sel-btn" data-id="'+c.id+'" onclick="_cfgSelTemp.has(this.dataset.id)?_cfgSelTemp.delete(this.dataset.id):_cfgSelTemp.add(this.dataset.id);updateCfgSelGrid()">'+c.id+'</button>'}).join('');
   var allBtns = Array.from(document.querySelectorAll('.cfg-sel-btn'));
   allBtns.forEach(function(b){
     var sel = _cfgSelTemp.has(b.dataset.id);
